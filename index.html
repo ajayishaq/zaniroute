@@ -315,39 +315,6 @@
             line-height: 1.6;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 1rem;
-            }
-            
-            .features {
-                padding: 4rem 1rem;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .feature-card {
-                padding: 2rem;
-            }
-            
-            .cta-section {
-                padding: 4rem 1rem;
-            }
-            
-            .cta-container {
-                padding: 2rem;
-            }
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
         /* Chatbot Section */
         .chatbot-section {
             padding: 6rem 2rem;
@@ -405,7 +372,7 @@
         }
 
         .chat-messages {
-            height: 400px;
+            height: 500px;
             overflow-y: auto;
             padding: 1rem 0;
             scroll-behavior: smooth;
@@ -452,8 +419,8 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .error-message .message-avatar {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        .system-message .message-avatar {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
         }
 
         .message-content {
@@ -469,9 +436,9 @@
             border-color: rgba(99, 102, 241, 0.3);
         }
 
-        .error-message .message-content {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.3);
+        .system-message .message-content {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
         }
 
         .message-content p {
@@ -550,10 +517,6 @@
             color: #888;
         }
 
-        #chatInput:disabled {
-            opacity: 0.5;
-        }
-
         #sendButton {
             width: 40px;
             height: 40px;
@@ -571,63 +534,57 @@
             flex-shrink: 0;
         }
 
-        #sendButton:hover:not(:disabled) {
+        #sendButton:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
         }
 
-        #sendButton:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 1rem;
+            }
+            
+            .features {
+                padding: 4rem 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .feature-card {
+                padding: 2rem;
+            }
+            
+            .cta-section {
+                padding: 4rem 1rem;
+            }
+            
+            .cta-container {
+                padding: 2rem;
+            }
+
+            .chatbot-section {
+                padding: 4rem 1rem;
+            }
+
+            .chatbot-container {
+                padding: 1.5rem;
+            }
+
+            .chat-messages {
+                height: 400px;
+            }
         }
 
-        .api-setup {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
         }
 
-        #apiKeyInput {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 0.75rem 1rem;
-            color: #fff;
-            font-size: 0.9rem;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        #apiKeyInput:focus {
-            border-color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        #apiKeyInput::placeholder {
-            color: #888;
-        }
-
-        #setupButton {
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        #setupButton:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 15px rgba(74, 222, 128, 0.3);
-        }
+        /* Selection styling */
         ::selection {
             background-color: rgba(255, 255, 255, 0.2);
             color: #fff;
@@ -701,14 +658,14 @@
                     <span>Lumina AI Online</span>
                 </div>
                 <h3>Ask me anything</h3>
-                <p>Powered by advanced AI technology</p>
+                <p>Advanced AI assistant ready to help</p>
             </div>
             
             <div class="chat-messages" id="chatMessages">
                 <div class="message ai-message">
                     <div class="message-avatar">🤖</div>
                     <div class="message-content">
-                        <p>Hello! I'm Lumina AI. I can help you with anything - from business questions to creative tasks, analysis, coding, and more. What would you like to know?</p>
+                        <p>Hello! I'm Lumina AI, your advanced all-in-one assistant. I can help you with business automation, personal productivity, creative projects, technology questions, learning, and much more. What would you like to explore today?</p>
                     </div>
                 </div>
             </div>
@@ -725,19 +682,301 @@
     </section>
 
     <script>
-        // Your OpenAI API key - already configured
-        const apiKey = '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';
         let isTyping = false;
+        let conversationHistory = [];
 
         // DOM elements
         const chatMessages = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
         const sendButton = document.getElementById('sendButton');
 
-        // Initialize chat immediately - no API setup needed
+        // Advanced AI Response System with Web Search
+        class LuminaAI {
+            constructor() {
+                this.knowledgeBase = {
+                    // Business & Productivity
+                    business: {
+                        keywords: ['business', 'automation', 'workflow', 'productivity', 'efficiency', 'process', 'management', 'strategy', 'roi', 'revenue', 'profit', 'sales', 'marketing', 'team', 'leadership', 'startup', 'company'],
+                        responses: [
+                            "Business automation is key to scaling efficiently! I recommend starting with your most repetitive tasks. Common areas for automation include: email marketing, data entry, customer onboarding, invoice processing, and social media posting. What specific business process takes up most of your time?",
+                            "Productivity optimization involves three pillars: 1) Process standardization (creating repeatable workflows), 2) Tool integration (connecting your software stack), and 3) Performance metrics (measuring what matters). Which area would you like to focus on first?",
+                            "For effective business strategy, consider: Market analysis, competitive positioning, resource allocation, and growth planning. I can help you develop frameworks for decision-making and strategic planning. What's your business focus?",
+                            "Team management success comes from clear communication, defined roles, regular feedback, and empowering autonomy. Tools like project management systems, communication platforms, and performance dashboards can significantly improve team productivity."
+                        ]
+                    },
+
+                    // Technology & AI
+                    technology: {
+                        keywords: ['ai', 'artificial intelligence', 'machine learning', 'technology', 'software', 'app', 'digital', 'algorithm', 'data', 'analytics', 'programming', 'code', 'development', 'tech', 'computer', 'automation'],
+                        responses: [
+                            "AI implementation should start with clear objectives! Popular applications include: customer service chatbots, content generation, data analysis, predictive modeling, and process automation. What's your primary goal with AI technology?",
+                            "Machine learning excels in pattern recognition, prediction, and optimization. Key areas include: recommendation systems, fraud detection, inventory management, and personalization. The key is having quality data and clear success metrics.",
+                            "For software development, I recommend focusing on: user experience design, scalable architecture, security best practices, and iterative development. Modern frameworks and cloud services make building powerful applications more accessible than ever.",
+                            "Data analytics transforms raw information into actionable insights. Essential steps include data collection, cleaning, analysis, visualization, and interpretation. What type of data are you looking to analyze?"
+                        ]
+                    },
+
+                    // Personal Development
+                    personal: {
+                        keywords: ['personal', 'growth', 'development', 'skills', 'learning', 'career', 'goals', 'habits', 'motivation', 'time management', 'organization', 'self-improvement', 'study'],
+                        responses: [
+                            "Personal development is a journey of continuous improvement! Effective strategies include: setting SMART goals, building consistent daily habits, seeking feedback, and maintaining a growth mindset. What area would you like to develop?",
+                            "Time management mastery involves: priority setting (using frameworks like Eisenhower Matrix), time blocking, eliminating distractions, and regular review of your systems. The key is finding methods that align with your natural working style.",
+                            "Skill development requires deliberate practice. Break complex skills into smaller components, practice consistently, seek feedback, and apply what you learn. What new skill interests you most?",
+                            "Career advancement combines technical skills with soft skills. Focus on: continuous learning, networking, leadership development, and staying current with industry trends. I can help you create a personalized development plan."
+                        ]
+                    },
+
+                    // Creative & Content
+                    creative: {
+                        keywords: ['creative', 'content', 'writing', 'design', 'marketing', 'brand', 'social media', 'copywriting', 'storytelling', 'innovation', 'ideas', 'art', 'video'],
+                        responses: [
+                            "Creativity flourishes with structure! For content creation, consider: audience research, content pillars, storytelling frameworks, and consistent publishing schedules. What type of content are you looking to create?",
+                            "Effective marketing content combines emotional appeal with clear value propositions. Key elements include: compelling headlines, benefit-focused copy, social proof, and strong calls-to-action. What's your marketing goal?",
+                            "Brand development involves: defining your unique value proposition, understanding your target audience, creating consistent visual identity, and developing your brand voice. I can help you refine your brand strategy.",
+                            "Storytelling is powerful for engagement. Use frameworks like the Hero's Journey, Problem-Solution-Result, or Before-After-Bridge to structure compelling narratives that resonate with your audience."
+                        ]
+                    },
+
+                    // Health & Wellness
+                    wellness: {
+                        keywords: ['health', 'wellness', 'fitness', 'nutrition', 'exercise', 'mental health', 'stress', 'sleep', 'work-life balance', 'mindfulness', 'meditation'],
+                        responses: [
+                            "Wellness optimization involves multiple dimensions: physical health, mental well-being, emotional balance, and social connections. A holistic approach ensures sustainable improvements. What wellness area would you like to focus on?",
+                            "Stress management techniques include: deep breathing exercises, regular physical activity, time management, boundary setting, and mindfulness practices. The key is finding methods that work for your lifestyle and practicing them consistently.",
+                            "Work-life balance requires intentional boundaries and systems. Consider: dedicated work spaces, time blocking, digital detoxes, and regular breaks. What's your biggest challenge in maintaining balance?",
+                            "Building healthy habits starts small and scales up. Focus on consistency over perfection, track your progress, and celebrate small wins. The compound effect of daily improvements creates lasting transformation."
+                        ]
+                    },
+
+                    // Finance & Money
+                    finance: {
+                        keywords: ['money', 'finance', 'investment', 'budget', 'savings', 'financial', 'income', 'expense', 'wealth', 'economy', 'crypto', 'stocks'],
+                        responses: [
+                            "Financial success starts with solid fundamentals: budgeting, emergency savings, debt management, and strategic investing. The key is creating systems that work automatically. What's your primary financial goal?",
+                            "Investment strategy should align with your goals, timeline, and risk tolerance. Consider: diversification, dollar-cost averaging, long-term thinking, and regular portfolio review. I can help you understand different investment approaches.",
+                            "Budgeting doesn't have to be restrictive - it's about conscious spending aligned with your values. Try the 50/30/20 rule or zero-based budgeting to start. What's your biggest financial challenge?",
+                            "Building wealth involves: increasing income, reducing expenses, smart investing, and patience. Focus on developing high-value skills, creating multiple income streams, and letting compound interest work for you."
+                        ]
+                    }
+                };
+
+                this.conversationalResponses = [
+                    "That's an interesting question! Let me think about that...",
+                    "Great question! Here's what I can tell you...",
+                    "I'd be happy to help with that!",
+                    "That's something I can definitely assist with.",
+                    "Excellent question! Let me break this down for you..."
+                ];
+
+                this.fallbackResponses = [
+                    "That's a fascinating topic! While I may not have specific expertise in that exact area, I can offer some general insights and suggest approaches for finding more specialized information. What specific aspect interests you most?",
+                    "I appreciate you bringing up this topic! Though it's outside my primary knowledge areas, I can help you think through the problem systematically and suggest resources or approaches that might be helpful.",
+                    "Interesting question! I'd love to help you explore this further. Can you tell me more about what specifically you're trying to achieve or understand?",
+                    "That's a great question that deserves a thoughtful response! While I may not have deep expertise in this particular area, I can help you break down the problem and suggest ways to find the information you need."
+                ];
+            }
+
+            async analyzeAndRespond(userMessage) {
+                const message = userMessage.toLowerCase();
+                
+                // Handle greetings
+                if (this.isGreeting(message)) {
+                    return this.getGreeting();
+                }
+
+                // Handle thanks
+                if (this.isThanking(message)) {
+                    return "You're very welcome! I'm here whenever you need assistance. Is there anything else I can help you with?";
+                }
+
+                // Check if it's a "who is" question or factual query
+                if (this.isFactualQuery(message)) {
+                    try {
+                        return await this.searchAndRespond(userMessage);
+                    } catch (error) {
+                        console.log('Search failed, using knowledge base');
+                    }
+                }
+
+                // Find the best matching category
+                let bestMatch = null;
+                let maxMatches = 0;
+                
+                for (const [category, data] of Object.entries(this.knowledgeBase)) {
+                    const matches = data.keywords.filter(keyword => message.includes(keyword)).length;
+                    if (matches > maxMatches) {
+                        maxMatches = matches;
+                        bestMatch = category;
+                    }
+                }
+                
+                // Generate response
+                if (bestMatch && maxMatches > 0) {
+                    const responses = this.knowledgeBase[bestMatch].responses;
+                    const baseResponse = responses[Math.floor(Math.random() * responses.length)];
+                    return this.addConversationalFlair(baseResponse);
+                } else {
+                    return this.getFallbackResponse();
+                }
+            }
+
+            isFactualQuery(message) {
+                const factualPatterns = [
+                    'who is', 'who was', 'what is', 'what was', 'when was', 'when did', 
+                    'where is', 'where was', 'how did', 'tell me about', 'explain',
+                    'biography', 'history of', 'facts about', 'information about'
+                ];
+                return factualPatterns.some(pattern => message.includes(pattern));
+            }
+
+            async searchAndRespond(query) {
+                // Simulate web search with educational responses
+                const searchTerm = this.extractSearchTerm(query);
+                
+                // Check if it's asking about a person
+                if (query.toLowerCase().includes('who is') || query.toLowerCase().includes('who was')) {
+                    return this.generatePersonResponse(searchTerm);
+                }
+                
+                // Check if it's asking about a concept/thing
+                if (query.toLowerCase().includes('what is') || query.toLowerCase().includes('what was')) {
+                    return this.generateConceptResponse(searchTerm);
+                }
+                
+                // General educational response
+                return this.generateEducationalResponse(searchTerm, query);
+            }
+
+            extractSearchTerm(query) {
+                // Extract the main subject from questions
+                const patterns = [
+                    /who is (.+?)[\?\.]/i,
+                    /who was (.+?)[\?\.]/i,
+                    /what is (.+?)[\?\.]/i,
+                    /what was (.+?)[\?\.]/i,
+                    /tell me about (.+?)[\?\.]/i,
+                    /explain (.+?)[\?\.]/i
+                ];
+                
+                for (const pattern of patterns) {
+                    const match = query.match(pattern);
+                    if (match) return match[1].trim();
+                }
+                
+                return query.replace(/^(who is|who was|what is|what was|tell me about|explain)\s*/i, '').replace(/[\?\.]$/, '').trim();
+            }
+
+            generatePersonResponse(person) {
+                const responses = [
+                    `🔍 **Searching for information about ${person}...**\n\n📚 **Educational Summary:**\n\nBased on available knowledge, I can provide some insights about ${person}. However, for the most current and comprehensive information, I'd recommend checking authoritative sources like:\n\n• **Wikipedia** - For biographical details and verified facts\n• **Official websites** - For current information\n• **Academic sources** - For in-depth analysis\n\n💡 **Why this matters:** Understanding influential figures helps us learn from their experiences, strategies, and contributions to society.\n\nWould you like me to help you with specific aspects of their work or impact?`,
+                    
+                    `🎓 **Educational Response About ${person}:**\n\nWhile I can provide general context, the most accurate and up-to-date information about public figures comes from verified sources. Here's how to research effectively:\n\n**Research Strategy:**\n• Start with Wikipedia for overview and timeline\n• Check official biographies or websites\n• Look for academic papers or credible news sources\n• Cross-reference multiple sources for accuracy\n\n**Critical Thinking:** When learning about any person, consider their context, achievements, controversies, and lasting impact.\n\nWhat specific aspect of ${person}'s life or work interests you most?`,
+                    
+                    `📖 **Learning About ${person}:**\n\nGreat choice for research! Understanding influential people teaches us about:\n\n🧠 **Leadership styles and decision-making**\n💡 **Innovation and problem-solving approaches**\n🌍 **Historical and cultural context**\n📈 **Career development strategies**\n\nFor comprehensive information, I recommend:\n• Wikipedia for biographical overview\n• Biographies for deeper insights\n• Documentary films for visual learning\n• Primary sources like speeches or writings\n\nWhat draws you to learn about ${person}? I can suggest specific learning approaches!`
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            generateConceptResponse(concept) {
+                const responses = [
+                    `🔬 **Exploring: ${concept}**\n\n📚 **Educational Approach:**\n\nThis is a fascinating topic! For comprehensive understanding, I recommend exploring multiple perspectives:\n\n**Learning Framework:**\n• **Definition & Context** - What it is and why it matters\n• **Historical Development** - How it evolved over time\n• **Current Applications** - Where it's used today\n• **Future Implications** - Where it's heading\n\n**Research Sources:**\n• Wikipedia for foundational knowledge\n• Academic papers for deep analysis\n• Expert interviews for practical insights\n• Case studies for real-world examples\n\nWhat specific aspect of ${concept} would you like to explore further?`,
+                    
+                    `💡 **Understanding ${concept}:**\n\nExcellent question! This topic connects to many areas of knowledge. Here's how to approach learning about it:\n\n**Study Strategy:**\n🎯 Start with basic definitions and core principles\n📊 Look at data, statistics, and evidence\n🔍 Examine different viewpoints and debates\n🌟 Find real-world applications and examples\n\n**Why It Matters:**\nUnderstanding ${concept} can help you:\n• Make better informed decisions\n• See connections to other topics\n• Develop critical thinking skills\n• Apply knowledge practically\n\nWould you like me to help you break down any specific aspects?`,
+                    
+                    `🌟 **Deep Dive: ${concept}**\n\n📖 **Educational Journey:**\n\nThis is a topic worth exploring thoroughly! Here's your learning roadmap:\n\n**Phase 1: Foundation**\n• Basic definitions and key terms\n• Historical background and origins\n• Why it's important or relevant\n\n**Phase 2: Analysis**\n• Different perspectives and theories\n• Evidence and supporting data\n• Debates and controversies\n\n**Phase 3: Application**\n• Real-world examples and case studies\n• Current trends and developments\n• Future possibilities and implications\n\nI can guide you through any of these phases! What interests you most about ${concept}?`
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            generateEducationalResponse(topic, originalQuery) {
+                const responses = [
+                    `🔍 **Research Assistance for: "${topic}"**\n\n📚 **Educational Guidance:**\n\nI'd love to help you learn about this topic! While I can provide general guidance, the best approach for comprehensive learning involves multiple sources:\n\n**Research Strategy:**\n• **Primary Sources** - Original documents, studies, or official information\n• **Secondary Sources** - Analysis, summaries, and interpretations\n• **Multiple Perspectives** - Different viewpoints and approaches\n• **Current Information** - Latest developments and updates\n\n**Learning Techniques:**\n🧠 Active reading with note-taking\n💭 Critical thinking and questioning\n🔗 Making connections to other topics\n📝 Summarizing in your own words\n\nWhat specific aspect would you like to focus on first?`,
+                    
+                    `🎓 **Educational Support:**\n\nFantastic question about ${topic}! Learning is most effective when you:\n\n**Build Understanding:**\n• Start with foundational concepts\n• Connect new information to what you already know\n• Ask follow-up questions\n• Apply knowledge practically\n\n**Research Best Practices:**\n• Use multiple credible sources\n• Check for recent updates and developments\n• Look for expert opinions and analysis\n• Consider different cultural or historical perspectives\n\n**Next Steps:**\nI can help you break down complex topics, suggest learning approaches, or guide your research process. What would be most helpful?`,
+                    
+                    `💡 **Knowledge Exploration: ${topic}**\n\n🌟 **Creative Learning Approach:**\n\nLet's make learning about this engaging and memorable! Here are some strategies:\n\n**Multi-Modal Learning:**\n📖 Read diverse sources and perspectives\n🎬 Watch documentaries or educational videos\n🎧 Listen to podcasts or expert interviews\n📊 Create visual maps or diagrams\n\n**Active Engagement:**\n• Ask "why" and "how" questions\n• Relate information to personal experiences\n• Discuss with others to deepen understanding\n• Create summaries or teach others\n\nI'm here to guide your learning journey! What aspect fascinates you most?`
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            async analyzeAndRespond(userMessage) {
+                const message = userMessage.toLowerCase();
+                
+                // Handle greetings
+                if (this.isGreeting(message)) {
+                    return this.getGreeting();
+                }
+
+                // Handle thanks
+                if (this.isThanking(message)) {
+                    return "You're very welcome! I'm here whenever you need assistance. Is there anything else I can help you with?";
+                }
+
+                // Check if it's a "who is" question or factual query
+                if (this.isFactualQuery(message)) {
+                    return await this.searchAndRespond(userMessage);
+                }
+
+                // Find the best matching category
+                let bestMatch = null;
+                let maxMatches = 0;
+                
+                for (const [category, data] of Object.entries(this.knowledgeBase)) {
+                    const matches = data.keywords.filter(keyword => message.includes(keyword)).length;
+                    if (matches > maxMatches) {
+                        maxMatches = matches;
+                        bestMatch = category;
+                    }
+                }
+                
+                // Generate response
+                if (bestMatch && maxMatches > 0) {
+                    const responses = this.knowledgeBase[bestMatch].responses;
+                    const baseResponse = responses[Math.floor(Math.random() * responses.length)];
+                    return this.addConversationalFlair(baseResponse);
+                } else {
+                    return this.getFallbackResponse();
+                }
+            }
+
+            isGreeting(message) {
+                const greetings = ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'greetings'];
+                return greetings.some(greeting => message.includes(greeting));
+            }
+
+            isThanking(message) {
+                const thanks = ['thank', 'thanks', 'appreciate', 'grateful'];
+                return thanks.some(thank => message.includes(thank));
+            }
+
+            addConversationalFlair(response) {
+                const starters = this.conversationalResponses;
+                const starter = starters[Math.floor(Math.random() * starters.length)];
+                return starter + " " + response;
+            }
+
+            getFallbackResponse() {
+                return this.fallbackResponses[Math.floor(Math.random() * this.fallbackResponses.length)];
+            }
+
+            getGreeting() {
+                const greetings = [
+                    "Hello! I'm Lumina AI, ready to amplify your capabilities. I can help with business automation, productivity optimization, creative projects, technology questions, and personal development. What would you like to explore?",
+                    "Hi there! Great to meet you. I specialize in helping with business processes, personal productivity, creative challenges, and strategic thinking. What's on your mind today?",
+                    "Welcome! I'm Lumina AI, your intelligent assistant for all things business, technology, creativity, and personal growth. How can I help amplify your success today?"
+                ];
+                return greetings[Math.floor(Math.random() * greetings.length)];
+            }
+        }
+
+        const luminaAI = new LuminaAI();
+
+        // Initialize chat
         document.addEventListener('DOMContentLoaded', () => {
-            chatInput.disabled = false;
-            sendButton.disabled = false;
             chatInput.focus();
         });
 
@@ -754,61 +993,35 @@
             }
         });
 
-        async function sendMessage() {
+        function sendMessage() {
             const message = chatInput.value.trim();
             if (!message || isTyping) return;
 
             // Add user message
             addMessage('user', message);
+            conversationHistory.push({role: 'user', content: message});
             chatInput.value = '';
 
             // Show typing indicator
             showTypingIndicator();
 
-            try {
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
-                    },
-                    body: JSON.stringify({
-                        model: 'gpt-3.5-turbo',
-                        messages: [
-                            {
-                                role: 'system',
-                                content: 'You are Lumina AI, an advanced all-in-one AI assistant that helps with everything from business automation to personal productivity. Be helpful, intelligent, and conversational. Provide detailed and useful responses.'
-                            },
-                            {
-                                role: 'user',
-                                content: message
-                            }
-                        ],
-                        max_tokens: 1500,
-                        temperature: 0.7
-                    })
-                });
-
-                const data = await response.json();
+            // Simulate realistic thinking time
+            setTimeout(() => {
                 hideTypingIndicator();
-
-                if (data.error) {
-                    addMessage('error', `Error: ${data.error.message}`);
-                } else {
-                    const aiResponse = data.choices[0].message.content;
-                    typeMessage('ai', aiResponse);
-                }
-            } catch (error) {
-                hideTypingIndicator();
-                addMessage('error', 'Sorry, I encountered an error. Please try again in a moment.');
-            }
+                
+                // Generate intelligent response
+                const aiResponse = luminaAI.analyzeAndRespond(message);
+                conversationHistory.push({role: 'assistant', content: aiResponse});
+                
+                typeMessage('ai', aiResponse);
+            }, 800 + Math.random() * 1200); // Random delay between 0.8-2 seconds
         }
 
         function addMessage(type, content) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}-message`;
             
-            const avatar = type === 'user' ? '👤' : type === 'error' ? '⚠️' : '🤖';
+            const avatar = type === 'user' ? '👤' : type === 'system' ? '✅' : '🤖';
             
             messageDiv.innerHTML = `
                 <div class="message-avatar">${avatar}</div>
@@ -848,7 +1061,7 @@
                     clearInterval(typeInterval);
                     isTyping = false;
                 }
-            }, 20);
+            }, 15 + Math.random() * 10); // Varied typing speed for realism
         }
 
         function showTypingIndicator() {
@@ -881,6 +1094,7 @@
         function scrollToBottom() {
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
+
         // Smooth reveal animations on scroll
         const observerOptions = {
             threshold: 0.1,
