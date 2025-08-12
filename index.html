@@ -372,7 +372,164 @@
             }
         }
 
-        /* Scroll indicator */
+        /* Chat Interface Styles */
+        .chat-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .chat-header {
+            padding: 1.5rem;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            color: #000000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: #000000;
+            font-size: 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 1rem;
+            border-radius: 20px;
+            animation: messageSlide 0.3s ease;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            color: #000000;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-input-container {
+            padding: 1rem;
+            background: rgba(40, 40, 40, 0.8);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-send {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            color: #000000;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .chat-send:hover {
+            transform: scale(1.05);
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            max-width: 100px;
+            align-self: flex-start;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingBounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
         .scroll-indicator {
             position: absolute;
             bottom: 2rem;
@@ -418,9 +575,9 @@
     </header>
 
     <section class="hero" id="home">
-        <h1>AI Unleashed</h1>
-        <p>Experience the next generation of artificial intelligence. Powerful, intuitive, and designed for the future.</p>
-        <a href="#features" class="cta-button">Discover AI Magic</a>
+        <h1>One AI. Every Answer.</h1>
+        <p>Meet ZyntraAI - the intelligent chatbot that solves everything. From complex math to relationship advice, from coding help to life decisions. Your universal AI companion.</p>
+        <a href="#features" class="cta-button">Chat with ZyntraAI</a>
         
         <div class="scroll-indicator">
             <div class="scroll-arrow"></div>
@@ -428,22 +585,22 @@
     </section>
 
     <section class="features" id="features">
-        <h2>Revolutionary AI Capabilities</h2>
+        <h2>Your AI Companion for Everything</h2>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">🧠</div>
-                <h3>Neural Processing</h3>
-                <p>Advanced deep learning algorithms that adapt and evolve with every interaction, delivering unprecedented accuracy and insights.</p>
+                <h3>Intelligent Processing</h3>
+                <p>Advanced AI that understands context, nuance, and complexity. From simple questions to intricate problems, ZyntraAI adapts to your needs instantly.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Lightning Speed</h3>
-                <p>Process complex data in milliseconds with our optimized neural architecture, making real-time AI decisions possible.</p>
+                <div class="feature-icon">🧮</div>
+                <h3>Mathematical Mastery</h3>
+                <p>From basic arithmetic to advanced calculus, statistics, and complex problem-solving. Get step-by-step solutions and clear explanations for any math challenge.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🔮</div>
-                <h3>Predictive Analytics</h3>
-                <p>Harness the power of predictive modeling to anticipate trends, behaviors, and outcomes with remarkable precision.</p>
+                <div class="feature-icon">🌍</div>
+                <h3>Universal Knowledge</h3>
+                <p>Science, technology, creative projects, business strategy, coding help - ZyntraAI handles any topic with expert-level understanding and practical solutions.</p>
             </div>
         </div>
     </section>
@@ -451,20 +608,20 @@
     <section class="stats">
         <div class="stats-grid">
             <div class="stat-item">
-                <h3>99.9%</h3>
-                <p>Accuracy Rate</p>
+                <h3>1M+</h3>
+                <p>Questions Answered</p>
             </div>
             <div class="stat-item">
-                <h3>10M+</h3>
-                <p>Data Points Processed</p>
+                <h3>50+</h3>
+                <p>Topic Categories</p>
             </div>
             <div class="stat-item">
-                <h3>50ms</h3>
-                <p>Response Time</p>
+                <h3>2s</h3>
+                <p>Average Response</p>
             </div>
             <div class="stat-item">
                 <h3>24/7</h3>
-                <p>Active Learning</p>
+                <p>Always Available</p>
             </div>
         </div>
     </section>
@@ -472,14 +629,51 @@
     <footer>
         <div class="footer-content">
             <div class="social-links">
-                <a href="#">📧</a>
-                <a href="#">🐦</a>
-                <a href="#">💼</a>
-                <a href="#">🌐</a>
+                <a href="#" title="X (Twitter)">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+                <a href="#" title="Instagram">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="#" title="GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
             </div>
             <p>&copy; 2025 ZyntraAI. Shaping the future of intelligence.</p>
         </div>
     </footer>
+
+    <!-- Chat Interface -->
+    <div class="chat-overlay" id="chatOverlay">
+        <div class="chat-container">
+            <div class="chat-header">
+                <span>ZyntraAI - Universal Assistant</span>
+                <button class="chat-close" onclick="closeChat()">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai">
+                    <strong>ZyntraAI:</strong> Hello! I'm ZyntraAI, your universal AI assistant. I can help with math problems, explain complex concepts, provide advice, solve coding issues, and much more. What would you like to know?
+                </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)">
+                <button class="chat-send" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Create floating particles
@@ -514,7 +708,7 @@
         // Add hover effects to feature cards
         document.querySelectorAll('.feature-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
-                this.style.background = 'rgba(100, 255, 218, 0.1)';
+                this.style.background = 'rgba(255, 255, 255, 0.1)';
             });
             
             card.addEventListener('mouseleave', function() {
@@ -544,32 +738,116 @@
         // CTA button interaction
         document.querySelector('.cta-button').addEventListener('click', function(e) {
             e.preventDefault();
+            openChat();
+        });
+
+        // Chat functionality
+        function openChat() {
+            document.getElementById('chatOverlay').style.display = 'flex';
+            document.getElementById('chatInput').focus();
+        }
+
+        function closeChat() {
+            document.getElementById('chatOverlay').style.display = 'none';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
             
-            // Create ripple effect
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
+            if (!message) return;
             
-            ripple.style.position = 'absolute';
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-            ripple.style.background = 'rgba(255, 255, 255, 0.6)';
-            ripple.style.borderRadius = '50%';
-            ripple.style.transform = 'scale(0)';
-            ripple.style.animation = 'ripple 0.6s linear';
-            ripple.style.pointerEvents = 'none';
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
             
-            this.appendChild(ripple);
+            // Show typing indicator
+            showTyping();
             
-            // Scroll to features after ripple
+            // Simulate AI response
             setTimeout(() => {
-                document.getElementById('features').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                ripple.remove();
-            }, 300);
+                hideTyping();
+                const response = generateAIResponse(message);
+                addMessage(response, 'ai');
+            }, 1000 + Math.random() * 2000);
+        }
+
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            if (sender === 'ai') {
+                messageDiv.innerHTML = `<strong>ZyntraAI:</strong> ${text}`;
+            } else {
+                messageDiv.innerHTML = `<strong>You:</strong> ${text}`;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typingIndicator').style.display = 'block';
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTyping() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        function generateAIResponse(userMessage) {
+            const msg = userMessage.toLowerCase();
+            
+            // Math responses
+            if (msg.includes('math') || msg.includes('calculate') || msg.includes('solve') || /\d+[\+\-\*\/]\d+/.test(msg)) {
+                return "I can help with any mathematical problem! From basic arithmetic to advanced calculus, linear algebra, and statistics. Try asking me something like 'What is the derivative of x²?' or 'Solve 2x + 5 = 13'.";
+            }
+            
+            // Programming responses
+            if (msg.includes('code') || msg.includes('programming') || msg.includes('python') || msg.includes('javascript')) {
+                return "I'm excellent at programming help! I can write code, debug issues, explain algorithms, and teach programming concepts in Python, JavaScript, Java, C++, and many other languages. What coding challenge can I help you with?";
+            }
+            
+            // Science responses
+            if (msg.includes('science') || msg.includes('physics') || msg.includes('chemistry') || msg.includes('biology')) {
+                return "Science is one of my strong suits! I can explain complex scientific concepts, help with research, solve physics problems, discuss chemistry reactions, and explore biological processes. What scientific topic interests you?";
+            }
+            
+            // Business/career responses
+            if (msg.includes('business') || msg.includes('career') || msg.includes('job') || msg.includes('startup')) {
+                return "I can provide strategic business advice, career guidance, startup insights, and professional development tips. Whether you're launching a company, changing careers, or growing your business, I'm here to help you succeed.";
+            }
+            
+            // Creative responses
+            if (msg.includes('creative') || msg.includes('write') || msg.includes('story') || msg.includes('design')) {
+                return "Creativity is where I excel! I can help with creative writing, storytelling, design concepts, brainstorming sessions, and artistic projects. Let's bring your creative vision to life!";
+            }
+            
+            // General responses
+            const responses = [
+                "That's a great question! I'm designed to help with virtually any topic - from technical problems to creative challenges to everyday decisions. Could you be more specific about what you'd like help with?",
+                "I love tackling diverse problems! Whether it's mathematical calculations, explaining complex concepts, providing advice, or creative brainstorming, I'm here to help. What's on your mind?",
+                "Excellent! I can assist with analysis, problem-solving, explanations, calculations, creative projects, and much more. The more details you provide, the better I can help you.",
+                "I'm built to handle questions across all domains - science, technology, arts, business, personal development, and beyond. What specific challenge can I help you solve today?",
+                "Perfect! I specialize in breaking down complex problems into understandable solutions. Whether you need technical help, creative input, or analytical insights, I'm ready to assist."
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // Close chat with escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeChat();
+            }
         });
 
         // Add ripple keyframe
