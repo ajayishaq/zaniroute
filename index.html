@@ -993,7 +993,7 @@
             }
         });
 
-        function sendMessage() {
+        async function sendMessage() {
             const message = chatInput.value.trim();
             if (!message || isTyping) return;
 
@@ -1005,16 +1005,29 @@
             // Show typing indicator
             showTypingIndicator();
 
-            // Simulate realistic thinking time
-            setTimeout(() => {
+            // Check if it's a search query and add searching message
+            const isSearchQuery = luminaAI.isFactualQuery(message.toLowerCase());
+            if (isSearchQuery) {
+                // Show search status
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    addMessage('system', '🔍 Searching for the latest information...');
+                    showTypingIndicator();
+                }, 500);
+            }
+
+            // Generate response with realistic timing
+            const delay = isSearchQuery ? 2000 + Math.random() * 2000 : 800 + Math.random() * 1200;
+            
+            setTimeout(async () => {
                 hideTypingIndicator();
                 
                 // Generate intelligent response
-                const aiResponse = luminaAI.analyzeAndRespond(message);
+                const aiResponse = await luminaAI.analyzeAndRespond(message);
                 conversationHistory.push({role: 'assistant', content: aiResponse});
                 
                 typeMessage('ai', aiResponse);
-            }, 800 + Math.random() * 1200); // Random delay between 0.8-2 seconds
+            }, delay);
         }
 
         function addMessage(type, content) {
