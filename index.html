@@ -7,8 +7,13 @@
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <!-- Leaflet Routing Machine -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
     
     <style>
         * {
@@ -64,33 +69,12 @@
         }
 
         .logo {
-            font-size: 2rem;
-            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
             color: #ffffff;
-            letter-spacing: -0.02em;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .logo-icon::before {
-            content: '';
-            width: 16px;
-            height: 16px;
-            background: #000000;
-            border-radius: 50%;
-            position: absolute;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         .tagline {
@@ -98,6 +82,19 @@
             font-size: 0.95rem;
             font-weight: 400;
             letter-spacing: 0.02em;
+        }
+
+        .ad-banner {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .main-content {
@@ -280,7 +277,7 @@
             border-radius: 24px;
             padding: 2rem;
             backdrop-filter: blur(20px);
-            height: 600px;
+            height: 650px;
             position: relative;
             overflow: hidden;
         }
@@ -298,7 +295,35 @@
         #map {
             height: 100%;
             border-radius: 16px;
-            filter: grayscale(100%) invert(1) contrast(1.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 3rem;
+            right: 3rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .map-control-btn {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .map-control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .loading-overlay {
@@ -354,6 +379,7 @@
         .station-popup {
             font-family: 'Inter', sans-serif;
             color: #333;
+            max-width: 300px;
         }
 
         .station-popup h3 {
@@ -371,6 +397,37 @@
 
         .station-popup strong {
             color: #333;
+        }
+
+        .station-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+
+        .action-btn:hover {
+            background: #333;
+        }
+
+        .action-btn.primary {
+            background: #007bff;
+        }
+
+        .action-btn.primary:hover {
+            background: #0056b3;
         }
 
         .station-type-badge {
@@ -394,6 +451,62 @@
             color: #333;
         }
 
+        .route-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .route-info.active {
+            display: block;
+        }
+
+        .route-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .route-distance {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .route-time {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .clear-route-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-left: 1rem;
+        }
+
+        .sidebar-ad {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem 0;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #666;
+        }
+
         @media (max-width: 968px) {
             .search-grid {
                 grid-template-columns: 1fr;
@@ -415,6 +528,11 @@
             .map-section {
                 height: 500px;
             }
+
+            .map-controls {
+                top: 2rem;
+                right: 2rem;
+            }
         }
 
         @media (max-width: 640px) {
@@ -425,7 +543,7 @@
             }
             
             .logo {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
             }
             
             .hero-title {
@@ -435,6 +553,23 @@
             .search-container {
                 padding: 1.5rem;
             }
+
+            .map-controls {
+                top: 1rem;
+                right: 1rem;
+                flex-direction: row;
+                gap: 0.25rem;
+            }
+
+            .map-control-btn {
+                padding: 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Leaflet routing machine custom styles */
+        .leaflet-routing-container {
+            display: none;
         }
     </style>
 </head>
@@ -444,18 +579,30 @@
     <header class="header">
         <nav class="nav container">
             <div class="logo">
-                <div class="logo-icon"></div>
                 ZANIROUTE
             </div>
-            <div class="tagline">Global Station Network</div>
+            <div class="tagline">Navigate • Locate • Fuel</div>
         </nav>
     </header>
+
+    <!-- Top Banner Ad -->
+    <div class="container">
+        <div class="ad-banner">
+            <!-- Google AdSense Banner Ad -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
 
     <main class="main-content">
         <div class="container">
             <section class="hero-section">
                 <h1 class="hero-title">Find Stations Worldwide</h1>
-                <p class="hero-subtitle">Discover fuel and electric vehicle charging stations across the globe with precision and speed.</p>
+                <p class="hero-subtitle">Discover fuel and electric vehicle charging stations across the globe with precision, real-time directions, and estimated travel times.</p>
             </section>
 
             <div class="search-container">
@@ -495,10 +642,34 @@
                 </div>
             </div>
             
+            <div class="route-info" id="route-info">
+                <div class="route-details">
+                    <span>Route to: <span id="route-destination">Station</span></span>
+                    <span class="route-distance" id="route-distance">-</span>
+                    <span class="route-time" id="route-time">-</span>
+                    <button class="clear-route-btn" id="clear-route">Clear Route</button>
+                </div>
+            </div>
+            
             <div class="results-info" id="results-info"></div>
             
             <div class="map-section">
+                <div class="map-controls">
+                    <button class="map-control-btn" id="toggle-traffic" title="Toggle Traffic">Traffic</button>
+                    <button class="map-control-btn" id="toggle-satellite" title="Satellite View">Satellite</button>
+                    <button class="map-control-btn" id="reset-view" title="Reset View">Reset</button>
+                </div>
                 <div id="map"></div>
+            </div>
+
+            <!-- Sidebar Ad -->
+            <div class="sidebar-ad">
+                <!-- Google AdSense Rectangular Ad -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="rectangle"></ins>
             </div>
         </div>
     </main>
@@ -512,26 +683,52 @@
 
     <!-- Leaflet JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <!-- Leaflet Routing Machine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
     
     <script>
-        // Initialize map with dark theme
+        // Initialize map with clean theme
         let map = L.map('map', {
-            zoomControl: true,
-            attributionControl: false
+            zoomControl: false,
+            attributionControl: true
         }).setView([40.7128, -74.0060], 13);
         
         let markersGroup = L.layerGroup().addTo(map);
         let userMarker = null;
         let currentFilter = 'all';
+        let currentRoute = null;
+        let currentTileLayer = null;
+        let userLocation = null;
 
-        // Add custom dark tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '',
-            className: 'map-tiles'
+        // Add clean map tiles - normal colors
+        function setDefaultTiles() {
+            if (currentTileLayer) {
+                map.removeLayer(currentTileLayer);
+            }
+            currentTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors | ZANIROUTE',
+                maxZoom: 19
+            }).addTo(map);
+        }
+
+        // Add satellite tiles
+        function setSatelliteTiles() {
+            if (currentTileLayer) {
+                map.removeLayer(currentTileLayer);
+            }
+            currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: '© Esri | ZANIROUTE',
+                maxZoom: 19
+            }).addTo(map);
+        }
+
+        // Initialize with default tiles
+        setDefaultTiles();
+
+        // Custom zoom controls
+        L.control.zoom({
+            position: 'bottomright'
         }).addTo(map);
-
-        // Custom map controls
-        map.zoomControl.setPosition('bottomright');
 
         // DOM elements
         const locationInput = document.getElementById('location-input');
@@ -541,6 +738,40 @@
         const loading = document.getElementById('loading');
         const resultsInfo = document.getElementById('results-info');
         const filterChips = document.querySelectorAll('.filter-chip');
+        const routeInfo = document.getElementById('route-info');
+        const routeDestination = document.getElementById('route-destination');
+        const routeDistance = document.getElementById('route-distance');
+        const routeTime = document.getElementById('route-time');
+        const clearRouteBtn = document.getElementById('clear-route');
+        const toggleTrafficBtn = document.getElementById('toggle-traffic');
+        const toggleSatelliteBtn = document.getElementById('toggle-satellite');
+        const resetViewBtn = document.getElementById('reset-view');
+
+        // Map control handlers
+        let satelliteMode = false;
+        toggleSatelliteBtn.addEventListener('click', () => {
+            if (satelliteMode) {
+                setDefaultTiles();
+                toggleSatelliteBtn.textContent = 'Satellite';
+                satelliteMode = false;
+            } else {
+                setSatelliteTiles();
+                toggleSatelliteBtn.textContent = 'Map';
+                satelliteMode = true;
+            }
+        });
+
+        resetViewBtn.addEventListener('click', () => {
+            if (userLocation) {
+                map.setView([userLocation.lat, userLocation.lng], 13);
+            } else {
+                map.setView([40.7128, -74.0060], 13);
+            }
+        });
+
+        clearRouteBtn.addEventListener('click', () => {
+            clearRoute();
+        });
 
         // Filter handlers
         filterChips.forEach(chip => {
@@ -580,7 +811,7 @@
             resultsInfo.style.display = 'block';
             setTimeout(() => {
                 resultsInfo.style.display = 'none';
-            }, 3000);
+            }, 4000);
         }
 
         // Get user's current location
@@ -596,6 +827,7 @@
                 async (position) => {
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
+                    userLocation = { lat, lng };
                     
                     map.setView([lat, lng], 15);
                     
@@ -606,9 +838,9 @@
                     userMarker = L.marker([lat, lng], {
                         icon: L.divIcon({
                             className: 'user-location-marker',
-                            html: `<div style="background: #ffffff; width: 16px; height: 16px; border-radius: 50%; border: 4px solid #000; box-shadow: 0 0 0 2px #ffffff, 0 4px 20px rgba(255,255,255,0.3);"></div>`,
-                            iconSize: [24, 24],
-                            iconAnchor: [12, 12]
+                            html: `<div style="background: #007bff; width: 18px; height: 18px; border-radius: 50%; border: 4px solid white; box-shadow: 0 0 0 2px #007bff, 0 4px 20px rgba(0,123,255,0.3); animation: pulse 2s infinite;"></div>`,
+                            iconSize: [26, 26],
+                            iconAnchor: [13, 13]
                         })
                     }).addTo(map);
                     
@@ -641,6 +873,7 @@
                 const result = data[0];
                 const lat = parseFloat(result.lat);
                 const lng = parseFloat(result.lon);
+                userLocation = { lat, lng };
                 
                 map.setView([lat, lng], 15);
                 
@@ -651,9 +884,9 @@
                 userMarker = L.marker([lat, lng], {
                     icon: L.divIcon({
                         className: 'search-location-marker',
-                        html: `<div style="background: #ffffff; width: 16px; height: 16px; border-radius: 50%; border: 4px solid #666; box-shadow: 0 0 0 2px #ffffff, 0 4px 20px rgba(255,255,255,0.3);"></div>`,
-                        iconSize: [24, 24],
-                        iconAnchor: [12, 12]
+                        html: `<div style="background: #28a745; width: 18px; height: 18px; border-radius: 50%; border: 4px solid white; box-shadow: 0 0 0 2px #28a745, 0 4px 20px rgba(40,167,69,0.3);"></div>`,
+                        iconSize: [26, 26],
+                        iconAnchor: [13, 13]
                     })
                 }).addTo(map);
                 
@@ -713,6 +946,77 @@
             }
         }
 
+        // Calculate distance and time
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function estimateTime(distance) {
+            // Estimate time based on average city driving speed (30 km/h)
+            const timeHours = distance / 30;
+            if (timeHours < 1) {
+                return Math.round(timeHours * 60) + ' min';
+            } else {
+                const hours = Math.floor(timeHours);
+                const minutes = Math.round((timeHours - hours) * 60);
+                return hours + 'h ' + minutes + 'm';
+            }
+        }
+
+        // Create route to station
+        function createRoute(stationLat, stationLng, stationName) {
+            if (!userLocation) {
+                showNotification('Please set your location first');
+                return;
+            }
+
+            clearRoute();
+
+            currentRoute = L.Routing.control({
+                waypoints: [
+                    L.latLng(userLocation.lat, userLocation.lng),
+                    L.latLng(stationLat, stationLng)
+                ],
+                routeWhileDragging: false,
+                show: false,
+                createMarker: function() { return null; }, // Hide route markers
+                lineOptions: {
+                    styles: [
+                        { color: '#007bff', weight: 6, opacity: 0.7 },
+                        { color: '#ffffff', weight: 2, opacity: 1 }
+                    ]
+                }
+            }).on('routesfound', function(e) {
+                const routes = e.routes;
+                const summary = routes[0].summary;
+                
+                const distance = (summary.totalDistance / 1000).toFixed(1) + ' km';
+                const time = Math.round(summary.totalTime / 60) + ' min';
+                
+                routeDestination.textContent = stationName;
+                routeDistance.textContent = distance;
+                routeTime.textContent = time;
+                routeInfo.classList.add('active');
+                
+            }).addTo(map);
+        }
+
+        // Clear current route
+        function clearRoute() {
+            if (currentRoute) {
+                map.removeControl(currentRoute);
+                currentRoute = null;
+            }
+            routeInfo.classList.remove('active');
+        }
+
         // Display stations
         function displayStations(stations) {
             loading.style.display = 'none';
@@ -733,11 +1037,20 @@
                 const name = tags.name || tags.brand || 'Station';
                 const isEV = tags.amenity === 'charging_station';
                 
+                // Calculate distance and time if user location is available
+                let distance = '';
+                let estimatedTime = '';
+                if (userLocation) {
+                    const dist = calculateDistance(userLocation.lat, userLocation.lng, lat, lng);
+                    distance = dist.toFixed(1) + ' km away';
+                    estimatedTime = estimateTime(dist);
+                }
+                
                 const icon = L.divIcon({
                     className: 'station-marker',
-                    html: `<div style="background: ${isEV ? '#ffffff' : '#cccccc'}; width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: 600; border: 2px solid #000; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 10px;">${isEV ? 'EV' : 'F'}</div>`,
-                    iconSize: [28, 28],
-                    iconAnchor: [14, 14]
+                    html: `<div style="background: ${isEV ? '#28a745' : '#007bff'}; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-size: 11px;">${isEV ? 'EV' : 'F'}</div>`,
+                    iconSize: [38, 38],
+                    iconAnchor: [19, 19]
                 });
                 
                 const marker = L.marker([lat, lng], { icon }).addTo(markersGroup);
@@ -748,8 +1061,18 @@
                         <p><strong>Type:</strong> ${isEV ? 'EV Charging Station' : 'Fuel Station'}</p>
                 `;
                 
+                if (distance) {
+                    popupContent += `<p><strong>Distance:</strong> ${distance}</p>`;
+                }
+                
+                if (estimatedTime) {
+                    popupContent += `<p><strong>Estimated Time:</strong> ${estimatedTime}</p>`;
+                }
+                
                 if (tags.opening_hours) {
                     popupContent += `<p><strong>Hours:</strong> ${tags.opening_hours}</p>`;
+                } else {
+                    popupContent += `<p><strong>Hours:</strong> Check locally</p>`;
                 }
                 
                 if (tags.operator) {
@@ -771,19 +1094,47 @@
                     popupContent += `<p><strong>Fuel Types:</strong> ${tags.fuel}</p>`;
                 }
                 
+                // Add action buttons
+                popupContent += `
+                    <div class="station-actions">
+                        <button class="action-btn primary" onclick="createRoute(${lat}, ${lng}, '${name.replace(/'/g, "\\'")}')">Get Directions</button>
+                        <button class="action-btn" onclick="openInMaps(${lat}, ${lng})">Open in Maps</button>
+                    </div>
+                `;
+                
                 popupContent += `<span class="station-type-badge ${isEV ? 'ev-badge' : 'fuel-badge'}">${isEV ? 'Electric Vehicle' : 'Fuel Station'}</span>`;
                 popupContent += '</div>';
                 
-                marker.bindPopup(popupContent);
+                marker.bindPopup(popupContent, {
+                    maxWidth: 320,
+                    className: 'custom-popup'
+                });
             });
         }
 
-        // Initialize
+        // Open in external maps
+        function openInMaps(lat, lng) {
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // Try to open in native maps app
+                window.open(`geo:${lat},${lng}`, '_blank');
+            } else {
+                // Open in Google Maps
+                window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
+            }
+        }
+
+        // Initialize Google AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        // Initialize with user's location if available
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
+                    userLocation = { lat, lng };
                     map.setView([lat, lng], 13);
                     locationInput.placeholder = 'Current location ready - search or enter new location';
                 },
@@ -792,6 +1143,23 @@
                 }
             );
         }
+
+        // Add CSS animation for user location marker
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); opacity: 1; }
+                50% { transform: scale(1.2); opacity: 0.7; }
+                100% { transform: scale(1); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <!-- Initialize Google AdSense -->
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </body>
 </html>
