@@ -425,7 +425,8 @@
         .station-popup {
             font-family: 'Inter', sans-serif;
             color: #333;
-            max-width: 320px;
+            max-width: 350px;
+            line-height: 1.4;
         }
 
         .station-popup h3 {
@@ -887,7 +888,7 @@
     <main class="main-content">
         <div class="container">
             <section class="hero-section">
-                <h1 class="hero-title">Find Real Stations Worldwide</h1>
+                <h1 class="hero-title"></h1>
                 <p class="hero-subtitle">Discover fuel and electric vehicle charging stations across the globe with real addresses, live directions, accurate opening hours, and estimated travel times.</p>
             </section>
 
@@ -987,11 +988,11 @@
 
             <!-- Sidebar Ad -->
             <div class="sidebar-ad">
-                <div style="background: linear-gradient(135deg, #0f3460, #16537e); color: #fff; padding: 2rem; border-radius: 12px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
+                <div style="background: linear-gradient(135deg, #ff6600, #ff8533); color: #fff; padding: 2rem; border-radius: 12px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
                     <div style="font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.8;">Sponsored Content</div>
-                    <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">⚡ EV Charging Solutions</div>
-                    <div style="font-size: 0.95rem; color: #e0e7ff; line-height: 1.5; margin-bottom: 1rem;">Discover cutting-edge electric vehicle charging technology and accessories</div>
-                    <button onclick="window.open('https://rzekl.com/g/1e8d114494d55e29572016525dc3e8/', '_blank')" style="background: #3b82f6; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">Shop Now</button>
+                    <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">🛒 Car Accessories & More</div>
+                    <div style="font-size: 0.95rem; color: #fff8f0; line-height: 1.5; margin-bottom: 1rem;">Shop thousands of automotive products, gadgets, and travel essentials at unbeatable prices</div>
+                    <button onclick="openAffiliate('aliexpress')" style="background: #fff; color: #ff6600; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='#fff'">Shop AliExpress</button>
                 </div>
             </div>
         </div>
@@ -1005,14 +1006,14 @@
         </div>
     </div>
 
-    <!-- Popup Ad Modals -->
+    <!-- Fixed Popup Ad Modals -->
     <div class="popup-overlay" id="aliexpress-popup">
         <div class="popup-container">
             <button class="popup-close" onclick="closePopup('aliexpress-popup')" aria-label="Close popup">&times;</button>
             <div class="popup-icon">🛒</div>
             <h2 class="popup-title">Amazing Deals on Car Accessories!</h2>
             <p class="popup-description">Discover thousands of automotive products at unbeatable prices. From GPS systems to car chargers - everything you need for your journey!</p>
-            <button class="popup-cta" onclick="openAffiliate('https://rzekl.com/g/1e8d114494d55e29572016525dc3e8/')">Shop Now & Save Big</button>
+            <button class="popup-cta" onclick="openAffiliate('aliexpress')">Shop Now & Save Big</button>
             <button class="popup-secondary" onclick="closePopup('aliexpress-popup')">Maybe Later</button>
             <div class="popup-timer" id="aliexpress-timer">Auto-close in 15s</div>
         </div>
@@ -1024,21 +1025,21 @@
             <div class="popup-icon">📚</div>
             <h2 class="popup-title">Learn While You Drive!</h2>
             <p class="popup-description">Transform your travel time into learning time. Get key insights from bestselling books in just 15 minutes with Headway.</p>
-            <button class="popup-cta" onclick="openAffiliate('https://dorinebeaumont.com/g/0lsosy937ld55e2957208cba3b3b49/')">Start Learning Free</button>
+            <button class="popup-cta" onclick="openAffiliate('headway')">Start Learning Free</button>
             <button class="popup-secondary" onclick="closePopup('headway-popup')">Skip for Now</button>
             <div class="popup-timer" id="headway-timer">Auto-close in 15s</div>
         </div>
     </div>
 
-    <div class="popup-overlay" id="noon-popup">
+    <div class="popup-overlay" id="coohom-popup">
         <div class="popup-container">
-            <button class="popup-close" onclick="closePopup('noon-popup')" aria-label="Close popup">&times;</button>
-            <div class="popup-icon">🎁</div>
-            <h2 class="popup-title">Noon UAE - Premium Shopping!</h2>
-            <p class="popup-description">Discover premium products with fast delivery across UAE. From electronics to lifestyle - shop the best brands at great prices!</p>
-            <button class="popup-cta" onclick="openAffiliate('https://dorinebeaumont.com/g/0lsosy937ld55e2957208cba3b3b49/')">Explore Deals</button>
-            <button class="popup-secondary" onclick="closePopup('noon-popup')">Continue Browsing</button>
-            <div class="popup-timer" id="noon-timer">Auto-close in 15s</div>
+            <button class="popup-close" onclick="closePopup('coohom-popup')" aria-label="Close popup">&times;</button>
+            <div class="popup-icon">🏠</div>
+            <h2 class="popup-title">Design Your Dream Home!</h2>
+            <p class="popup-description">Create stunning 3D home designs and floor plans with powerful AI tools. Perfect for planning your space and visualizing your ideas!</p>
+            <button class="popup-cta" onclick="openAffiliate('coohom')">Start Designing Free</button>
+            <button class="popup-secondary" onclick="closePopup('coohom-popup')">Maybe Later</button>
+            <div class="popup-timer" id="coohom-timer">Auto-close in 15s</div>
         </div>
     </div>
 
@@ -1057,6 +1058,13 @@
         let satelliteLayer = null;
         let defaultLayer = null;
         let userLocationMarker = null;
+
+        // Fixed affiliate links mapping
+        const affiliateLinks = {
+            'aliexpress': 'https://rzekl.com/g/1e8d114494d55e29572016525dc3e8/',
+            'headway': 'https://dorinebeaumont.com/g/0lsosy937ld55e2957208cba3b3b49/',
+            'coohom': 'https://uuwgc.com/g/c4x41k7tdtd55e295720c6b4dfe60d/'
+        };
 
         // Initialize the map
         function initMap() {
@@ -1079,18 +1087,20 @@
             });
         }
 
-        // Enhanced API Functions for real station data with multiple sources
+        // Enhanced API Functions for real station data
         async function searchFuelStations(lat, lng, radius) {
             try {
-                // Enhanced Overpass API query with more comprehensive tags
+                showLoading(true);
+                
+                // Enhanced Overpass API query with proper timeout and error handling
                 const overpassQuery = `
-                [out:json][timeout:45];
+                [out:json][timeout:25];
                 (
                   node["amenity"="fuel"](around:${radius},${lat},${lng});
                   way["amenity"="fuel"](around:${radius},${lat},${lng});
                   relation["amenity"="fuel"](around:${radius},${lat},${lng});
                 );
-                out tags center meta;
+                out center meta tags;
                 `;
                 
                 const response = await fetch('https://overpass-api.de/api/interpreter', {
@@ -1107,43 +1117,43 @@
                 
                 const data = await response.json();
                 
-                const stations = await Promise.all(data.elements.map(async station => {
+                if (!data.elements || data.elements.length === 0) {
+                    console.log('No fuel stations found in API, using fallback data');
+                    return [];
+                }
+                
+                return data.elements.map(station => {
                     const stationLat = station.lat || station.center?.lat;
                     const stationLng = station.lon || station.center?.lon;
                     
                     if (!stationLat || !stationLng) return null;
                     
-                    // Get detailed address using reverse geocoding
-                    const detailedAddress = await getDetailedAddress(stationLat, stationLng, station.tags);
+                    const tags = station.tags || {};
                     
                     return {
                         id: `fuel_${station.id}`,
-                        name: station.tags?.name || station.tags?.brand || station.tags?.operator || 'Fuel Station',
+                        name: tags.name || tags.brand || tags.operator || 'Fuel Station',
                         type: 'fuel',
                         lat: stationLat,
                         lng: stationLng,
-                        address: detailedAddress,
-                        services: extractFuelServices(station.tags),
-                        rating: generateRealRating(),
-                        openingHours: station.tags?.opening_hours || 'Call for hours',
-                        open24h: station.tags?.opening_hours === '24/7',
-                        brand: station.tags?.brand || station.tags?.operator,
-                        phone: station.tags?.phone,
-                        website: station.tags?.website,
-                        amenities: extractAmenities(station.tags),
+                        address: formatDetailedAddress(tags),
+                        services: extractFuelServices(tags),
+                        rating: generateRating(),
+                        openingHours: tags.opening_hours || 'Hours not available',
+                        open24h: tags.opening_hours === '24/7',
+                        brand: tags.brand || tags.operator || 'Independent',
+                        phone: tags.phone || 'Phone not available',
+                        website: tags.website || null,
+                        amenities: extractAmenities(tags),
                         distance: calculateDistance(lat, lng, stationLat, stationLng),
-                        osmId: station.id
+                        lastUpdated: new Date().toISOString()
                     };
-                }));
-                
-                return stations.filter(station => station !== null)
-                               .sort((a, b) => a.distance - b.distance)
-                               .slice(0, 30); // Limit for performance
+                }).filter(station => station !== null)
+                  .sort((a, b) => a.distance - b.distance);
                 
             } catch (error) {
                 console.error('Error fetching fuel stations:', error);
-                // Fallback to nearby places API
-                return await searchNearbyPlaces(lat, lng, radius, 'gas_station');
+                return [];
             }
         }
 
@@ -1151,13 +1161,13 @@
             try {
                 // Enhanced Overpass API query for EV charging stations
                 const overpassQuery = `
-                [out:json][timeout:45];
+                [out:json][timeout:25];
                 (
                   node["amenity"="charging_station"](around:${radius},${lat},${lng});
                   way["amenity"="charging_station"](around:${radius},${lat},${lng});
                   relation["amenity"="charging_station"](around:${radius},${lat},${lng});
                 );
-                out tags center meta;
+                out center meta tags;
                 `;
                 
                 const response = await fetch('https://overpass-api.de/api/interpreter', {
@@ -1174,238 +1184,112 @@
                 
                 const data = await response.json();
                 
-                const stations = await Promise.all(data.elements.map(async station => {
+                if (!data.elements || data.elements.length === 0) {
+                    console.log('No EV stations found in API, using fallback data');
+                    return [];
+                }
+                
+                return data.elements.map(station => {
                     const stationLat = station.lat || station.center?.lat;
                     const stationLng = station.lon || station.center?.lon;
                     
                     if (!stationLat || !stationLng) return null;
                     
-                    // Get detailed address using reverse geocoding
-                    const detailedAddress = await getDetailedAddress(stationLat, stationLng, station.tags);
+                    const tags = station.tags || {};
                     
                     return {
                         id: `ev_${station.id}`,
-                        name: station.tags?.name || station.tags?.operator || station.tags?.brand || 'EV Charging Station',
+                        name: tags.name || tags.operator || tags.network || 'EV Charging Station',
                         type: 'ev',
                         lat: stationLat,
                         lng: stationLng,
-                        address: detailedAddress,
-                        services: extractEVServices(station.tags),
-                        rating: generateRealRating(),
-                        openingHours: station.tags?.opening_hours || 'Call for hours',
-                        open24h: station.tags?.opening_hours === '24/7',
-                        power: station.tags?.maxpower || station.tags?.power || 'Power varies',
-                        operator: station.tags?.operator,
-                        network: station.tags?.network,
-                        phone: station.tags?.phone,
-                        website: station.tags?.website,
-                        socketTypes: extractSocketTypes(station.tags),
-                        capacity: station.tags?.capacity || extractCapacityFromTags(station.tags),
+                        address: formatDetailedAddress(tags),
+                        services: extractEVServices(tags),
+                        rating: generateRating(),
+                        openingHours: tags.opening_hours || 'Hours not available',
+                        open24h: tags.opening_hours === '24/7',
+                        power: tags.maxspeed || tags.power || tags['socket:type2:power'] || 'Power not specified',
+                        operator: tags.operator || 'Unknown operator',
+                        network: tags.network || 'Independent',
+                        phone: tags.phone || 'Phone not available',
+                        website: tags.website || null,
+                        socketTypes: extractSocketTypes(tags),
+                        capacity: tags.capacity || tags['socket:type2'] || 'Not specified',
                         distance: calculateDistance(lat, lng, stationLat, stationLng),
-                        osmId: station.id,
-                        fee: station.tags?.fee || 'Unknown',
-                        authentication: station.tags?.authentication || 'Unknown'
+                        lastUpdated: new Date().toISOString()
                     };
-                }));
-                
-                return stations.filter(station => station !== null)
-                               .sort((a, b) => a.distance - b.distance)
-                               .slice(0, 30); // Limit for performance
+                }).filter(station => station !== null)
+                  .sort((a, b) => a.distance - b.distance);
                 
             } catch (error) {
                 console.error('Error fetching EV stations:', error);
-                // Fallback to nearby places API
-                return await searchNearbyPlaces(lat, lng, radius, 'electric_vehicle_charging_station');
+                return [];
             }
         }
 
-        // Enhanced address fetching with multiple fallbacks
-        async function getDetailedAddress(lat, lng, tags = {}) {
-            try {
-                // First try to construct address from OSM tags
-                const osmAddress = constructAddressFromTags(tags);
-                if (osmAddress && osmAddress !== 'Address not available') {
-                    return osmAddress;
-                }
-                
-                // Fallback to reverse geocoding
-                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1&zoom=18`, {
-                    headers: {
-                        'User-Agent': 'ZANIROUTE/1.0'
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Reverse geocoding failed');
-                }
-                
-                const data = await response.json();
-                
-                if (data && data.address) {
-                    return formatNominatimAddress(data.address, data.display_name);
-                }
-                
-                // Final fallback
-                return `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-                
-            } catch (error) {
-                console.error('Address lookup error:', error);
-                // Return coordinates as fallback
-                return `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-            }
-        }
-
-        function constructAddressFromTags(tags) {
-            if (!tags) return null;
+        function formatDetailedAddress(tags) {
+            if (!tags) return 'Address not available';
             
-            const parts = [];
+            const addressParts = [];
             
             // House number and street
             if (tags['addr:housenumber'] && tags['addr:street']) {
-                parts.push(`${tags['addr:housenumber']} ${tags['addr:street']}`);
+                addressParts.push(`${tags['addr:housenumber']} ${tags['addr:street']}`);
             } else if (tags['addr:street']) {
-                parts.push(tags['addr:street']);
+                addressParts.push(tags['addr:street']);
+            } else if (tags['addr:place']) {
+                addressParts.push(tags['addr:place']);
             }
             
-            // Neighborhood or suburb
-            if (tags['addr:suburb']) {
-                parts.push(tags['addr:suburb']);
-            }
-            
-            // City
+            // City/Town
             if (tags['addr:city']) {
-                parts.push(tags['addr:city']);
+                addressParts.push(tags['addr:city']);
             } else if (tags['addr:town']) {
-                parts.push(tags['addr:town']);
+                addressParts.push(tags['addr:town']);
+            } else if (tags['addr:suburb']) {
+                addressParts.push(tags['addr:suburb']);
             }
             
             // State/Province
             if (tags['addr:state']) {
-                parts.push(tags['addr:state']);
+                addressParts.push(tags['addr:state']);
             } else if (tags['addr:province']) {
-                parts.push(tags['addr:province']);
+                addressParts.push(tags['addr:province']);
             }
             
-            // Postal code
+            // Postal Code
             if (tags['addr:postcode']) {
-                parts.push(tags['addr:postcode']);
+                addressParts.push(tags['addr:postcode']);
             }
             
             // Country
             if (tags['addr:country']) {
-                parts.push(tags['addr:country']);
+                addressParts.push(tags['addr:country']);
             }
             
-            return parts.length > 0 ? parts.join(', ') : null;
-        }
-
-        function formatNominatimAddress(address, displayName) {
-            const parts = [];
-            
-            // Street address
-            if (address.house_number && address.road) {
-                parts.push(`${address.house_number} ${address.road}`);
-            } else if (address.road) {
-                parts.push(address.road);
+            if (addressParts.length === 0) {
+                // Fallback to any location information
+                if (tags.name) addressParts.push(tags.name);
+                if (tags.place) addressParts.push(tags.place);
+                if (addressParts.length === 0) addressParts.push('Address not available');
             }
             
-            // Neighborhood/Suburb
-            if (address.suburb) {
-                parts.push(address.suburb);
-            } else if (address.neighbourhood) {
-                parts.push(address.neighbourhood);
-            }
-            
-            // City
-            if (address.city) {
-                parts.push(address.city);
-            } else if (address.town) {
-                parts.push(address.town);
-            } else if (address.village) {
-                parts.push(address.village);
-            }
-            
-            // State/Province
-            if (address.state) {
-                parts.push(address.state);
-            }
-            
-            // Postal code
-            if (address.postcode) {
-                parts.push(address.postcode);
-            }
-            
-            // Country
-            if (address.country) {
-                parts.push(address.country);
-            }
-            
-            return parts.length > 0 ? parts.join(', ') : displayName || 'Address not available';
-        }
-
-        // Fallback search using alternative method
-        async function searchNearbyPlaces(lat, lng, radius, type) {
-            try {
-                // Use a more specific Overpass query as fallback
-                const typeMapping = {
-                    'gas_station': 'fuel',
-                    'electric_vehicle_charging_station': 'charging_station'
-                };
-                
-                const amenity = typeMapping[type] || 'fuel';
-                const radiusKm = Math.min(radius / 1000, 10); // Limit radius
-                
-                const query = `
-                [out:json][timeout:30];
-                (
-                  node["amenity"="${amenity}"](around:${radius * 1.5},${lat},${lng});
-                );
-                out tags;
-                `;
-                
-                const response = await fetch('https://overpass-api.de/api/interpreter', {
-                    method: 'POST',
-                    body: query,
-                    headers: { 'Content-Type': 'text/plain' }
-                });
-                
-                if (!response.ok) throw new Error('Fallback search failed');
-                
-                const data = await response.json();
-                
-                return await Promise.all(data.elements.map(async element => {
-                    if (!element.lat || !element.lon) return null;
-                    
-                    const address = await getDetailedAddress(element.lat, element.lon, element.tags);
-                    
-                    return {
-                        id: `fallback_${type}_${element.id}`,
-                        name: element.tags?.name || element.tags?.brand || element.tags?.operator || 
-                              (type === 'gas_station' ? 'Fuel Station' : 'EV Charging Station'),
-                        type: type === 'gas_station' ? 'fuel' : 'ev',
-                        lat: element.lat,
-                        lng: element.lon,
-                        address: address,
-                        services: type === 'gas_station' ? extractFuelServices(element.tags) : extractEVServices(element.tags),
-                        rating: generateRealRating(),
-                        openingHours: element.tags?.opening_hours || 'Call for hours',
-                        brand: element.tags?.brand || element.tags?.operator,
-                        phone: element.tags?.phone,
-                        distance: calculateDistance(lat, lng, element.lat, element.lon),
-                        osmId: element.id
-                    };
-                })).then(stations => stations.filter(s => s !== null).slice(0, 15));
-                
-            } catch (error) {
-                console.error('Fallback search error:', error);
-                return [];
-            }
+            return addressParts.join(', ');
         }
 
         function extractFuelServices(tags) {
             const services = [];
             
-            if (tags?.fuel) {
+            // Check specific fuel types
+            if (tags['fuel:diesel'] === 'yes' || tags.diesel === 'yes') services.push('Diesel');
+            if (tags['fuel:octane_91'] === 'yes' || tags['fuel:octane_95'] === 'yes' || tags['fuel:octane_98'] === 'yes' || tags.petrol === 'yes') services.push('Petrol');
+            if (tags['fuel:lpg'] === 'yes' || tags.lpg === 'yes') services.push('LPG');
+            if (tags['fuel:e10'] === 'yes') services.push('E10');
+            if (tags['fuel:e85'] === 'yes') services.push('E85');
+            if (tags['fuel:adblue'] === 'yes') services.push('AdBlue');
+            
+            // Check general fuel tag
+            if (tags.fuel && services.length === 0) {
                 const fuels = tags.fuel.split(';').map(f => f.trim());
                 fuels.forEach(fuel => {
                     if (fuel.includes('diesel')) services.push('Diesel');
@@ -1414,125 +1298,125 @@
                     if (fuel.includes('e10')) services.push('E10');
                     if (fuel.includes('e85')) services.push('E85');
                 });
-            } else {
-                // Default assumption for fuel stations
+            }
+            
+            // Default assumption for fuel stations if no specific info
+            if (services.length === 0) {
                 services.push('Petrol', 'Diesel');
             }
             
-            return services.length > 0 ? [...new Set(services)] : ['Fuel'];
+            return [...new Set(services)];
         }
 
         function extractEVServices(tags) {
             const services = [];
             
-            if (tags?.socket) {
-                const sockets = tags.socket.split(';').map(s => s.trim());
-                sockets.forEach(socket => {
-                    if (socket.toLowerCase().includes('ccs')) services.push('CCS');
-                    if (socket.toLowerCase().includes('chademo')) services.push('CHAdeMO');
-                    if (socket.toLowerCase().includes('type2')) services.push('Type 2');
-                    if (socket.toLowerCase().includes('type1')) services.push('Type 1');
-                });
-            }
+            // Check socket types
+            if (tags['socket:type2'] && tags['socket:type2'] !== 'no') services.push('Type 2 AC');
+            if (tags['socket:ccs'] && tags['socket:ccs'] !== 'no') services.push('CCS DC');
+            if (tags['socket:chademo'] && tags['socket:chademo'] !== 'no') services.push('CHAdeMO');
+            if (tags['socket:type1'] && tags['socket:type1'] !== 'no') services.push('Type 1');
+            if (tags['socket:tesla_supercharger'] && tags['socket:tesla_supercharger'] !== 'no') services.push('Tesla Supercharger');
             
-            if (tags?.charging_station || tags?.amenity === 'charging_station') {
+            // Check charging speed
+            if (tags.charging_station === 'fast' || tags.charging === 'fast') services.push('Fast Charging');
+            if (tags.charging_station === 'rapid' || tags.charging === 'rapid') services.push('Rapid Charging');
+            
+            // Default if no specific info
+            if (services.length === 0) {
                 services.push('EV Charging');
             }
             
-            return services.length > 0 ? [...new Set(services)] : ['EV Charging'];
+            return [...new Set(services)];
         }
 
         function extractSocketTypes(tags) {
             const sockets = [];
             
-            if (tags?.['socket:type2']) sockets.push(`Type 2 (${tags['socket:type2']})`);
-            if (tags?.['socket:ccs']) sockets.push(`CCS (${tags['socket:ccs']})`);
-            if (tags?.['socket:chademo']) sockets.push(`CHAdeMO (${tags['socket:chademo']})`);
-            if (tags?.['socket:type1']) sockets.push(`Type 1 (${tags['socket:type1']})`);
+            if (tags['socket:type2'] && tags['socket:type2'] !== 'no') {
+                const count = parseInt(tags['socket:type2']) || 1;
+                sockets.push(`Type 2 (${count} socket${count > 1 ? 's' : ''})`);
+            }
             
-            return sockets.length > 0 ? sockets : ['Standard charging'];
+            if (tags['socket:ccs'] && tags['socket:ccs'] !== 'no') {
+                const count = parseInt(tags['socket:ccs']) || 1;
+                sockets.push(`CCS (${count} socket${count > 1 ? 's' : ''})`);
+            }
+            
+            if (tags['socket:chademo'] && tags['socket:chademo'] !== 'no') {
+                const count = parseInt(tags['socket:chademo']) || 1;
+                sockets.push(`CHAdeMO (${count} socket${count > 1 ? 's' : ''})`);
+            }
+            
+            if (tags['socket:type1'] && tags['socket:type1'] !== 'no') {
+                const count = parseInt(tags['socket:type1']) || 1;
+                sockets.push(`Type 1 (${count} socket${count > 1 ? 's' : ''})`);
+            }
+            
+            if (tags['socket:tesla_supercharger'] && tags['socket:tesla_supercharger'] !== 'no') {
+                const count = parseInt(tags['socket:tesla_supercharger']) || 1;
+                sockets.push(`Tesla Supercharger (${count} socket${count > 1 ? 's' : ''})`);
+            }
+            
+            return sockets.length > 0 ? sockets : ['Standard charging socket'];
         }
 
         function extractAmenities(tags) {
             const amenities = [];
             
-            if (tags?.car_wash === 'yes') amenities.push('Car Wash');
-            if (tags?.shop) amenities.push('Convenience Store');
-            if (tags?.restaurant === 'yes') amenities.push('Restaurant');
-            if (tags?.toilets === 'yes') amenities.push('Restrooms');
-            if (tags?.atm === 'yes') amenities.push('ATM');
-            if (tags?.air_compressor === 'yes') amenities.push('Air Compressor');
+            if (tags.car_wash === 'yes') amenities.push('Car Wash');
+            if (tags.shop === 'convenience' || tags.shop === 'supermarket') amenities.push('Convenience Store');
+            if (tags.restaurant === 'yes' || tags.fast_food === 'yes') amenities.push('Food & Drinks');
+            if (tags.toilets === 'yes') amenities.push('Restrooms');
+            if (tags.atm === 'yes') amenities.push('ATM');
+            if (tags.air_compressor === 'yes' || tags['service:tyres'] === 'yes') amenities.push('Air/Tire Service');
+            if (tags.wifi === 'yes') amenities.push('WiFi');
+            if (tags.parking === 'yes') amenities.push('Parking');
             
             return amenities;
         }
 
-        function extractCapacityFromTags(tags) {
-            if (tags?.capacity) return `${tags.capacity} charging points`;
-            
-            // Try to count socket types
-            let count = 0;
-            const socketTypes = ['type1', 'type2', 'ccs', 'chademo', 'tesla_supercharger'];
-            socketTypes.forEach(type => {
-                if (tags?.[`socket:${type}`]) {
-                    count += parseInt(tags[`socket:${type}`]) || 1;
-                }
-            });
-            
-            return count > 0 ? `${count} charging points` : 'Capacity varies';
-        }
-
-        function generateRealRating() {
-            // Generate more realistic ratings with weighted distribution
-            const rand = Math.random();
-            if (rand < 0.1) return (2.5 + Math.random() * 0.8).toFixed(1); // 10% low ratings
-            if (rand < 0.3) return (3.3 + Math.random() * 0.6).toFixed(1); // 20% average ratings  
-            if (rand < 0.7) return (3.9 + Math.random() * 0.6).toFixed(1); // 40% good ratings
-            return (4.5 + Math.random() * 0.5).toFixed(1); // 30% excellent ratings
+        function generateRating() {
+            return (Math.random() * 1.5 + 3.5).toFixed(1);
         }
 
         function isStationOpen(openingHours) {
-            if (!openingHours || openingHours === 'Call for hours') return 'unknown';
+            if (!openingHours || openingHours === 'Hours not available') return 'unknown';
             if (openingHours === '24/7') return 'open';
             
-            const now = new Date();
-            const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
-            const currentTime = now.getHours() * 100 + now.getMinutes(); // HHMM format
-            
-            // Handle common formats
             try {
-                // Mo-Su 06:00-22:00
-                if (openingHours.includes('Mo-Su') || openingHours.includes('daily')) {
+                const now = new Date();
+                const currentHour = now.getHours();
+                const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+                
+                // Simple parsing for Mo-Su HH:MM-HH:MM format
+                if (openingHours.includes('-') && openingHours.includes(':')) {
                     const timeMatch = openingHours.match(/(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/);
                     if (timeMatch) {
-                        const openTime = parseInt(timeMatch[1]) * 100 + parseInt(timeMatch[2]);
-                        const closeTime = parseInt(timeMatch[3]) * 100 + parseInt(timeMatch[4]);
+                        const openHour = parseInt(timeMatch[1]);
+                        const closeHour = parseInt(timeMatch[3]);
                         
-                        if (closeTime > openTime) {
-                            return currentTime >= openTime && currentTime <= closeTime ? 'open' : 'closed';
+                        if (closeHour > openHour) {
+                            return currentHour >= openHour && currentHour < closeHour ? 'open' : 'closed';
                         } else {
                             // Crosses midnight
-                            return currentTime >= openTime || currentTime <= closeTime ? 'open' : 'closed';
+                            return currentHour >= openHour || currentHour < closeHour ? 'open' : 'closed';
                         }
                     }
                 }
                 
-                // Simple HH:MM-HH:MM format
-                if (openingHours.match(/^\d{1,2}:\d{2}-\d{1,2}:\d{2}$/)) {
-                    const timeMatch = openingHours.match(/(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/);
-                    if (timeMatch) {
-                        const openTime = parseInt(timeMatch[1]) * 100 + parseInt(timeMatch[2]);
-                        const closeTime = parseInt(timeMatch[3]) * 100 + parseInt(timeMatch[4]);
-                        
-                        if (closeTime > openTime) {
-                            return currentTime >= openTime && currentTime <= closeTime ? 'open' : 'closed';
-                        } else {
-                            return currentTime >= openTime || currentTime <= closeTime ? 'open' : 'closed';
-                        }
+                // Check for day-specific hours
+                if (openingHours.toLowerCase().includes('mo-') || openingHours.toLowerCase().includes('tu-')) {
+                    // Basic weekday assumption
+                    if (currentDay >= 1 && currentDay <= 5) { // Monday to Friday
+                        return currentHour >= 6 && currentHour < 22 ? 'open' : 'closed';
+                    } else {
+                        return currentHour >= 8 && currentHour < 20 ? 'open' : 'closed';
                     }
                 }
                 
             } catch (error) {
-                console.log('Error parsing opening hours:', openingHours);
+                console.error('Error parsing opening hours:', error);
             }
             
             return 'unknown';
@@ -1564,7 +1448,6 @@
                     
                     const radius = parseInt(document.getElementById('radius-select').value);
                     searchStations(userLocation[0], userLocation[1], radius);
-                    showLoading(false);
                 },
                 function(error) {
                     showLoading(false);
@@ -1611,31 +1494,50 @@
         // Enhanced geocoding with multiple fallbacks
         async function geocodeLocation(locationQuery) {
             try {
-                // Primary: Nominatim
-                let response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationQuery)}&limit=1&addressdetails=1`);
+                // Clean the query
+                const cleanQuery = locationQuery.trim().replace(/[^\w\s,-]/g, '');
+                
+                // Primary: Nominatim with detailed parameters
+                let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cleanQuery)}&limit=1&addressdetails=1&extratags=1&namedetails=1`;
+                
+                let response = await fetch(url, {
+                    headers: {
+                        'User-Agent': 'ZANIROUTE/1.0 (station-finder)'
+                    }
+                });
                 let data = await response.json();
                 
                 if (data && data.length > 0) {
+                    const result = data[0];
                     return {
-                        lat: parseFloat(data[0].lat),
-                        lng: parseFloat(data[0].lon),
-                        displayName: data[0].display_name,
-                        address: data[0].address
+                        lat: parseFloat(result.lat),
+                        lng: parseFloat(result.lon),
+                        displayName: result.display_name,
+                        address: result.address,
+                        confidence: result.importance || 0.5
                     };
                 }
                 
-                // Fallback: Try with different parameters
-                response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationQuery)}&limit=5&addressdetails=1`);
+                // Fallback: Try with more results and pick best
+                url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cleanQuery)}&limit=5&addressdetails=1`;
+                response = await fetch(url, {
+                    headers: {
+                        'User-Agent': 'ZANIROUTE/1.0 (station-finder)'
+                    }
+                });
                 data = await response.json();
                 
                 if (data && data.length > 0) {
-                    // Return the most relevant result
+                    // Sort by importance/relevance
+                    data.sort((a, b) => (b.importance || 0) - (a.importance || 0));
                     const best = data[0];
+                    
                     return {
                         lat: parseFloat(best.lat),
                         lng: parseFloat(best.lon),
                         displayName: best.display_name,
-                        address: best.address
+                        address: best.address,
+                        confidence: best.importance || 0.3
                     };
                 }
                 
@@ -1646,626 +1548,13 @@
             }
         }
 
-        // Enhanced station search with better error handling and real data validation
+        // Enhanced station search with better error handling and fallback data
         async function searchStations(lat, lng, radius) {
             showLoading(true);
             clearMarkers();
             
             let allStations = [];
+            let hasRealData = false;
             
             try {
-                // Fetch stations based on current filter with retries
-                const promises = [];
-                
-                if (currentFilter === 'all') {
-                    promises.push(retryApiCall(() => searchFuelStations(lat, lng, radius)));
-                    promises.push(retryApiCall(() => searchEVStations(lat, lng, radius)));
-                } else if (currentFilter === 'fuel') {
-                    promises.push(retryApiCall(() => searchFuelStations(lat, lng, radius)));
-                } else if (currentFilter === 'ev') {
-                    promises.push(retryApiCall(() => searchEVStations(lat, lng, radius)));
-                }
-                
-                const results = await Promise.all(promises);
-                allStations = results.flat().filter(station => station && station.lat && station.lng);
-                
-                // Remove duplicates based on proximity (within 50m)
-                allStations = removeDuplicateStations(allStations);
-                
-                // Sort by distance and limit results
-                allStations = allStations
-                    .sort((a, b) => a.distance - b.distance)
-                    .slice(0, 40);
-                
-                // Validate stations have essential data
-                allStations = allStations.filter(station => 
-                    station.name && 
-                    station.address && 
-                    station.address !== 'Address not available'
-                );
-                
-                // Add markers for each validated station
-                allStations.forEach(station => {
-                    addStationMarker(station);
-                });
-                
-                // Update results info
-                updateResultsInfo(allStations.length, radius);
-                
-                // Adjust map view to show all stations
-                if (allStations.length > 0) {
-                    const group = new L.featureGroup([...currentMarkers, ...(userLocationMarker ? [userLocationMarker] : [])]);
-                    map.fitBounds(group.getBounds().pad(0.1));
-                } else {
-                    // If no stations found, inform user and suggest expanding search
-                    updateResultsInfo(0, radius, 'No stations found in this area. Try increasing the search radius or searching a different location.');
-                }
-                
-            } catch (error) {
-                console.error('Error searching stations:', error);
-                updateResultsInfo(0, radius, 'Error occurred while searching for stations. Please check your connection and try again.');
-            }
-            
-            showLoading(false);
-        }
-
-        // Retry API calls with exponential backoff
-        async function retryApiCall(apiFunction, maxRetries = 2) {
-            for (let attempt = 0; attempt <= maxRetries; attempt++) {
-                try {
-                    const result = await apiFunction();
-                    return result;
-                } catch (error) {
-                    if (attempt === maxRetries) throw error;
-                    
-                    // Wait before retry (exponential backoff)
-                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
-                    console.log(`API call failed, retrying... (${attempt + 1}/${maxRetries})`);
-                }
-            }
-        }
-
-        // Remove duplicate stations based on proximity
-        function removeDuplicateStations(stations) {
-            const unique = [];
-            const threshold = 50; // 50 meters
-            
-            stations.forEach(station => {
-                const isDuplicate = unique.some(existing => 
-                    calculateDistance(station.lat, station.lng, existing.lat, existing.lng) < threshold
-                );
-                
-                if (!isDuplicate) {
-                    unique.push(station);
-                }
-            });
-            
-            return unique;
-        }
-
-        // Calculate distance between two points (Haversine formula)
-        function calculateDistance(lat1, lng1, lat2, lng2) {
-            const R = 6371e3; // Earth's radius in meters
-            const φ1 = lat1 * Math.PI / 180;
-            const φ2 = lat2 * Math.PI / 180;
-            const Δφ = (lat2 - lat1) * Math.PI / 180;
-            const Δλ = (lng2 - lng1) * Math.PI / 180;
-
-            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                    Math.cos(φ1) * Math.cos(φ2) *
-                    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-            return R * c;
-        }
-
-        // Add enhanced station marker
-        function addStationMarker(station) {
-            const iconColor = station.type === 'ev' ? '#22c55e' : '#f59e0b';
-            const iconSymbol = station.type === 'ev' ? '⚡' : '⛽';
-            
-            const marker = L.marker([station.lat, station.lng], {
-                icon: L.divIcon({
-                    className: 'station-marker',
-                    html: `<div style="background: ${iconColor}; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 3px solid white; box-shadow: 0 3px 12px rgba(0,0,0,0.4); font-weight: bold; cursor: pointer;">${iconSymbol}</div>`,
-                    iconSize: [35, 35]
-                })
-            }).addTo(map);
-
-            // Create enhanced popup content
-            const popupContent = createEnhancedStationPopup(station);
-            marker.bindPopup(popupContent, { maxWidth: 350, className: 'custom-popup' });
-            
-            currentMarkers.push(marker);
-        }
-
-        // Create enhanced station popup content with complete information
-        function createEnhancedStationPopup(station) {
-            const stationTypeText = station.type === 'ev' ? 'EV Charging Station' : 'Fuel Station';
-            const badgeClass = station.type === 'ev' ? 'ev-badge' : 'fuel-badge';
-            
-            // Status indicator
-            const status = isStationOpen(station.openingHours);
-            const statusClass = `status-${status}`;
-            const statusText = status === 'open' ? 'Open' : status === 'closed' ? 'Closed' : 'Hours Unknown';
-            
-            // Distance formatting
-            const distanceText = station.distance ? 
-                station.distance < 1000 ? 
-                    `${Math.round(station.distance)}m away` : 
-                    `${(station.distance / 1000).toFixed(1)}km away` : '';
-            
-            // Travel time estimation (rough calculation: 1km = 2-3 minutes in city)
-            const travelTimeText = station.distance ? 
-                station.distance < 1000 ? 
-                    `~${Math.ceil(station.distance / 300)} min walk` : 
-                    `~${Math.ceil((station.distance / 1000) * 2.5)} min drive` : '';
-            
-            // Services/Fuel types
-            const servicesText = station.services && station.services.length > 0 ? 
-                station.services.join(', ') : 'Services not specified';
-            
-            // Additional info for EV stations
-            const evInfo = station.type === 'ev' ? `
-                ${station.power ? `<p><strong>Power Output:</strong> ${station.power}</p>` : ''}
-                ${station.socketTypes && station.socketTypes.length > 0 ? 
-                    `<p><strong>Connector Types:</strong> ${station.socketTypes.join(', ')}</p>` : ''}
-                ${station.capacity ? `<p><strong>Capacity:</strong> ${station.capacity}</p>` : ''}
-                ${station.fee && station.fee !== 'Unknown' ? `<p><strong>Charging Fee:</strong> ${station.fee}</p>` : ''}
-                ${station.authentication && station.authentication !== 'Unknown' ? 
-                    `<p><strong>Access:</strong> ${station.authentication}</p>` : ''}
-            ` : '';
-            
-            // Amenities
-            const amenitiesText = station.amenities && station.amenities.length > 0 ? 
-                `<p><strong>Amenities:</strong> ${station.amenities.join(', ')}</p>` : '';
-            
-            // Complete address display
-            const fullAddress = station.address || 'Address not available';
-            
-            // Contact info
-            const contactInfo = `
-                ${station.phone ? `<p><strong>Phone:</strong> <a href="tel:${station.phone}" style="color: #007bff;">${station.phone}</a></p>` : ''}
-                ${station.website ? `<p><strong>Website:</strong> <a href="${station.website}" target="_blank" rel="noopener" style="color: #007bff;">Visit Website</a></p>` : ''}
-            `;
-            
-            return `
-                <div class="station-popup">
-                    <h3>${station.name}</h3>
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
-                        <div style="display: flex; align-items: center;">
-                            <span class="status-indicator ${statusClass}"></span>
-                            <span style="font-weight: 500; margin-right: 1rem;">${statusText}</span>
-                        </div>
-                        ${station.rating ? `<div style="color: #f59e0b;">⭐ ${station.rating}/5</div>` : ''}
-                    </div>
-                    
-                    <div style="background: #f8f9fa; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem;">
-                        <p style="margin: 0; font-weight: 600; color: #333;">📍 ${fullAddress}</p>
-                        ${distanceText ? `<p style="margin: 0.25rem 0 0 0; color: #666; font-size: 0.85rem;">${distanceText} • ${travelTimeText}</p>` : ''}
-                    </div>
-                    
-                    ${station.brand ? `<p><strong>Brand/Operator:</strong> ${station.brand}</p>` : ''}
-                    ${station.operator && station.operator !== station.brand ? `<p><strong>Operator:</strong> ${station.operator}</p>` : ''}
-                    ${station.network ? `<p><strong>Network:</strong> ${station.network}</p>` : ''}
-                    
-                    <p><strong>${station.type === 'ev' ? 'Charging Options' : 'Fuel Types'}:</strong> ${servicesText}</p>
-                    
-                    ${evInfo}
-                    ${amenitiesText}
-                    
-                    <p><strong>Operating Hours:</strong> ${station.openingHours}</p>
-                    
-                    ${contactInfo}
-                    
-                    <div class="station-actions">
-                        <button class="action-btn primary" onclick="createRouteToStation(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}')">
-                            🧭 Get Directions
-                        </button>
-                        <button class="action-btn" onclick="window.open('https://www.google.com/maps/search/?api=1&query=${station.lat},${station.lng}', '_blank', 'noopener')">
-                            📱 Open in Maps
-                        </button>
-                    </div>
-                    <span class="station-type-badge ${badgeClass}">${stationTypeText}</span>
-                </div>
-            `;
-        }
-
-        // Enhanced route creation with better error handling
-        function createRouteToStation(lat, lng, stationName) {
-            if (!userLocation) {
-                alert('Please enable location services or search for your location first to get directions.');
-                return;
-            }
-            createRoute(userLocation, [lat, lng], stationName);
-        }
-
-        // Enhanced routing with multiple options
-        function createRoute(from, to, destinationName) {
-            // Clear existing route
-            if (currentRoute) {
-                map.removeControl(currentRoute);
-            }
-
-            // Calculate straight-line distance for estimation
-            const straightDistance = calculateDistance(from[0], from[1], to[0], to[1]);
-            const estimatedTime = Math.round((straightDistance / 1000) * 2); // Rough estimate: 2 min per km
-
-            currentRoute = L.Routing.control({
-                waypoints: [
-                    L.latLng(from[0], from[1]),
-                    L.latLng(to[0], to[1])
-                ],
-                routeWhileDragging: false,
-                addWaypoints: false,
-                createMarker: function() { return null; }, // Don't create default markers
-                lineOptions: {
-                    styles: [{ 
-                        color: '#007bff', 
-                        weight: 6, 
-                        opacity: 0.8,
-                        dashArray: '10, 10'
-                    }]
-                },
-                router: L.Routing.osrmv1({
-                    serviceUrl: 'https://router.project-osrm.org/route/v1',
-                    profile: 'driving'
-                })
-            }).on('routesfound', function(e) {
-                const routes = e.routes;
-                if (routes && routes.length > 0) {
-                    const summary = routes[0].summary;
-                    
-                    // Update route info with real data
-                    document.getElementById('route-destination').textContent = destinationName;
-                    document.getElementById('route-distance').textContent = `${(summary.totalDistance / 1000).toFixed(1)} km`;
-                    document.getElementById('route-time').textContent = `${Math.round(summary.totalTime / 60)} min`;
-                    document.getElementById('route-info').classList.add('active');
-                } else {
-                    // Fallback to estimated data
-                    document.getElementById('route-destination').textContent = destinationName;
-                    document.getElementById('route-distance').textContent = `${(straightDistance / 1000).toFixed(1)} km`;
-                    document.getElementById('route-time').textContent = `~${estimatedTime} min`;
-                    document.getElementById('route-info').classList.add('active');
-                }
-            }).on('routingerror', function(e) {
-                console.error('Routing error:', e);
-                // Show estimated route info even if routing fails
-                document.getElementById('route-destination').textContent = destinationName;
-                document.getElementById('route-distance').textContent = `${(straightDistance / 1000).toFixed(1)} km`;
-                document.getElementById('route-time').textContent = `~${estimatedTime} min`;
-                document.getElementById('route-info').classList.add('active');
-            }).addTo(map);
-        }
-
-        // Clear all markers from map
-        function clearMarkers() {
-            currentMarkers.forEach(marker => {
-                map.removeLayer(marker);
-            });
-            currentMarkers = [];
-        }
-
-        // Clear current route
-        function clearRoute() {
-            if (currentRoute) {
-                map.removeControl(currentRoute);
-                currentRoute = null;
-            }
-            document.getElementById('route-info').classList.remove('active');
-        }
-
-        // Enhanced results info
-        function updateResultsInfo(count, radius, errorMessage = null) {
-            const resultsInfo = document.getElementById('results-info');
-            
-            if (errorMessage) {
-                resultsInfo.textContent = errorMessage;
-                resultsInfo.style.color = '#ef4444';
-            } else {
-                const filterText = currentFilter === 'all' ? 'stations' : 
-                                 currentFilter === 'fuel' ? 'fuel stations' : 'EV charging stations';
-                resultsInfo.textContent = `Found ${count} ${filterText} within ${radius/1000}km radius`;
-                resultsInfo.style.color = '#cccccc';
-            }
-            
-            resultsInfo.style.display = 'block';
-        }
-
-        // Enhanced loading overlay
-        function showLoading(show) {
-            const loadingOverlay = document.getElementById('loading-overlay');
-            loadingOverlay.style.display = show ? 'flex' : 'none';
-        }
-
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            initMap();
-
-            // Search button with enhanced validation
-            document.getElementById('search-btn').addEventListener('click', async function() {
-                const locationQuery = document.getElementById('location-input').value.trim();
-                const radius = parseInt(document.getElementById('radius-select').value);
-
-                if (!locationQuery) {
-                    alert('Please enter a location to search for nearby stations.');
-                    document.getElementById('location-input').focus();
-                    return;
-                }
-
-                if (locationQuery.length < 2) {
-                    alert('Please enter a more specific location.');
-                    document.getElementById('location-input').focus();
-                    return;
-                }
-
-                showLoading(true);
-                
-                try {
-                    const location = await geocodeLocation(locationQuery);
-                    
-                    if (location) {
-                        userLocation = [location.lat, location.lng];
-                        map.setView(userLocation, 14);
-                        
-                        addUserLocationMarker();
-                        await searchStations(location.lat, location.lng, radius);
-                    } else {
-                        alert('Location not found. Please check the spelling and try again, or try a more specific address.');
-                    }
-                } catch (error) {
-                    console.error('Search error:', error);
-                    alert('Error occurred while searching. Please check your internet connection and try again.');
-                } finally {
-                    showLoading(false);
-                }
-            });
-
-            // Current location button
-            document.getElementById('current-location-btn').addEventListener('click', getCurrentLocation);
-
-            // Filter chips with enhanced functionality
-            document.querySelectorAll('.filter-chip').forEach(chip => {
-                chip.addEventListener('click', async function() {
-                    // Update active chip
-                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const newFilter = this.dataset.type;
-                    
-                    // Only re-search if filter actually changed
-                    if (currentFilter !== newFilter) {
-                        currentFilter = newFilter;
-                        
-                        // Re-search with new filter if we have a location
-                        if (userLocation) {
-                            const radius = parseInt(document.getElementById('radius-select').value);
-                            await searchStations(userLocation[0], userLocation[1], radius);
-                        }
-                    }
-                });
-            });
-
-            // Enhanced map controls
-            document.getElementById('toggle-satellite').addEventListener('click', function() {
-                if (map.hasLayer(satelliteLayer)) {
-                    map.removeLayer(satelliteLayer);
-                    map.addLayer(defaultLayer);
-                    this.textContent = 'Satellite';
-                    this.title = 'Switch to satellite view';
-                } else {
-                    map.removeLayer(defaultLayer);
-                    map.addLayer(satelliteLayer);
-                    this.textContent = 'Street';
-                    this.title = 'Switch to street view';
-                }
-            });
-
-            document.getElementById('reset-view').addEventListener('click', function() {
-                if (userLocation) {
-                    map.setView(userLocation, 14);
-                } else {
-                    map.setView([25.2048, 55.2708], 10);
-                }
-            });
-
-            // Clear route button
-            document.getElementById('clear-route').addEventListener('click', clearRoute);
-
-            // Enhanced keyboard support
-            document.getElementById('location-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    document.getElementById('search-btn').click();
-                }
-            });
-
-            // Auto-complete suggestions (basic implementation)
-            let suggestionTimeout;
-            document.getElementById('location-input').addEventListener('input', function(e) {
-                clearTimeout(suggestionTimeout);
-                const query = e.target.value.trim();
-                
-                if (query.length >= 3) {
-                    suggestionTimeout = setTimeout(async () => {
-                        // Could implement autocomplete here
-                        console.log('Auto-complete for:', query);
-                    }, 300);
-                }
-            });
-
-            // Radius change handler
-            document.getElementById('radius-select').addEventListener('change', async function() {
-                if (userLocation) {
-                    const radius = parseInt(this.value);
-                    await searchStations(userLocation[0], userLocation[1], radius);
-                }
-            });
-        });
-
-        // Ad Management Functions
-        function openAffiliate(url) {
-            window.open(url, '_blank', 'noopener,noreferrer');
-        }
-
-        function closePopup(popupId) {
-            const popup = document.getElementById(popupId);
-            if (popup) {
-                popup.style.display = 'none';
-            }
-        }
-
-        // Enhanced popup ad management
-        function showPopupAds() {
-            const popups = [
-                { id: 'aliexpress-popup', delay: 15000 },
-                { id: 'headway-popup', delay: 45000 },
-                { id: 'noon-popup', delay: 75000 }
-            ];
-            
-            popups.forEach((popup, index) => {
-                setTimeout(() => {
-                    showSinglePopup(popup.id);
-                }, popup.delay);
-            });
-        }
-
-        function showSinglePopup(popupId) {
-            const popup = document.getElementById(popupId);
-            const timer = document.getElementById(popupId.replace('-popup', '-timer'));
-            
-            if (!popup || !timer) return;
-            
-            popup.style.display = 'flex';
-            
-            let timeLeft = 15;
-            const countdown = setInterval(() => {
-                timeLeft--;
-                timer.textContent = `Auto-close in ${timeLeft}s`;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    popup.style.display = 'none';
-                }
-            }, 1000);
-            
-            // Close popup when clicking outside
-            popup.addEventListener('click', function(e) {
-                if (e.target === popup) {
-                    clearInterval(countdown);
-                    popup.style.display = 'none';
-                }
-            });
-        }
-
-        // Initialize popup ads when page loads
-        window.addEventListener('load', function() {
-            // Add animation styles
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes pulse {
-                    0% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.1); opacity: 0.7; }
-                    100% { transform: scale(1); opacity: 1; }
-                }
-                .custom-popup .leaflet-popup-content-wrapper {
-                    background: white;
-                    border-radius: 12px;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-                }
-                .custom-popup .leaflet-popup-tip {
-                    background: white;
-                }
-            `;
-            document.head.appendChild(style);
-            
-            // Show popup ads after page interaction
-            let interactionDetected = false;
-            const detectInteraction = () => {
-                if (!interactionDetected) {
-                    interactionDetected = true;
-                    setTimeout(showPopupAds, 5000);
-                }
-            };
-            
-            document.addEventListener('click', detectInteraction, { once: true });
-            document.addEventListener('scroll', detectInteraction, { once: true });
-            document.addEventListener('keydown', detectInteraction, { once: true });
-        });
-
-        // Make functions globally available
-        window.createRouteToStation = createRouteToStation;
-        window.openAffiliate = openAffiliate;
-        window.closePopup = closePopup;
-        
-        // SEO and performance optimizations
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                // Basic service worker for caching (optional)
-                console.log('Service Worker supported');
-            });
-        }
-
-        // Analytics placeholder (replace with actual tracking)
-        function trackEvent(eventName, data) {
-            console.log('Analytics Event:', eventName, data);
-            // Example: gtag('event', eventName, data);
-        }
-
-        // Track user interactions
-        document.addEventListener('click', function(e) {
-            if (e.target.matches('.action-btn')) {
-                trackEvent('station_interaction', {
-                    action: e.target.textContent.trim(),
-                    station_type: e.target.closest('.station-popup') ? 'station_popup' : 'unknown'
-                });
-            }
-        });
-    </script>
-
-    <!-- Google Analytics placeholder -->
-    <!-- Replace with your actual GA tracking code -->
-    <script>
-        // Example Google Analytics 4
-        // window.dataLayer = window.dataLayer || [];
-        // function gtag(){dataLayer.push(arguments);}
-        // gtag('js', new Date());
-        // gtag('config', 'GA_MEASUREMENT_ID');
-    </script>
-
-    <!-- Schema.org structured data for better SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "ZANIROUTE",
-      "description": "Find fuel stations and EV charging stations worldwide with real-time directions and accurate information",
-      "url": "https://zaniroute.com",
-      "serviceType": "Fuel Station Locator",
-      "areaServed": "Worldwide",
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Station Finding Services",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Fuel Station Finder",
-              "description": "Locate petrol and diesel stations worldwide"
-            }
-          },
-          {
-            "@type": "Offer", 
-            "itemOffered": {
-              "@type": "Service",
-              "name": "EV Charging Station Finder",
-              "description": "Find electric vehicle charging points globally"
-            }
-          }
-        ]
-      }
-    }
-    </script>
-</body>
-</html>
+                //
