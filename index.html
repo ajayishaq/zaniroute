@@ -939,78 +939,141 @@
             });
         }
 
-        // Sample station data (in a real app, this would come from an API)
-        const sampleStations = [
-            {
-                id: 1,
-                name: "ADNOC Station - Sheikh Zayed Road",
-                type: "fuel",
-                lat: 25.2084,
-                lng: 55.2719,
-                address: "Sheikh Zayed Road, Dubai, UAE",
-                services: ["Petrol", "Diesel", "Car Wash"],
-                rating: 4.2,
-                open24h: true
-            },
-            {
-                id: 2,
-                name: "Tesla Supercharger - Dubai Mall",
-                type: "ev",
-                lat: 25.1972,
-                lng: 55.2796,
-                address: "Dubai Mall, Downtown Dubai, UAE",
-                services: ["Supercharger", "Destination Charging"],
-                rating: 4.8,
-                open24h: true,
-                power: "150kW"
-            },
-            {
-                id: 3,
-                name: "EPPCO Fuel Station",
-                type: "fuel",
-                lat: 25.2160,
-                lng: 55.2761,
-                address: "Al Wasl Road, Dubai, UAE",
-                services: ["Petrol", "Diesel", "LPG"],
-                rating: 4.0,
-                open24h: false
-            },
-            {
-                id: 4,
-                name: "DEWA EV Charging Station",
-                type: "ev",
-                lat: 25.2242,
-                lng: 55.2863,
-                address: "Dubai Internet City, Dubai, UAE",
-                services: ["Fast Charging", "Regular Charging"],
-                rating: 4.5,
-                open24h: true,
-                power: "50kW"
-            },
-            {
-                id: 5,
-                name: "Shell Station - Business Bay",
-                type: "fuel",
-                lat: 25.1877,
-                lng: 55.2608,
-                address: "Business Bay, Dubai, UAE",
-                services: ["Petrol", "Diesel", "V-Power"],
-                rating: 4.3,
-                open24h: true
-            },
-            {
-                id: 6,
-                name: "Charge Point - JBR",
-                type: "ev",
-                lat: 25.0777,
-                lng: 55.1370,
-                address: "Jumeirah Beach Residence, Dubai, UAE",
-                services: ["Level 2 Charging", "CCS", "CHAdeMO"],
-                rating: 4.1,
-                open24h: false,
-                power: "22kW"
+        // API Functions for real station data
+        async function searchFuelStations(lat, lng, radius) {
+            try {
+                const radiusInKm = radius / 1000;
+                
+                // Using Overpass API to find fuel stations
+                const overpassQuery = `
+                [out:json][timeout:25];
+                (
+                  node["amenity"="fuel"](around:${radius},${lat},${lng});
+                  way["amenity"="fuel"](around:${radius},${lat},${lng});
+                  relation["amenity"="fuel"](around:${radius},${lat},${lng});
+                );
+                out center meta;
+                `;
+                
+                const response = await fetch('https://overpass-api.de/api/interpreter', {
+                    method: 'POST',
+                    body: overpassQuery,
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    }
+                });
+                
+                const data = await response.json();
+                return data.elements.map(station => ({
+                    id: station.id,
+                    name: station.tags?.name || station.tags?.brand || 'Fuel Station',
+                    type: 'fuel',
+                    lat: station.lat || station.center?.lat,
+                    lng: station.lon || station.center?.lon,
+                    address: formatAddress(station.tags),
+                    services: extractServices(station.tags),
+                    rating: Math.random() * 2 + 3, // Random rating 3-5
+                    open24h: station.tags?.opening_hours === '24/7',
+                    brand: station.tags?.brand,
+                    operator: station.tags?.operator
+                })).filter(station => station.lat && station.lng);
+            } catch (error) {
+                console.error('Error fetching fuel stations:', error);
+                return [];
             }
-        ];
+        }
+
+        async function searchEVStations(lat, lng, radius) {
+            try {
+                // Using Overpass API to find EV charging stations
+                const overpassQuery = `
+                [out:json][timeout:25];
+                (
+                  node["amenity"="charging_station"](around:${radius},${lat},${lng});
+                  way["amenity"="charging_station"](around:${radius},${lat},${lng});
+                  relation["amenity"="charging_station"](around:${radius},${lat},${lng});
+                );
+                out center meta;
+                `;
+                
+                const response = await fetch('https://overpass-api.de/api/interpreter', {
+                    method: 'POST',
+                    body: overpassQuery,
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    }
+                });
+                
+                const data = await response.json();
+                return data.elements.map(station => ({
+                    id: station.id,
+                    name: station.tags?.name || station.tags?.operator || 'EV Charging Station',
+                    type: 'ev',
+                    lat: station.lat || station.center?.lat,
+                    lng: station.lon || station.center?.lon,
+                    address: formatAddress(station.tags),
+                    services: extractEVServices(station.tags),
+                    rating: Math.random() * 2 + 3, // Random rating 3-5
+                    open24h: station.tags?.opening_hours === '24/7',
+                    power: station.tags?.maxspeed || station.tags?.power || 'Unknown',
+                    operator: station.tags?.operator,
+                    network: station.tags?.network
+                })).filter(station => station.lat && station.lng);
+            } catch (error) {
+                console.error('Error fetching EV stations:', error);
+                return [];
+            }
+        }
+
+        function formatAddress(tags) {
+            if (!tags) return 'Address not available';
+            
+            const parts = [];
+            if (tags['addr:housenumber']) parts.push(tags['addr:housenumber']);
+            if (tags['addr:street']) parts.push(tags['addr:street']);
+            if (tags['addr:city']) parts.push(tags['addr:city']);
+            if (tags['addr:country']) parts.push(tags['addr:country']);
+            
+            return parts.length > 0 ? parts.join(', ') : 'Address not available';
+        }
+
+        function extractServices(tags) {
+            const services = [];
+            if (tags?.fuel) {
+                const fuels = tags.fuel.split(';');
+                fuels.forEach(fuel => {
+                    if (fuel.includes('diesel')) services.push('Diesel');
+                    if (fuel.includes('octane') || fuel.includes('petrol')) services.push('Petrol');
+                    if (fuel.includes('lpg')) services.push('LPG');
+                });
+            } else {
+                services.push('Petrol', 'Diesel'); // Default assumption
+            }
+            
+            if (tags?.car_wash) services.push('Car Wash');
+            if (tags?.shop) services.push('Shop');
+            if (tags?.restaurant) services.push('Restaurant');
+            
+            return services.length > 0 ? services : ['Fuel'];
+        }
+
+        function extractEVServices(tags) {
+            const services = [];
+            
+            if (tags?.socket) {
+                const sockets = tags.socket.split(';');
+                sockets.forEach(socket => {
+                    if (socket.includes('ccs')) services.push('CCS');
+                    if (socket.includes('chademo')) services.push('CHAdeMO');
+                    if (socket.includes('type2')) services.push('Type 2');
+                });
+            }
+            
+            if (tags?.charging_station) services.push('Fast Charging');
+            if (tags?.amenity === 'charging_station') services.push('EV Charging');
+            
+            return services.length > 0 ? services : ['EV Charging'];
+        }
 
         // Get user's current location
         function getCurrentLocation() {
@@ -1066,30 +1129,93 @@
             }
         }
 
-        // Search for stations
+        // Search for stations using real APIs
         async function searchStations(lat, lng, radius) {
             showLoading(true);
             clearMarkers();
             
-            // In a real app, you would make an API call here
-            // For demo purposes, we'll filter our sample data based on distance
-            const filteredStations = sampleStations.filter(station => {
-                if (currentFilter !== 'all' && station.type !== currentFilter) {
-                    return false;
+            let allStations = [];
+            
+            try {
+                // Fetch stations based on current filter
+                if (currentFilter === 'all') {
+                    const [fuelStations, evStations] = await Promise.all([
+                        searchFuelStations(lat, lng, radius),
+                        searchEVStations(lat, lng, radius)
+                    ]);
+                    allStations = [...fuelStations, ...evStations];
+                } else if (currentFilter === 'fuel') {
+                    allStations = await searchFuelStations(lat, lng, radius);
+                } else if (currentFilter === 'ev') {
+                    allStations = await searchEVStations(lat, lng, radius);
+                }
+
+                // If no stations found from API, show some sample stations for demo
+                if (allStations.length === 0) {
+                    console.log('No stations found from API, showing sample data');
+                    allStations = getSampleStationsNearby(lat, lng, radius);
                 }
                 
-                const distance = calculateDistance(lat, lng, station.lat, station.lng);
-                return distance <= radius;
-            });
+                // Add markers for each station
+                allStations.forEach(station => {
+                    addStationMarker(station);
+                });
+                
+                // Update results info
+                updateResultsInfo(allStations.length, radius);
+                
+            } catch (error) {
+                console.error('Error searching stations:', error);
+                // Fallback to sample data
+                const sampleStations = getSampleStationsNearby(lat, lng, radius);
+                sampleStations.forEach(station => {
+                    addStationMarker(station);
+                });
+                updateResultsInfo(sampleStations.length, radius);
+            }
             
-            // Add markers for each station
-            filteredStations.forEach(station => {
-                addStationMarker(station);
-            });
-            
-            // Update results info
-            updateResultsInfo(filteredStations.length, radius);
             showLoading(false);
+        }
+
+        // Fallback sample stations generator
+        function getSampleStationsNearby(centerLat, centerLng, radius) {
+            const radiusInDegrees = radius / 111000; // Approximate conversion
+            const sampleStations = [];
+            
+            // Generate some sample stations around the search location
+            const stationTypes = ['fuel', 'ev'];
+            const fuelBrands = ['Shell', 'BP', 'Exxon', 'Chevron', 'Total', 'Mobil'];
+            const evBrands = ['Tesla', 'ChargePoint', 'EVgo', 'Electrify America'];
+            
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * 2 * Math.PI;
+                const distance = Math.random() * radiusInDegrees * 0.8;
+                const lat = centerLat + Math.cos(angle) * distance;
+                const lng = centerLng + Math.sin(angle) * distance;
+                
+                const type = stationTypes[Math.floor(Math.random() * stationTypes.length)];
+                const brand = type === 'fuel' ? 
+                    fuelBrands[Math.floor(Math.random() * fuelBrands.length)] :
+                    evBrands[Math.floor(Math.random() * evBrands.length)];
+                
+                if (currentFilter === 'all' || currentFilter === type) {
+                    sampleStations.push({
+                        id: `sample-${i}`,
+                        name: `${brand} Station`,
+                        type: type,
+                        lat: lat,
+                        lng: lng,
+                        address: `${brand} Station Address`,
+                        services: type === 'fuel' ? ['Petrol', 'Diesel'] : ['Fast Charging', 'Type 2'],
+                        rating: Math.random() * 2 + 3,
+                        open24h: Math.random() > 0.5,
+                        power: type === 'ev' ? `${Math.floor(Math.random() * 100 + 50)}kW` : undefined,
+                        operator: brand
+                    });
+                }
+            }
+            
+            return sampleStations;
         }
 
         // Calculate distance between two points (Haversine formula)
@@ -1134,17 +1260,20 @@
             const badgeClass = station.type === 'ev' ? 'ev-badge' : 'fuel-badge';
             const powerInfo = station.power ? `<p><strong>Power:</strong> ${station.power}</p>` : '';
             const hoursInfo = station.open24h ? '24 Hours' : 'Limited Hours';
+            const brandInfo = station.brand || station.operator || station.network;
+            const brandDisplay = brandInfo ? `<p><strong>Brand:</strong> ${brandInfo}</p>` : '';
             
             return `
                 <div class="station-popup">
                     <h3>${station.name}</h3>
+                    ${brandDisplay}
                     <p><strong>Address:</strong> ${station.address}</p>
                     <p><strong>Services:</strong> ${station.services.join(', ')}</p>
-                    <p><strong>Rating:</strong> ${'⭐'.repeat(Math.floor(station.rating))} ${station.rating}</p>
+                    <p><strong>Rating:</strong> ${'⭐'.repeat(Math.floor(station.rating))} ${station.rating.toFixed(1)}</p>
                     <p><strong>Hours:</strong> ${hoursInfo}</p>
                     ${powerInfo}
                     <div class="station-actions">
-                        <button class="action-btn primary" onclick="createRouteToStation(${station.lat}, ${station.lng}, '${station.name}')">Get Directions</button>
+                        <button class="action-btn primary" onclick="createRouteToStation(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}')">Get Directions</button>
                         <button class="action-btn" onclick="window.open('https://www.google.com/maps/search/?api=1&query=${station.lat},${station.lng}', '_blank')">View in Maps</button>
                     </div>
                     <span class="station-type-badge ${badgeClass}">${stationTypeText}</span>
