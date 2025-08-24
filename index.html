@@ -1320,4 +1320,194 @@
                         <button class="action-btn primary" onclick="getDirections(${station.lat}, ${station.lng}, '${station.name}')">
                             Directions
                         </button>
-                        <button class="action-btn" onclick="callStation('${station.phone}')
+                        <button class="action-btn" onclick="callStation('${station.phone}')">
+                            Call
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update map markers
+        function updateMapMarkers(stations) {
+            // Clear existing markers
+            currentMarkers.forEach(marker => map.removeLayer(marker));
+            currentMarkers = [];
+
+            // Add new markers
+            stations.forEach(station => {
+                const icon = L.divIcon({
+                    html: `<div style="background: ${station.type === 'ev' ? '#0ea5e9' : '#dc2626'}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white;"></div>`,
+                    iconSize: [20, 20],
+                    className: 'custom-div-icon'
+                });
+
+                const marker = L.marker([station.lat, station.lng], { icon })
+                    .addTo(map)
+                    .bindPopup(`
+                        <div style="color: #333; font-family: Inter, sans-serif;">
+                            <h3 style="margin: 0 0 5px 0; color: #1a1a1a;">${station.name}</h3>
+                            <p style="margin: 0 0 5px 0; font-size: 0.9em;">${station.address}</p>
+                            <p style="margin: 0 0 5px 0; font-size: 0.85em; color: ${station.isOpen ? '#22c55e' : '#ef4444'};">
+                                ${station.isOpen ? 'Open' : 'Closed'}
+                            </p>
+                            <p style="margin: 0; font-size: 0.85em;">${(station.distance / 1000).toFixed(1)} km away</p>
+                        </div>
+                    `);
+
+                currentMarkers.push(marker);
+            });
+        }
+
+        // Show loading state
+        function showLoading(show) {
+            const container = document.getElementById('results-container');
+            const loadingState = document.getElementById('loading-state');
+            
+            if (show) {
+                container.innerHTML = '<div class="loading" id="loading-state"><div class="spinner"></div>Searching for stations...</div>';
+            } else {
+                const loading = document.getElementById('loading-state');
+                if (loading) loading.style.display = 'none';
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            const container = document.getElementById('results-container');
+            container.innerHTML = `
+                <div class="no-results">
+                    <h3>Search Error</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // Get directions to station
+        function getDirections(lat, lng, stationName) {
+            if (!userLocation) {
+                alert('Location permission needed for directions');
+                return;
+            }
+
+            // Remove existing routing control
+            if (routingControl) {
+                map.removeControl(routingControl);
+            }
+
+            // Add routing control
+            routingControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(userLocation.lat, userLocation.lng),
+                    L.latLng(lat, lng)
+                ],
+                routeWhileDragging: false,
+                createMarker: function() { return null; }, // Don't create default markers
+                lineOptions: {
+                    styles: [{ color: '#fff', weight: 4, opacity: 0.8 }]
+                }
+            }).addTo(map);
+        }
+
+        // Call station
+        function callStation(phone) {
+            window.open(`tel:${phone}`, '_self');
+        }
+
+        // Affiliate functions
+        function openAffiliate(type) {
+            const popup = document.getElementById(`${type}-popup`);
+            popup.style.display = 'flex';
+        }
+
+        function openAffiliatePopup(type) {
+            if (affiliateLinks[type]) {
+                window.open(affiliateLinks[type], '_blank');
+            }
+            closePopup(`${type}-popup`);
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize map
+            initMap();
+            
+            // Search button
+            document.getElementById('search-btn').addEventListener('click', function() {
+                const query = document.getElementById('location-input').value.trim();
+                if (query) {
+                    searchStations(query);
+                } else {
+                    alert('Please enter a location');
+                }
+            });
+
+            // Near me button
+            document.getElementById('near-me-btn').addEventListener('click', async function() {
+                const btn = this;
+                btn.disabled = true;
+                btn.textContent = 'Getting location...';
+                
+                try {
+                    userLocation = await getUserLocation();
+                    searchStations();
+                } catch (error) {
+                    alert(`Location access failed: ${error}`);
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Near Me';
+                }
+            });
+
+            // Enter key search
+            document.getElementById('location-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('search-btn').click();
+                }
+            });
+
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active state
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update filter
+                    currentFilter = this.dataset.type;
+                    
+                    // Apply filter if we have stations
+                    if (allStations.length > 0) {
+                        applyFilter();
+                    }
+                });
+            });
+
+            // Close popups when clicking outside
+            document.querySelectorAll('.popup-overlay').forEach(popup => {
+                popup.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+
+            // Load default location based on user's probable location
+            setTimeout(() => {
+                // Try to get user location automatically
+                getUserLocation().then(location => {
+                    userLocation = location;
+                    searchStations();
+                }).catch(() => {
+                    // Fallback to a default major city
+                    searchStations('New York, NY');
+                });
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
