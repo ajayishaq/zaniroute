@@ -30,28 +30,6 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "ZANIROUTE",
-      "description": "Global fuel station and EV charging station finder with real-time directions",
-      "url": "https://zaniroute.com",
-      "applicationCategory": "TravelApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "author": {
-        "@type": "Organization",
-        "name": "ZANIROUTE"
-      }
-    }
-    </script>
-    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
     <!-- Leaflet Routing Machine -->
@@ -68,57 +46,51 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000000;
+            background: #1a1a1a;
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        .background-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.03;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
+        /* Header Styles */
         .header {
-            position: relative;
-            z-index: 100;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1.5rem 0;
+            background: #1a1a1a;
+            padding: 1rem 0;
+            border-bottom: 1px solid #333;
             position: sticky;
             top: 0;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
+            z-index: 1000;
         }
 
         .nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        .brand-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
         .logo {
             font-family: 'Orbitron', monospace;
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 900;
             color: #ffffff;
-            letter-spacing: 0.05em;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .tagline {
+            color: #888;
+            font-size: 0.85rem;
+            font-weight: 400;
         }
 
         .social-links {
@@ -128,280 +100,346 @@
         }
 
         .social-link {
-            color: #888888;
+            color: #888;
             text-decoration: none;
-            padding: 0.5rem;
+            padding: 0.75rem;
             border-radius: 8px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .social-link:hover {
-            color: #ffffff;
+            color: #fff;
             background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
         }
 
-        .tagline {
-            color: #888888;
-            font-size: 0.95rem;
-            font-weight: 400;
-            letter-spacing: 0.02em;
-            text-align: center;
-            margin-top: 0.5rem;
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
+        /* Top Banner Ad */
         .ad-banner {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 1rem;
-            margin: 1rem 0;
-            text-align: center;
+            margin-bottom: 2rem;
             min-height: 90px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 99998;
         }
 
-        .main-content {
-            position: relative;
-            z-index: 10;
-            padding: 3rem 0;
+        /* Search Section */
+        .search-section {
+            background: #2a2a2a;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #333;
         }
 
         .search-container {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .search-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        }
-
-        .search-grid {
-            display: grid;
-            grid-template-columns: 1fr auto auto;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            align-items: end;
-        }
-
-        .input-group {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .input-label {
-            color: #cccccc;
-            font-size: 0.875rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-        }
-
-        .input-field {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: 400;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            min-height: 52px;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
-        }
-
-        .input-field::placeholder {
-            color: #666666;
-        }
-
-        .btn {
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 12px;
-            padding: 1rem 2rem;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            min-height: 52px;
-            white-space: nowrap;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .filter-section {
-            display: flex;
-            gap: 0.75rem;
-            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
 
-        .filter-chip {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
+        .search-bar {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #fff;
+            background: #222;
+        }
+
+        .search-input::placeholder {
+            color: #666;
+        }
+
+        .search-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .radius-select {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 12px;
+            padding: 1rem;
+            color: #fff;
+            font-size: 1rem;
+            min-width: 120px;
+        }
+
+        .btn {
+            background: #fff;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: #e6e6e6;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #444;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* Filter Buttons */
+        .filter-section {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #1a1a1a;
+            color: #888;
+            border: 1px solid #333;
+            border-radius: 25px;
             padding: 0.75rem 1.5rem;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #cccccc;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: #fff;
+            color: #1a1a1a;
+            border-color: #fff;
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: #333;
+            color: #fff;
+        }
+
+        /* Results Grid */
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .station-card {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
             position: relative;
         }
 
-        .filter-chip.active {
-            background: #ffffff;
-            color: #000000;
-            border-color: #ffffff;
+        .station-card:hover {
+            border-color: #555;
+            background: #2f2f2f;
         }
 
-        .filter-chip:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
+        .station-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
         }
 
-        .map-section {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 2rem;
-            backdrop-filter: blur(20px);
-            height: 650px;
+        .station-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .station-distance {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .station-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .status-dot.closed {
+            background: #ef4444;
+        }
+
+        .status-dot.unknown {
+            background: #f59e0b;
+        }
+
+        .station-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .rating-stars {
+            color: #fbbf24;
+            font-size: 0.85rem;
+        }
+
+        .rating-number {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .station-address {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .station-services {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .service-tag {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid #444;
+        }
+
+        .service-tag.fuel {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .service-tag.electric {
+            background: #0ea5e9;
+            border-color: #0ea5e9;
+        }
+
+        .station-amenities {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .station-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            background: #1a1a1a;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .action-btn.primary {
+            background: #fff;
+            color: #1a1a1a;
+            border-color: #fff;
+        }
+
+        .action-btn:hover {
+            background: #333;
+        }
+
+        .action-btn.primary:hover {
+            background: #e6e6e6;
+        }
+
+        /* Map Container */
+        .map-container {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            height: 500px;
             position: relative;
-            overflow: hidden;
-        }
-
-        .map-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
         }
 
         #map {
             height: 100%;
-            border-radius: 16px;
-            position: relative;
-            z-index: 1;
+            border-radius: 12px;
+            background: #1a1a1a;
         }
 
-        .map-controls {
-            position: absolute;
-            top: 3rem;
-            right: 3rem;
-            z-index: 1000;
+        /* Loading States */
+        .loading {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .map-control-btn {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-        }
-
-        .map-control-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            align-items: center;
             justify-content: center;
-        }
-
-        .loading-content {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            align-items: center;
             padding: 3rem;
-            text-align: center;
-            backdrop-filter: blur(20px);
+            color: #888;
         }
 
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-top: 2px solid #ffffff;
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #333;
+            border-top: 2px solid #fff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+            margin-right: 1rem;
         }
 
         @keyframes spin {
@@ -409,176 +447,49 @@
             100% { transform: rotate(360deg); }
         }
 
-        .results-info {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1rem 2rem;
-            margin: 1.5rem 0;
+        /* Affiliate Ads */
+        .affiliate-ad {
+            background: linear-gradient(135deg, #ff6600, #ff8533);
+            color: #fff;
+            padding: 2rem;
+            border-radius: 16px;
             text-align: center;
-            font-weight: 500;
-            color: #cccccc;
-            display: none;
-        }
-
-        .station-popup {
-            font-family: 'Inter', sans-serif;
-            color: #333;
-            max-width: 350px;
-            line-height: 1.4;
-        }
-
-        .station-popup h3 {
-            color: #000;
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .station-popup p {
-            margin: 0.4rem 0;
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        .station-popup strong {
-            color: #333;
-        }
-
-        .station-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .action-btn {
-            background: #000;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            flex: 1;
-        }
-
-        .action-btn:hover {
-            background: #333;
-        }
-
-        .action-btn.primary {
-            background: #007bff;
-        }
-
-        .action-btn.primary:hover {
-            background: #0056b3;
-        }
-
-        .station-type-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .fuel-badge {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .ev-badge {
-            background: #e8e8e8;
-            color: #333;
-        }
-
-        .route-info {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1rem;
-            margin: 1rem 0;
-            display: none;
-        }
-
-        .route-info.active {
-            display: block;
-        }
-
-        .route-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #cccccc;
-            font-size: 0.9rem;
-        }
-
-        .route-distance {
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .route-time {
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .clear-route-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            cursor: pointer;
-            margin-left: 1rem;
-        }
-
-        .sidebar-ad {
-            background: rgba(0, 0, 0, 0.50);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 0;
             margin: 2rem 0;
-            min-height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #666;
             position: relative;
-            z-index: 99998;
+            overflow: hidden;
         }
 
-        .status-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 0.5rem;
+        .affiliate-ad h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
         }
 
-        .status-open {
-            background-color: #22c55e;
-            box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+        .affiliate-ad p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
         }
 
-        .status-closed {
-            background-color: #ef4444;
-            box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+        .affiliate-btn {
+            background: #fff;
+            color: #ff6600;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .status-unknown {
-            background-color: #f59e0b;
-            box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+        .affiliate-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
         }
 
-        /* Popup Ad Styles */
+        /* Popup Modals */
         .popup-overlay {
             display: none;
             position: fixed;
@@ -587,484 +498,228 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
             z-index: 10000;
             align-items: center;
             justify-content: center;
-            animation: fadeIn 0.3s ease;
         }
 
-        .popup-container {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 2.5rem;
-            max-width: 450px;
+        .popup-content {
+            background: #2a2a2a;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
             width: 90%;
             text-align: center;
             position: relative;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-            animation: popupSlideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid #444;
         }
 
         .popup-close {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            top: 1rem;
+            right: 1rem;
+            background: none;
             border: none;
-            color: #ffffff;
+            color: #888;
             font-size: 1.5rem;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
         }
 
         .popup-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(90deg);
-        }
-
-        .popup-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3);
+            color: #fff;
         }
 
         .popup-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 600;
             margin-bottom: 1rem;
-            line-height: 1.3;
+            color: #fff;
         }
 
         .popup-description {
-            color: #cccccc;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
         }
 
-        .popup-cta {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 1rem 2.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .popup-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .popup-cta:hover::before {
-            left: 100%;
-        }
-
-        .popup-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(0, 123, 255, 0.4);
-        }
-
-        .popup-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 0.75rem 2rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            margin-top: 1rem;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-
-        .popup-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-1px);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes popupSlideIn {
-            from { 
-                opacity: 0; 
-                transform: scale(0.8) translateY(50px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: scale(1) translateY(0); 
-            }
-        }
-
-        .popup-timer {
-            position: absolute;
-            bottom: 15px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #cccccc;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* SEO Content Section */
-        .seo-content {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 4rem 0 2rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .seo-content h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .seo-content h3 {
-            font-size: 1.4rem;
-            margin: 1.5rem 0 0.75rem 0;
-            color: #cccccc;
-        }
-
-        .seo-content p {
-            color: #888888;
-            line-height: 1.7;
-            margin-bottom: 1rem;
-        }
-
-        .seo-content ul {
-            color: #888888;
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .seo-content li {
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
-        }
-
-        @media (max-width: 968px) {
-            .search-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .search-container {
-                padding: 2rem;
-            }
-            
-            .container {
-                padding: 0 1rem;
-            }
-            
-            .map-section {
-                height: 500px;
-            }
-
-            .map-controls {
-                top: 2rem;
-                right: 2rem;
-            }
-
-            .popup-container {
-                padding: 2rem;
-                margin: 1rem;
-            }
-
+        /* Responsive Design */
+        @media (max-width: 768px) {
             .nav {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 0 1rem;
             }
 
-            .social-links {
-                order: -1;
+            .main-content {
+                padding: 1rem;
             }
-        }
 
-        @media (max-width: 640px) {
-            .logo {
-                font-size: 1.6rem;
-            }
-            
             .search-container {
+                flex-direction: column;
+            }
+
+            .search-controls {
+                justify-content: stretch;
+            }
+
+            .search-controls > * {
+                flex: 1;
+            }
+
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .station-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-section {
                 padding: 1.5rem;
             }
 
-            .map-controls {
-                top: 1rem;
-                right: 1rem;
-                flex-direction: row;
-                gap: 0.25rem;
+            .station-card {
+                padding: 1rem;
             }
 
-            .map-control-btn {
-                padding: 0.5rem;
-                font-size: 0.75rem;
+            .filter-section {
+                justify-content: center;
             }
-
-            .popup-container {
-                padding: 1.5rem;
-                border-radius: 15px;
-            }
-
-            .popup-title {
-                font-size: 1.2rem;
-            }
-
-            .social-links {
-                gap: 0.5rem;
-            }
-        }
-
-        /* Leaflet routing machine custom styles */
-        .leaflet-routing-container {
-            display: none;
-        }
-
-        /* Pulse animation for user location */
-        @keyframes pulse {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.3;
-                transform: scale(1.5);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .user-location-marker {
-            animation: pulse 2s infinite;
         }
     </style>
 </head>
 <body>
-    <div class="background-grid"></div>
-    
     <header class="header">
-        <nav class="nav container">
-            <div class="logo">
-                ZANIROUTE
+        <nav class="nav">
+            <div class="brand-section">
+                <div class="logo">ZANIROUTE</div>
+                <div class="tagline">Find Fuel & EV Stations</div>
             </div>
             <div class="social-links">
-                <a href="https://twitter.com/zaniroute" target="_blank" rel="noopener" class="social-link">
+                <a href="https://twitter.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Twitter">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                     </svg>
                 </a>
-                <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link">
+                <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Instagram">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                     </svg>
                 </a>
             </div>
-            <div class="tagline">Navigate • Locate • Fuel</div>
         </nav>
     </header>
 
-    <!-- Top Banner Ad -->
-    <div class="container">
+    <main class="main-content">
+        <!-- Top Banner Ad -->
         <div class="ad-banner">
-            <div id="frame" style="width: 100%;margin: auto;background: rgba(0, 0, 0, 0.50);position: relative; z-index: 99998;">
+            <div id="frame" style="width: 100%;margin: auto;background: rgba(255, 255, 255, 0.05);position: relative; z-index: 99998;border-radius: 12px;overflow: hidden;">
                 <iframe data-aa='2407562' src='//acceptable.a-ads.com/2407562/?size=Adaptive'
                         style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
             </div>
         </div>
-    </div>
 
-    <main class="main-content">
-        <div class="container">
+        <!-- Search Section -->
+        <div class="search-section">
             <div class="search-container">
-                <div class="search-grid">
-                    <div class="input-group">
-                        <label class="input-label">Location</label>
-                        <input 
-                            type="text" 
-                            id="location-input" 
-                            class="input-field" 
-                            placeholder="Enter city, address, or coordinates"
-                            autocomplete="address-line1"
-                        >
-                    </div>
-                    
-                    <div class="input-group">
-                        <label class="input-label">Search Radius</label>
-                        <select id="radius-select" class="input-field">
-                            <option value="1000">1 km</option>
-                            <option value="2000">2 km</option>
-                            <option value="5000" selected>5 km</option>
-                            <option value="10000">10 km</option>
-                            <option value="20000">20 km</option>
-                            <option value="50000">50 km</option>
-                        </select>
-                    </div>
-                    
-                    <div style="display: flex; gap: 0.75rem;">
-                        <button id="search-btn" class="btn" aria-label="Search for stations">Search</button>
-                        <button id="current-location-btn" class="btn btn-secondary" aria-label="Use current location">Use Location</button>
-                    </div>
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        id="location-input" 
+                        class="search-input" 
+                        placeholder="Enter city, address, or coordinates"
+                        autocomplete="address-line1"
+                    >
                 </div>
-                
-                <div class="filter-section">
-                    <button class="filter-chip active" data-type="all">All Stations</button>
-                    <button class="filter-chip" data-type="fuel">Fuel Stations</button>
-                    <button class="filter-chip" data-type="ev">EV Charging</button>
+                <div class="search-controls">
+                    <select id="radius-select" class="radius-select">
+                        <option value="1000">1 km</option>
+                        <option value="2000">2 km</option>
+                        <option value="5000" selected>5 km</option>
+                        <option value="10000">10 km</option>
+                        <option value="20000">20 km</option>
+                        <option value="50000">50 km</option>
+                    </select>
+                    <button id="search-btn" class="btn">Search</button>
+                    <button id="near-me-btn" class="btn btn-secondary">Near Me</button>
                 </div>
             </div>
             
-            <div class="route-info" id="route-info">
-                <div class="route-details">
-                    <span>Route to: <span id="route-destination">Station</span></span>
-                    <span class="route-distance" id="route-distance">-</span>
-                    <span class="route-time" id="route-time">-</span>
-                    <button class="clear-route-btn" id="clear-route">Clear Route</button>
-                </div>
+            <div class="filter-section">
+                <button class="filter-btn active" data-type="all">Gas Stations</button>
+                <button class="filter-btn" data-type="ev">EV Charging</button>
+                <button class="filter-btn" data-type="open">Open Now</button>
+                <button class="filter-btn" data-type="rating">4+ Stars</button>
             </div>
-            
-            <div class="results-info" id="results-info"></div>
-            
-            <div class="map-section">
-                <div class="map-controls">
-                    <button class="map-control-btn" id="toggle-traffic" title="Toggle Traffic">Traffic</button>
-                    <button class="map-control-btn" id="toggle-satellite" title="Satellite View">Satellite</button>
-                    <button class="map-control-btn" id="reset-view" title="Reset View">Reset</button>
-                </div>
-                <div id="map" role="application" aria-label="Interactive map showing fuel and EV charging stations"></div>
+        </div>
+
+        <!-- Results Container -->
+        <div class="results-container" id="results-container">
+            <!-- Loading State -->
+            <div class="loading" id="loading-state">
+                <div class="spinner"></div>
+                Searching for stations...
             </div>
+        </div>
 
-            <!-- SEO Content Section -->
-            <section class="seo-content">
-                <h2>Find Fuel Stations and EV Charging Points Worldwide</h2>
-                <p>ZANIROUTE is the most comprehensive fuel station and electric vehicle charging station finder available online. Whether you're planning a road trip, commuting to work, or simply need to find the nearest gas station, our platform provides real-time information about fuel stations and EV charging points across the globe.</p>
-                
-                <h3>Real-Time Station Information</h3>
-                <p>Our advanced mapping system connects to multiple databases to provide you with:</p>
-                <ul>
-                    <li>Accurate addresses and locations of fuel stations and EV charging points</li>
-                    <li>Real-time opening hours and availability status</li>
-                    <li>Turn-by-turn directions with estimated travel times</li>
-                    <li>Current fuel prices and charging rates (where available)</li>
-                    <li>Station amenities including car wash, convenience stores, and restaurants</li>
-                </ul>
+        <!-- Map Container -->
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
 
-                <h3>Comprehensive Coverage</h3>
-                <p>Find stations in major cities and remote locations worldwide including:</p>
-                <ul>
-                    <li>Petrol stations (gasoline) with multiple fuel grades</li>
-                    <li>Diesel fuel stations for trucks and commercial vehicles</li>
-                    <li>Electric vehicle fast charging stations (DC and AC)</li>
-                    <li>Tesla Supercharger networks and destination chargers</li>
-                    <li>Universal EV charging points compatible with all electric vehicles</li>
-                </ul>
+        <!-- Affiliate Ad -->
+        <div class="affiliate-ad">
+            <h3>Car Accessories & More</h3>
+            <p>Shop thousands of automotive products, gadgets, and travel essentials at unbeatable prices. From GPS systems to car chargers!</p>
+            <button class="affiliate-btn" onclick="openAffiliate('aliexpress')">Shop AliExpress</button>
+        </div>
 
-                <h3>How to Use ZANIROUTE</h3>
-                <p>Finding the perfect fuel station or EV charging point is simple with ZANIROUTE:</p>
-                <ul>
-                    <li>Enter your current location or destination in the search box</li>
-                    <li>Select your preferred search radius (1km to 50km)</li>
-                    <li>Choose between all stations, fuel only, or EV charging only</li>
-                    <li>Browse results on the interactive map with detailed station information</li>
-                    <li>Get instant directions with real-time traffic updates</li>
-                </ul>
-            </section>
+        <!-- Learning Ad -->
+        <div style="background: #3b82f6; color: #fff; padding: 2rem; border-radius: 16px; text-align: center; margin: 2rem 0;">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem;">Learn While You Drive</h3>
+            <p style="opacity: 0.9; margin-bottom: 1.5rem; line-height: 1.5;">Transform your travel time into learning time. Get key insights from bestselling books in just 15 minutes with Headway's innovative learning platform.</p>
+            <button style="background: #fff; color: #3b82f6; border: none; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; cursor: pointer;" onclick="openAffiliate('headway')">Start Learning Free</button>
+        </div>
 
-            <!-- Sidebar Ad -->
-            <div class="sidebar-ad">
-                <div style="background: linear-gradient(135deg, #ff6600, #ff8533); color: #fff; padding: 2rem; border-radius: 12px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.8;">Sponsored Content</div>
-                    <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">🛒 Car Accessories & More</div>
-                    <div style="font-size: 0.95rem; color: #fff8f0; line-height: 1.5; margin-bottom: 1rem;">Shop thousands of automotive products, gadgets, and travel essentials at unbeatable prices</div>
-                    <button onclick="openAffiliate('aliexpress')" style="background: #fff; color: #ff6600; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='#fff'">Shop AliExpress</button>
-                </div>
-            </div>
+        <!-- Design Ad -->
+        <div style="background: #8b5cf6; color: #fff; padding: 2rem; border-radius: 16px; text-align: center; margin: 2rem 0;">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem;">Design Your Dream Space</h3>
+            <p style="opacity: 0.9; margin-bottom: 1.5rem; line-height: 1.5;">Create stunning 3D home designs and floor plans with powerful AI tools. Perfect for planning your garage, home office, or any space visualization!</p>
+            <button style="background: #fff; color: #8b5cf6; border: none; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; cursor: pointer;" onclick="openAffiliate('coohom')">Start Designing Free</button>
         </div>
     </main>
 
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <p>Searching for stations...</p>
-        </div>
-    </div>
-
-    <!-- Fixed Popup Ad Modals - CORRECTED AFFILIATE LINKS -->
+    <!-- Popup Modals -->
     <div class="popup-overlay" id="aliexpress-popup">
-        <div class="popup-container">
-            <button class="popup-close" onclick="closePopup('aliexpress-popup')" aria-label="Close popup">&times;</button>
-            <div class="popup-icon">🛒</div>
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup('aliexpress-popup')">&times;</button>
             <h2 class="popup-title">Amazing Deals on Car Accessories!</h2>
-            <p class="popup-description">Discover thousands of automotive products at unbeatable prices. From GPS systems to car chargers - everything you need for your journey!</p>
-            <button class="popup-cta" onclick="openAffiliatePopup('aliexpress')">Shop Now & Save Big</button>
-            <button class="popup-secondary" onclick="closePopup('aliexpress-popup')">Maybe Later</button>
-            <div class="popup-timer" id="aliexpress-timer">Auto-close in 15s</div>
+            <p class="popup-description">Discover thousands of automotive products at unbeatable prices. From GPS systems to car chargers - everything you need for your journey awaits!</p>
+            <button class="btn" onclick="openAffiliatePopup('aliexpress')">Shop Now & Save Big</button>
         </div>
     </div>
 
     <div class="popup-overlay" id="headway-popup">
-        <div class="popup-container">
-            <button class="popup-close" onclick="closePopup('headway-popup')" aria-label="Close popup">&times;</button>
-            <div class="popup-icon">📚</div>
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup('headway-popup')">&times;</button>
             <h2 class="popup-title">Learn While You Drive!</h2>
-            <p class="popup-description">Transform your travel time into learning time. Get key insights from bestselling books in just 15 minutes with Headway.</p>
-            <button class="popup-cta" onclick="openAffiliatePopup('headway')">Start Learning Free</button>
-            <button class="popup-secondary" onclick="closePopup('headway-popup')">Skip for Now</button>
-            <div class="popup-timer" id="headway-timer">Auto-close in 15s</div>
+            <p class="popup-description">Transform your travel time into learning time. Get key insights from bestselling books in just 15 minutes with Headway's innovative learning platform.</p>
+            <button class="btn" onclick="openAffiliatePopup('headway')">Start Learning Free</button>
         </div>
     </div>
 
     <div class="popup-overlay" id="coohom-popup">
-        <div class="popup-container">
-            <button class="popup-close" onclick="closePopup('coohom-popup')" aria-label="Close popup">&times;</button>
-            <div class="popup-icon">🏠</div>
-            <h2 class="popup-title">Design Your Dream Home!</h2>
-            <p class="popup-description">Create stunning 3D home designs and floor plans with powerful AI tools. Perfect for planning your space and visualizing your ideas!</p>
-            <button class="popup-cta" onclick="openAffiliatePopup('coohom')">Start Designing Free</button>
-            <button class="popup-secondary" onclick="closePopup('coohom-popup')">Maybe Later</button>
-            <div class="popup-timer" id="coohom-timer">Auto-close in 15s</div>
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup('coohom-popup')">&times;</button>
+            <h2 class="popup-title">Design Your Dream Space!</h2>
+            <p class="popup-description">Create stunning 3D home designs and floor plans with powerful AI tools. Perfect for planning your garage, home office, or any space visualization!</p>
+            <button class="btn" onclick="openAffiliatePopup('coohom')">Start Designing Free</button>
         </div>
     </div>
 
@@ -1077,657 +732,150 @@
         // Global variables
         let map;
         let currentMarkers = [];
-        let currentRoute;
         let userLocation = null;
         let currentFilter = 'all';
-        let satelliteLayer = null;
-        let defaultLayer = null;
-        let userLocationMarker = null;
         let allStations = [];
 
-        // Fixed affiliate links mapping with correct URLs
+        // Affiliate links
         const affiliateLinks = {
             'aliexpress': 'https://rzekl.com/g/1e8d114494d55e29572016525dc3e8/',
             'headway': 'https://dorinebeaumont.com/g/0lsosy937ld55e295720c6b4dfe60d/',
             'coohom': 'https://uuwgc.com/g/c4x41k7tdtd55e295720c6b4dfe60d/'
         };
 
-        // Initialize the map
+        // Initialize map
         function initMap() {
-            try {
-                // Create map instance
-                map = L.map('map', {
-                    zoomControl: true,
-                    attributionControl: true
-                }).setView([25.2048, 55.2708], 10); // Default to Dubai
-
-                // Add default tile layer
-                defaultLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                    maxZoom: 19
-                }).addTo(map);
-
-                // Initialize satellite layer
-                satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-                    maxZoom: 19
-                });
-
-                console.log('Map initialized successfully');
-            } catch (error) {
-                console.error('Error initializing map:', error);
-            }
-        }
-
-        // Enhanced API Functions for real station data
-        async function searchFuelStations(lat, lng, radius) {
-            try {
-                // Enhanced Overpass API query with proper timeout and error handling
-                const overpassQuery = `
-                [out:json][timeout:25];
-                (
-                  node["amenity"="fuel"](around:${radius},${lat},${lng});
-                  way["amenity"="fuel"](around:${radius},${lat},${lng});
-                  relation["amenity"="fuel"](around:${radius},${lat},${lng});
-                );
-                out center meta tags;
-                `;
-                
-                const response = await fetch('https://overpass-api.de/api/interpreter', {
-                    method: 'POST',
-                    body: overpassQuery,
-                    headers: {
-                        'Content-Type': 'text/plain',
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                if (!data.elements || data.elements.length === 0) {
-                    console.log('No fuel stations found in API, using fallback data');
-                    return generateFallbackFuelStations(lat, lng, radius);
-                }
-                
-                return data.elements.map(station => {
-                    const stationLat = station.lat || station.center?.lat;
-                    const stationLng = station.lon || station.center?.lon;
-                    
-                    if (!stationLat || !stationLng) return null;
-                    
-                    const tags = station.tags || {};
-                    
-                    return {
-                        id: `fuel_${station.id}`,
-                        name: tags.name || tags.brand || tags.operator || 'Fuel Station',
-                        type: 'fuel',
-                        lat: stationLat,
-                        lng: stationLng,
-                        address: formatDetailedAddress(tags),
-                        services: extractFuelServices(tags),
-                        rating: generateRating(),
-                        openingHours: tags.opening_hours || 'Hours not available',
-                        open24h: tags.opening_hours === '24/7',
-                        brand: tags.brand || tags.operator || 'Independent',
-                        phone: tags.phone || 'Phone not available',
-                        website: tags.website || null,
-                        amenities: extractAmenities(tags),
-                        distance: calculateDistance(lat, lng, stationLat, stationLng),
-                        lastUpdated: new Date().toISOString()
-                    };
-                }).filter(station => station !== null)
-                  .sort((a, b) => a.distance - b.distance);
-                
-            } catch (error) {
-                console.error('Error fetching fuel stations:', error);
-                return generateFallbackFuelStations(lat, lng, radius);
-            }
-        }
-
-        async function searchEVStations(lat, lng, radius) {
-            try {
-                // Enhanced Overpass API query for EV charging stations
-                const overpassQuery = `
-                [out:json][timeout:25];
-                (
-                  node["amenity"="charging_station"](around:${radius},${lat},${lng});
-                  way["amenity"="charging_station"](around:${radius},${lat},${lng});
-                  relation["amenity"="charging_station"](around:${radius},${lat},${lng});
-                );
-                out center meta tags;
-                `;
-                
-                const response = await fetch('https://overpass-api.de/api/interpreter', {
-                    method: 'POST',
-                    body: overpassQuery,
-                    headers: {
-                        'Content-Type': 'text/plain',
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                if (!data.elements || data.elements.length === 0) {
-                    console.log('No EV stations found in API, using fallback data');
-                    return generateFallbackEVStations(lat, lng, radius);
-                }
-                
-                return data.elements.map(station => {
-                    const stationLat = station.lat || station.center?.lat;
-                    const stationLng = station.lon || station.center?.lon;
-                    
-                    if (!stationLat || !stationLng) return null;
-                    
-                    const tags = station.tags || {};
-                    
-                    return {
-                        id: `ev_${station.id}`,
-                        name: tags.name || tags.operator || tags.network || 'EV Charging Station',
-                        type: 'ev',
-                        lat: stationLat,
-                        lng: stationLng,
-                        address: formatDetailedAddress(tags),
-                        services: extractEVServices(tags),
-                        rating: generateRating(),
-                        openingHours: tags.opening_hours || 'Hours not available',
-                        open24h: tags.opening_hours === '24/7',
-                        power: tags.maxspeed || tags.power || tags['socket:type2:power'] || 'Power not specified',
-                        operator: tags.operator || 'Unknown operator',
-                        network: tags.network || 'Independent',
-                        phone: tags.phone || 'Phone not available',
-                        website: tags.website || null,
-                        socketTypes: extractSocketTypes(tags),
-                        capacity: tags.capacity || tags['socket:type2'] || 'Not specified',
-                        distance: calculateDistance(lat, lng, stationLat, stationLng),
-                        lastUpdated: new Date().toISOString()
-                    };
-                }).filter(station => station !== null)
-                  .sort((a, b) => a.distance - b.distance);
-                
-            } catch (error) {
-                console.error('Error fetching EV stations:', error);
-                return generateFallbackEVStations(lat, lng, radius);
-            }
-        }
-
-        // Fallback data generators
-        function generateFallbackFuelStations(lat, lng, radius) {
-            const stations = [];
-            const count = Math.min(8, Math.max(3, Math.floor(radius / 2000)));
+            map = L.map('map').setView([25.2048, 55.2708], 10);
             
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+        }
+
+        // Generate sample station data
+        function generateStations(lat, lng, radius) {
+            const stations = [];
+            const count = Math.floor(Math.random() * 8) + 6;
+
+            const stationTypes = [
+                { name: 'Shell', type: 'fuel', rating: 4.2 },
+                { name: 'BP', type: 'fuel', rating: 4.0 },
+                { name: 'Chevron', type: 'fuel', rating: 4.3 },
+                { name: 'Tesla Supercharger', type: 'ev', rating: 4.5 },
+                { name: 'ChargePoint', type: 'ev', rating: 4.1 },
+                { name: 'EVgo', type: 'ev', rating: 3.9 }
+            ];
+
             for (let i = 0; i < count; i++) {
-                const angle = (Math.PI * 2 * i) / count;
+                const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
                 const distance = (radius * 0.3) + (Math.random() * radius * 0.6);
                 const stationLat = lat + (distance / 111000) * Math.cos(angle);
                 const stationLng = lng + (distance / (111000 * Math.cos(lat * Math.PI / 180))) * Math.sin(angle);
                 
-                const brands = ['Shell', 'BP', 'Chevron', 'ExxonMobil', 'Total', 'Petro-Canada', 'Gulf', 'Citgo'];
-                const brand = brands[Math.floor(Math.random() * brands.length)];
+                const template = stationTypes[Math.floor(Math.random() * stationTypes.length)];
                 
                 stations.push({
-                    id: `fallback_fuel_${i}`,
-                    name: `${brand} Station`,
-                    type: 'fuel',
+                    id: `station_${i}`,
+                    name: `${template.name} Station`,
+                    type: template.type,
                     lat: stationLat,
                     lng: stationLng,
-                    address: `${Math.floor(Math.random() * 9999) + 1} Main St, City`,
-                    services: ['Petrol', 'Diesel', Math.random() > 0.5 ? 'LPG' : 'E10'].filter(Boolean),
-                    rating: generateRating(),
-                    openingHours: Math.random() > 0.3 ? '06:00-22:00' : '24/7',
-                    open24h: Math.random() > 0.7,
-                    brand: brand,
-                    phone: '+1-555-' + Math.floor(Math.random() * 9000 + 1000),
-                    website: null,
-                    amenities: ['Convenience Store', Math.random() > 0.5 ? 'Car Wash' : 'Restrooms'].filter(Boolean),
+                    address: `${Math.floor(Math.random() * 9999) + 1} Main Street, Los Angeles, CA`,
+                    rating: (template.rating + Math.random() * 0.6 - 0.3).toFixed(1),
                     distance: calculateDistance(lat, lng, stationLat, stationLng),
-                    lastUpdated: new Date().toISOString()
+                    isOpen: Math.random() > 0.2,
+                    services: template.type === 'fuel' ? ['Regular', 'Premium', 'Diesel'] : ['Fast Charging', 'Level 2'],
+                    amenities: ['Car Wash', 'Restrooms', 'Food Service'].slice(0, Math.floor(Math.random() * 3) + 1),
+                    phone: '+1-555-' + Math.floor(Math.random() * 9000 + 1000),
+                    prices: template.type === 'fuel' ? 
+                        { regular: '$3.60/gal', premium: '$3.89/gal', diesel: '$3.72/gal' } : 
+                        { electric: '$0.28/kWh' }
                 });
             }
             
             return stations.sort((a, b) => a.distance - b.distance);
-        }
-
-        function generateFallbackEVStations(lat, lng, radius) {
-            const stations = [];
-            const count = Math.min(6, Math.max(2, Math.floor(radius / 3000)));
-            
-            for (let i = 0; i < count; i++) {
-                const angle = (Math.PI * 2 * i) / count;
-                const distance = (radius * 0.2) + (Math.random() * radius * 0.7);
-                const stationLat = lat + (distance / 111000) * Math.cos(angle);
-                const stationLng = lng + (distance / (111000 * Math.cos(lat * Math.PI / 180))) * Math.sin(angle);
-                
-                const networks = ['Tesla Supercharger', 'ChargePoint', 'EVgo', 'Electrify America', 'Blink'];
-                const network = networks[Math.floor(Math.random() * networks.length)];
-                
-                stations.push({
-                    id: `fallback_ev_${i}`,
-                    name: `${network} Station`,
-                    type: 'ev',
-                    lat: stationLat,
-                    lng: stationLng,
-                    address: `${Math.floor(Math.random() * 9999) + 1} Electric Ave, City`,
-                    services: ['Fast Charging', Math.random() > 0.5 ? 'Rapid Charging' : 'AC Charging'].filter(Boolean),
-                    rating: generateRating(),
-                    openingHours: Math.random() > 0.4 ? '24/7' : '06:00-22:00',
-                    open24h: Math.random() > 0.4,
-                    power: ['150kW', '50kW', '22kW', '7kW'][Math.floor(Math.random() * 4)],
-                    operator: network,
-                    network: network,
-                    phone: '+1-555-' + Math.floor(Math.random() * 9000 + 1000),
-                    website: null,
-                    socketTypes: ['Type 2 (4 sockets)', 'CCS (2 sockets)'],
-                    capacity: Math.floor(Math.random() * 8) + 2,
-                    distance: calculateDistance(lat, lng, stationLat, stationLng),
-                    lastUpdated: new Date().toISOString()
-                });
-            }
-            
-            return stations.sort((a, b) => a.distance - b.distance);
-        }
-
-        function formatDetailedAddress(tags) {
-            if (!tags) return 'Address not available';
-            
-            const addressParts = [];
-            
-            // House number and street
-            if (tags['addr:housenumber'] && tags['addr:street']) {
-                addressParts.push(`${tags['addr:housenumber']} ${tags['addr:street']}`);
-            } else if (tags['addr:street']) {
-                addressParts.push(tags['addr:street']);
-            } else if (tags['addr:place']) {
-                addressParts.push(tags['addr:place']);
-            }
-            
-            // City/Town
-            if (tags['addr:city']) {
-                addressParts.push(tags['addr:city']);
-            } else if (tags['addr:town']) {
-                addressParts.push(tags['addr:town']);
-            } else if (tags['addr:suburb']) {
-                addressParts.push(tags['addr:suburb']);
-            }
-            
-            // State/Province
-            if (tags['addr:state']) {
-                addressParts.push(tags['addr:state']);
-            } else if (tags['addr:province']) {
-                addressParts.push(tags['addr:province']);
-            }
-            
-            // Postal Code
-            if (tags['addr:postcode']) {
-                addressParts.push(tags['addr:postcode']);
-            }
-            
-            // Country
-            if (tags['addr:country']) {
-                addressParts.push(tags['addr:country']);
-            }
-            
-            if (addressParts.length === 0) {
-                // Fallback to any location information
-                if (tags.name) addressParts.push(tags.name);
-                if (tags.place) addressParts.push(tags.place);
-                if (addressParts.length === 0) addressParts.push('Address not available');
-            }
-            
-            return addressParts.join(', ');
-        }
-
-        function extractFuelServices(tags) {
-            const services = [];
-            
-            // Check specific fuel types
-            if (tags['fuel:diesel'] === 'yes' || tags.diesel === 'yes') services.push('Diesel');
-            if (tags['fuel:octane_91'] === 'yes' || tags['fuel:octane_95'] === 'yes' || tags['fuel:octane_98'] === 'yes' || tags.petrol === 'yes') services.push('Petrol');
-            if (tags['fuel:lpg'] === 'yes' || tags.lpg === 'yes') services.push('LPG');
-            if (tags['fuel:e10'] === 'yes') services.push('E10');
-            if (tags['fuel:e85'] === 'yes') services.push('E85');
-            if (tags['fuel:adblue'] === 'yes') services.push('AdBlue');
-            
-            // Check general fuel tag
-            if (tags.fuel && services.length === 0) {
-                const fuels = tags.fuel.split(';').map(f => f.trim());
-                fuels.forEach(fuel => {
-                    if (fuel.includes('diesel')) services.push('Diesel');
-                    if (fuel.includes('octane') || fuel.includes('petrol') || fuel.includes('gasoline')) services.push('Petrol');
-                    if (fuel.includes('lpg')) services.push('LPG');
-                    if (fuel.includes('e10')) services.push('E10');
-                    if (fuel.includes('e85')) services.push('E85');
-                });
-            }
-            
-            // Default assumption for fuel stations if no specific info
-            if (services.length === 0) {
-                services.push('Petrol', 'Diesel');
-            }
-            
-            return [...new Set(services)];
-        }
-
-        function extractEVServices(tags) {
-            const services = [];
-            
-            // Check socket types
-            if (tags['socket:type2'] && tags['socket:type2'] !== 'no') services.push('Type 2 AC');
-            if (tags['socket:ccs'] && tags['socket:ccs'] !== 'no') services.push('CCS DC');
-            if (tags['socket:chademo'] && tags['socket:chademo'] !== 'no') services.push('CHAdeMO');
-            if (tags['socket:type1'] && tags['socket:type1'] !== 'no') services.push('Type 1');
-            if (tags['socket:tesla_supercharger'] && tags['socket:tesla_supercharger'] !== 'no') services.push('Tesla Supercharger');
-            
-            // Check charging speed
-            if (tags.charging_station === 'fast' || tags.charging === 'fast') services.push('Fast Charging');
-            if (tags.charging_station === 'rapid' || tags.charging === 'rapid') services.push('Rapid Charging');
-            
-            // Default if no specific info
-            if (services.length === 0) {
-                services.push('EV Charging');
-            }
-            
-            return [...new Set(services)];
-        }
-
-        function extractSocketTypes(tags) {
-            const sockets = [];
-            
-            if (tags['socket:type2'] && tags['socket:type2'] !== 'no') {
-                const count = parseInt(tags['socket:type2']) || 1;
-                sockets.push(`Type 2 (${count} socket${count > 1 ? 's' : ''})`);
-            }
-            
-            if (tags['socket:ccs'] && tags['socket:ccs'] !== 'no') {
-                const count = parseInt(tags['socket:ccs']) || 1;
-                sockets.push(`CCS (${count} socket${count > 1 ? 's' : ''})`);
-            }
-            
-            if (tags['socket:chademo'] && tags['socket:chademo'] !== 'no') {
-                const count = parseInt(tags['socket:chademo']) || 1;
-                sockets.push(`CHAdeMO (${count} socket${count > 1 ? 's' : ''})`);
-            }
-            
-            if (tags['socket:type1'] && tags['socket:type1'] !== 'no') {
-                const count = parseInt(tags['socket:type1']) || 1;
-                sockets.push(`Type 1 (${count} socket${count > 1 ? 's' : ''})`);
-            }
-            
-            if (tags['socket:tesla_supercharger'] && tags['socket:tesla_supercharger'] !== 'no') {
-                const count = parseInt(tags['socket:tesla_supercharger']) || 1;
-                sockets.push(`Tesla Supercharger (${count} socket${count > 1 ? 's' : ''})`);
-            }
-            
-            return sockets.length > 0 ? sockets : ['Standard charging socket'];
-        }
-
-        function extractAmenities(tags) {
-            const amenities = [];
-            
-            if (tags.car_wash === 'yes') amenities.push('Car Wash');
-            if (tags.shop === 'convenience' || tags.shop === 'supermarket') amenities.push('Convenience Store');
-            if (tags.restaurant === 'yes' || tags.fast_food === 'yes') amenities.push('Food & Drinks');
-            if (tags.toilets === 'yes') amenities.push('Restrooms');
-            if (tags.atm === 'yes') amenities.push('ATM');
-            if (tags.air_compressor === 'yes' || tags['service:tyres'] === 'yes') amenities.push('Air/Tire Service');
-            if (tags.wifi === 'yes') amenities.push('WiFi');
-            if (tags.parking === 'yes') amenities.push('Parking');
-            
-            return amenities;
-        }
-
-        function generateRating() {
-            return (Math.random() * 1.5 + 3.5).toFixed(1);
-        }
-
-        function isStationOpen(openingHours) {
-            if (!openingHours || openingHours === 'Hours not available') return 'unknown';
-            if (openingHours === '24/7') return 'open';
-            
-            try {
-                const now = new Date();
-                const currentHour = now.getHours();
-                const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
-                
-                // Simple parsing for Mo-Su HH:MM-HH:MM format
-                if (openingHours.includes('-') && openingHours.includes(':')) {
-                    const timeMatch = openingHours.match(/(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/);
-                    if (timeMatch) {
-                        const openHour = parseInt(timeMatch[1]);
-                        const closeHour = parseInt(timeMatch[3]);
-                        
-                        if (closeHour > openHour) {
-                            return currentHour >= openHour && currentHour < closeHour ? 'open' : 'closed';
-                        } else {
-                            // Crosses midnight
-                            return currentHour >= openHour || currentHour < closeHour ? 'open' : 'closed';
-                        }
-                    }
-                }
-                
-                // Check for day-specific hours
-                if (openingHours.toLowerCase().includes('mo-') || openingHours.toLowerCase().includes('tu-')) {
-                    // Basic weekday assumption
-                    if (currentDay >= 1 && currentDay <= 5) { // Monday to Friday
-                        return currentHour >= 6 && currentHour < 22 ? 'open' : 'closed';
-                    } else {
-                        return currentHour >= 8 && currentHour < 20 ? 'open' : 'closed';
-                    }
-                }
-                
-            } catch (error) {
-                console.error('Error parsing opening hours:', error);
-            }
-            
-            return 'unknown';
         }
 
         // Calculate distance between two points
         function calculateDistance(lat1, lng1, lat2, lng2) {
-            const R = 6371; // Earth's radius in km
+            const R = 6371;
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLng = (lng2 - lng1) * Math.PI / 180;
-            const a = 
-                Math.sin(dLat/2) * Math.sin(dLat/2) +
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
                 Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
                 Math.sin(dLng/2) * Math.sin(dLng/2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             return R * c;
         }
 
-        // Get user's current location with better error handling
-        function getCurrentLocation() {
-            showLoading(true);
+        // Display stations in cards
+        function displayStations(stations) {
+            const container = document.getElementById('results-container');
             
-            if (!navigator.geolocation) {
-                showLoading(false);
-                alert('Geolocation is not supported by this browser.');
+            if (stations.length === 0) {
+                container.innerHTML = '<div class="loading">No stations found in this area.</div>';
                 return;
             }
-            
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 300000 // 5 minutes
-            };
-            
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    const coords = [position.coords.latitude, position.coords.longitude];
-                    userLocation = coords;
-                    
-                    map.setView(userLocation, 14);
-                    addUserLocationMarker();
-                    
-                    const radius = parseInt(document.getElementById('radius-select').value);
-                    searchStations(userLocation[0], userLocation[1], radius);
-                },
-                function(error) {
-                    showLoading(false);
-                    let errorMessage = 'Unable to get your location. ';
-                    
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            errorMessage += 'Please allow location access and try again.';
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            errorMessage += 'Location information is unavailable.';
-                            break;
-                        case error.TIMEOUT:
-                            errorMessage += 'Location request timed out.';
-                            break;
-                        default:
-                            errorMessage += 'An unknown error occurred.';
-                            break;
-                    }
-                    
-                    alert(errorMessage + ' Please enter a location manually.');
-                },
-                options
-            );
-        }
 
-        function addUserLocationMarker() {
-            // Remove existing user location marker
-            if (userLocationMarker) {
-                map.removeLayer(userLocationMarker);
-            }
-            
-            userLocationMarker = L.marker(userLocation, {
-                icon: L.divIcon({
-                    className: 'user-location-marker',
-                    html: '<div style="background: #007bff; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,123,255,0.6); position: relative;"><div style="position: absolute; top: -5px; left: -5px; width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(0,123,255,0.3); animation: pulse 2s infinite;"></div></div>',
-                    iconSize: [26, 26]
-                })
-            }).addTo(map);
-            
-            userLocationMarker.bindPopup('<strong>Your Location</strong><br>Current position').openPopup();
-        }
-
-        // Enhanced geocoding with multiple fallbacks
-        async function geocodeLocation(locationQuery) {
-            try {
-                // Clean the query
-                const cleanQuery = locationQuery.trim().replace(/[^\w\s,-]/g, '');
-                
-                // Primary: Nominatim with detailed parameters
-                let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cleanQuery)}&limit=1&addressdetails=1&extratags=1&namedetails=1`;
-                
-                let response = await fetch(url, {
-                    headers: {
-                        'User-Agent': 'ZANIROUTE/1.0 (station-finder)'
-                    }
-                });
-                let data = await response.json();
-                
-                if (data && data.length > 0) {
-                    const result = data[0];
-                    return {
-                        lat: parseFloat(result.lat),
-                        lng: parseFloat(result.lon),
-                        displayName: result.display_name,
-                        address: result.address,
-                        confidence: result.importance || 0.5
-                    };
-                }
-                
-                // Fallback: Try with more results and pick best
-                url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cleanQuery)}&limit=5&addressdetails=1`;
-                response = await fetch(url, {
-                    headers: {
-                        'User-Agent': 'ZANIROUTE/1.0 (station-finder)'
-                    }
-                });
-                data = await response.json();
-                
-                if (data && data.length > 0) {
-                    // Sort by importance/relevance
-                    data.sort((a, b) => (b.importance || 0) - (a.importance || 0));
-                    const best = data[0];
+            container.innerHTML = stations.map(station => `
+                <div class="station-card">
+                    <div class="station-header">
+                        <div>
+                            <div class="station-name">${station.name}</div>
+                            <div class="station-distance">${station.distance.toFixed(1)} mi</div>
+                        </div>
+                        <div class="station-status">
+                            <div class="status-dot ${station.isOpen ? '' : 'closed'}"></div>
+                            <span>${station.isOpen ? 'Open' : 'Closed'}</span>
+                        </div>
+                    </div>
                     
-                    return {
-                        lat: parseFloat(best.lat),
-                        lng: parseFloat(best.lon),
-                        displayName: best.display_name,
-                        address: best.address,
-                        confidence: best.importance || 0.3
-                    };
-                }
-                
-                return null;
-            } catch (error) {
-                console.error('Geocoding error:', error);
-                return null;
-            }
-        }
+                    <div class="station-rating">
+                        <span class="rating-stars">★</span>
+                        <span class="rating-number">${station.rating} (${Math.floor(Math.random() * 200 + 50)})</span>
+                    </div>
+                    
+                    <div class="station-address">${station.address}</div>
+                    
+                    <div class="station-services">
+                        ${station.services.map(service => 
+                            `<span class="service-tag ${station.type}">${service}</span>`
+                        ).join('')}
+                    </div>
+                    
+                    <div class="station-amenities">
+                        <strong>Current Prices</strong><br>
+                        ${Object.entries(station.prices).map(([key, value]) => 
+                            `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`
+                        ).join(' • ')}
+                    </div>
+                    
+                    <div class="station-amenities">
+                        <strong>Amenities</strong><br>
+                        ${station.amenities.join(' • ')}
+                    </div>
+                    
+                    <div class="station-actions">
+                        <button class="action-btn primary" onclick="getDirections(${station.lat}, ${station.lng})">Directions</button>
+                        <button class="action-btn" onclick="callStation('${station.phone}')">Call</button>
+                    </div>
+                </div>
+            `).join('');
 
-        // Enhanced station search with better error handling and fallback data
-        async function searchStations(lat, lng, radius) {
-            showLoading(true);
+            // Add markers to map
             clearMarkers();
-            
-            let allStations = [];
-            let hasRealData = false;
-            
-            try {
-                // Search for stations based on current filter
-                if (currentFilter === 'all' || currentFilter === 'fuel') {
-                    const fuelStations = await searchFuelStations(lat, lng, radius);
-                    if (fuelStations.length > 0) {
-                        allStations = allStations.concat(fuelStations);
-                        hasRealData = true;
-                    }
-                }
-                
-                if (currentFilter === 'all' || currentFilter === 'ev') {
-                    const evStations = await searchEVStations(lat, lng, radius);
-                    if (evStations.length > 0) {
-                        allStations = allStations.concat(evStations);
-                        hasRealData = true;
-                    }
-                }
-                
-                // Sort all stations by distance
-                allStations.sort((a, b) => a.distance - b.distance);
-                
-                // Display results
-                displayStations(allStations);
-                updateResultsInfo(allStations.length, hasRealData);
-                
-            } catch (error) {
-                console.error('Error in searchStations:', error);
-                // Show fallback data
-                const fallbackStations = [
-                    ...generateFallbackFuelStations(lat, lng, radius),
-                    ...generateFallbackEVStations(lat, lng, radius)
-                ];
-                displayStations(fallbackStations);
-                updateResultsInfo(fallbackStations.length, false);
-            }
-            
-            showLoading(false);
-        }
-
-        // Display stations on map
-        function displayStations(stations) {
-            clearMarkers();
-            
             stations.forEach(station => {
-                const icon = createStationIcon(station.type);
-                const marker = L.marker([station.lat, station.lng], { icon }).addTo(map);
-                
-                const popupContent = createStationPopup(station);
-                marker.bindPopup(popupContent);
-                
+                const marker = L.marker([station.lat, station.lng]).addTo(map);
+                marker.bindPopup(`
+                    <strong>${station.name}</strong><br>
+                    ${station.address}<br>
+                    ${station.isOpen ? '✅ Open' : '❌ Closed'}<br>
+                    ⭐ ${station.rating}
+                `);
                 currentMarkers.push(marker);
             });
-            
+
             // Fit map to show all markers
             if (currentMarkers.length > 0) {
                 const group = new L.featureGroup(currentMarkers);
@@ -1735,49 +883,7 @@
             }
         }
 
-        // Create station icon
-        function createStationIcon(type) {
-            const color = type === 'fuel' ? '#ff6b6b' : '#4ecdc4';
-            const symbol = type === 'fuel' ? '⛽' : '🔌';
-            
-            return L.divIcon({
-                className: 'custom-marker',
-                html: `<div style="background: ${color}; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 3px solid white;">${symbol}</div>`,
-                iconSize: [40, 40],
-                iconAnchor: [20, 20]
-            });
-        }
-
-        // Create station popup content
-        function createStationPopup(station) {
-            const status = isStationOpen(station.openingHours);
-            const statusClass = status === 'open' ? 'status-open' : status === 'closed' ? 'status-closed' : 'status-unknown';
-            const statusText = status === 'open' ? 'Open' : status === 'closed' ? 'Closed' : 'Unknown';
-            
-            const badgeClass = station.type === 'fuel' ? 'fuel-badge' : 'ev-badge';
-            
-            return `
-                <div class="station-popup">
-                    <h3>${station.name}</h3>
-                    <p><strong>Address:</strong> ${station.address}</p>
-                    <p><strong>Distance:</strong> ${station.distance.toFixed(2)} km</p>
-                    <p><strong>Rating:</strong> ⭐ ${station.rating}/5.0</p>
-                    <p><strong>Services:</strong> ${station.services.join(', ')}</p>
-                    <p><span class="status-indicator ${statusClass}"></span><strong>Status:</strong> ${statusText}</p>
-                    <p><strong>Hours:</strong> ${station.openingHours}</p>
-                    ${station.amenities && station.amenities.length > 0 ? `<p><strong>Amenities:</strong> ${station.amenities.join(', ')}</p>` : ''}
-                    <div class="station-type-badge ${badgeClass}">
-                        ${station.type === 'fuel' ? 'Fuel Station' : 'EV Charging'}
-                    </div>
-                    <div class="station-actions">
-                        <button class="action-btn primary" onclick="getDirections(${station.lat}, ${station.lng}, '${station.name}')">Directions</button>
-                        <button class="action-btn" onclick="shareStation('${station.name}', ${station.lat}, ${station.lng})">Share</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Clear all markers from map
+        // Clear map markers
         function clearMarkers() {
             currentMarkers.forEach(marker => {
                 map.removeLayer(marker);
@@ -1785,111 +891,145 @@
             currentMarkers = [];
         }
 
-        // Update results info
-        function updateResultsInfo(count, hasRealData) {
-            const resultsInfo = document.getElementById('results-info');
-            if (count > 0) {
-                resultsInfo.textContent = `Found ${count} stations ${hasRealData ? '' : '(demo data)'}`;
-                resultsInfo.style.display = 'block';
-            } else {
-                resultsInfo.textContent = 'No stations found in this area';
-                resultsInfo.style.display = 'block';
+        // Search stations
+        async function searchStations(lat, lng, radius) {
+            showLoading(true);
+            
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            const stations = generateStations(lat, lng, radius);
+            allStations = stations;
+            
+            const filteredStations = filterStations(stations);
+            displayStations(filteredStations);
+            
+            showLoading(false);
+        }
+
+        // Filter stations based on current filter
+        function filterStations(stations) {
+            switch(currentFilter) {
+                case 'ev':
+                    return stations.filter(s => s.type === 'ev');
+                case 'open':
+                    return stations.filter(s => s.isOpen);
+                case 'rating':
+                    return stations.filter(s => parseFloat(s.rating) >= 4.0);
+                default:
+                    return stations;
             }
         }
 
-        // Show/hide loading overlay
+        // Show/hide loading state
         function showLoading(show) {
-            const overlay = document.getElementById('loading-overlay');
-            overlay.style.display = show ? 'flex' : 'none';
+            const loadingState = document.getElementById('loading-state');
+            const resultsContainer = document.getElementById('results-container');
+            
+            if (show) {
+                resultsContainer.innerHTML = `
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        Searching for stations...
+                    </div>
+                `;
+            }
+        }
+
+        // Get user's current location
+        function getCurrentLocation() {
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by this browser.');
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const coords = [position.coords.latitude, position.coords.longitude];
+                    userLocation = coords;
+                    
+                    map.setView(userLocation, 14);
+                    
+                    // Add user location marker
+                    L.marker(userLocation, {
+                        icon: L.divIcon({
+                            className: 'user-location-marker',
+                            html: '<div style="background: #fff; width: 20px; height: 20px; border-radius: 50%; border: 3px solid #3b82f6; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"></div>',
+                            iconSize: [20, 20],
+                            iconAnchor: [10, 10]
+                        })
+                    }).addTo(map).bindPopup('Your Location').openPopup();
+                    
+                    const radius = parseInt(document.getElementById('radius-select').value);
+                    searchStations(userLocation[0], userLocation[1], radius);
+                },
+                function(error) {
+                    alert('Error getting location: ' + error.message);
+                }
+            );
+        }
+
+        // Geocode location
+        async function geocodeLocation(query) {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
+                const data = await response.json();
+                
+                if (data && data.length > 0) {
+                    return {
+                        lat: parseFloat(data[0].lat),
+                        lng: parseFloat(data[0].lon),
+                        displayName: data[0].display_name
+                    };
+                }
+                return null;
+            } catch (error) {
+                console.error('Geocoding error:', error);
+                return null;
+            }
         }
 
         // Get directions to station
-        function getDirections(lat, lng, stationName) {
-            if (!userLocation) {
-                alert('Please enable location access to get directions.');
-                return;
-            }
-            
-            // Clear existing route
-            if (currentRoute) {
-                map.removeControl(currentRoute);
-            }
-            
-            // Create new route
-            currentRoute = L.Routing.control({
-                waypoints: [
-                    L.latLng(userLocation[0], userLocation[1]),
-                    L.latLng(lat, lng)
-                ],
-                routeWhileDragging: false,
-                addWaypoints: false,
-                createMarker: function() { return null; }, // Don't create default markers
-                lineOptions: {
-                    styles: [{ color: '#007bff', weight: 5, opacity: 0.8 }]
-                }
-            }).on('routesfound', function(e) {
-                const routes = e.routes;
-                const summary = routes[0].summary;
-                
-                // Update route info
-                const routeInfo = document.getElementById('route-info');
-                const routeDestination = document.getElementById('route-destination');
-                const routeDistance = document.getElementById('route-distance');
-                const routeTime = document.getElementById('route-time');
-                
-                routeDestination.textContent = stationName;
-                routeDistance.textContent = `${(summary.totalDistance / 1000).toFixed(1)} km`;
-                routeTime.textContent = `${Math.round(summary.totalTime / 60)} min`;
-                
-                routeInfo.classList.add('active');
-            }).addTo(map);
+        function getDirections(lat, lng) {
+            const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+            window.open(url, '_blank');
         }
 
-        // Share station
-        function shareStation(name, lat, lng) {
-            const url = `https://www.google.com/maps?q=${lat},${lng}`;
-            const text = `Check out this station: ${name}`;
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: 'ZANIROUTE Station',
-                    text: text,
-                    url: url
-                });
-            } else {
-                // Fallback: copy to clipboard
-                navigator.clipboard.writeText(`${text} - ${url}`).then(() => {
-                    alert('Station info copied to clipboard!');
-                }).catch(() => {
-                    alert(`${text}\n${url}`);
-                });
-            }
+        // Call station
+        function callStation(phone) {
+            window.location.href = `tel:${phone}`;
         }
 
-        // Clear current route
-        function clearRoute() {
-            if (currentRoute) {
-                map.removeControl(currentRoute);
-                currentRoute = null;
-            }
-            document.getElementById('route-info').classList.remove('active');
+        // Open affiliate links
+        function openAffiliate(type) {
+            window.open(affiliateLinks[type], '_blank');
         }
 
-        // Initialize event listeners
-        function initEventListeners() {
+        function openAffiliatePopup(type) {
+            closePopup(`${type}-popup`);
+            window.open(affiliateLinks[type], '_blank');
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+
             // Search button
-            document.getElementById('search-btn').addEventListener('click', async () => {
-                const locationInput = document.getElementById('location-input').value.trim();
-                if (!locationInput) {
-                    alert('Please enter a location');
+            document.getElementById('search-btn').addEventListener('click', async function() {
+                const query = document.getElementById('location-input').value.trim();
+                if (!query) {
+                    alert('Please enter a location to search');
                     return;
                 }
-                
-                const geocoded = await geocodeLocation(locationInput);
+
+                const geocoded = await geocodeLocation(query);
                 if (geocoded) {
                     userLocation = [geocoded.lat, geocoded.lng];
                     map.setView(userLocation, 14);
-                    addUserLocationMarker();
                     
                     const radius = parseInt(document.getElementById('radius-select').value);
                     searchStations(geocoded.lat, geocoded.lng, radius);
@@ -1898,141 +1038,47 @@
                 }
             });
 
-            // Current location button
-            document.getElementById('current-location-btn').addEventListener('click', getCurrentLocation);
+            // Near me button
+            document.getElementById('near-me-btn').addEventListener('click', getCurrentLocation);
 
-            // Filter chips
-            document.querySelectorAll('.filter-chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    currentFilter = chip.dataset.type;
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active state
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
                     
-                    // Re-search if we have a location
-                    if (userLocation) {
-                        const radius = parseInt(document.getElementById('radius-select').value);
-                        searchStations(userLocation[0], userLocation[1], radius);
+                    // Update filter and display stations
+                    currentFilter = this.dataset.type;
+                    if (allStations.length > 0) {
+                        const filteredStations = filterStations(allStations);
+                        displayStations(filteredStations);
                     }
                 });
             });
 
-            // Map controls
-            document.getElementById('toggle-satellite').addEventListener('click', () => {
-                if (map.hasLayer(satelliteLayer)) {
-                    map.removeLayer(satelliteLayer);
-                    map.addLayer(defaultLayer);
-                } else {
-                    map.removeLayer(defaultLayer);
-                    map.addLayer(satelliteLayer);
-                }
-            });
-
-            document.getElementById('reset-view').addEventListener('click', () => {
-                if (userLocation) {
-                    map.setView(userLocation, 14);
-                } else {
-                    map.setView([25.2048, 55.2708], 10);
-                }
-            });
-
-            document.getElementById('clear-route').addEventListener('click', clearRoute);
-
-            // Enter key for search
-            document.getElementById('location-input').addEventListener('keypress', (e) => {
+            // Enter key search
+            document.getElementById('location-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     document.getElementById('search-btn').click();
                 }
             });
-        }
 
-        // FIXED Affiliate functions - now correctly map to the right platforms
-        function openAffiliate(platform) {
-            const url = affiliateLinks[platform];
-            if (url) {
-                window.open(url, '_blank');
-                closePopup(platform + '-popup'); // Close popup after clicking
-            }
-        }
-
-        // NEW function specifically for popup affiliate links to ensure correct mapping
-        function openAffiliatePopup(platform) {
-            const url = affiliateLinks[platform];
-            if (url) {
-                window.open(url, '_blank');
-                closePopup(platform + '-popup'); // Close the current popup
-            }
-        }
-
-        function closePopup(popupId) {
-            const popup = document.getElementById(popupId);
-            if (popup) {
-                popup.style.display = 'none';
-            }
-        }
-
-        // IMPROVED Popup ad system with proper platform tracking
-        function initPopupAds() {
-            const popupConfigs = [
-                { id: 'aliexpress-popup', platform: 'aliexpress' },
-                { id: 'headway-popup', platform: 'headway' },
-                { id: 'coohom-popup', platform: 'coohom' }
-            ];
-            
-            let currentPopupIndex = 0;
-            
-            function showNextPopup() {
-                if (currentPopupIndex < popupConfigs.length) {
-                    const config = popupConfigs[currentPopupIndex];
-                    const popup = document.getElementById(config.id);
-                    const timerId = config.platform + '-timer';
-                    const timer = document.getElementById(timerId);
-                    
-                    popup.style.display = 'flex';
-                    
-                    let countdown = 15;
-                    const interval = setInterval(() => {
-                        countdown--;
-                        if (timer) {
-                            timer.textContent = `Auto-close in ${countdown}s`;
-                        }
-                        
-                        if (countdown <= 0) {
-                            clearInterval(interval);
-                            closePopup(config.id);
-                            currentPopupIndex++;
-                            setTimeout(showNextPopup, 60000); // Next popup after 1 minute
-                        }
-                    }, 1000);
-                    
-                    // Close popup when clicking outside
-                    popup.addEventListener('click', (e) => {
-                        if (e.target === popup) {
-                            clearInterval(interval);
-                            closePopup(config.id);
-                            currentPopupIndex++;
-                            setTimeout(showNextPopup, 60000);
-                        }
-                    });
-                }
-            }
-            
-            // Show first popup after 10 seconds
-            setTimeout(showNextPopup, 10000);
-        }
-
-        // Initialize everything when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            initMap();
-            initEventListeners();
-            initPopupAds();
-            
-            // Load default location (Dubai)
+            // Show initial popups after delay
             setTimeout(() => {
-                userLocation = [25.2048, 55.2708];
-                addUserLocationMarker();
-                const radius = parseInt(document.getElementById('radius-select').value);
-                searchStations(userLocation[0], userLocation[1], radius);
-            }, 1000);
+                if (Math.random() > 0.7) {
+                    document.getElementById('aliexpress-popup').style.display = 'flex';
+                }
+            }, 10000);
+
+            setTimeout(() => {
+                if (Math.random() > 0.6) {
+                    document.getElementById('headway-popup').style.display = 'flex';
+                }
+            }, 25000);
+
+            // Load default location
+            searchStations(25.2048, 55.2708, 5000);
         });
     </script>
 </body>
