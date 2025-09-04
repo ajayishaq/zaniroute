@@ -735,7 +735,8 @@
                 </a>
                 <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Instagram">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 Ult 0,0
+                    1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                     </svg>
                 </a>
             </div>
@@ -756,7 +757,7 @@
         <div class="search-section">
             <div class="search-container">
                 <div class="search-bar">
-                    <input type="text" id="location-input" class="search-input" placeholder="Enter city, address, or coordinates (e.g., Lagos Nigeria, London UK, Tokyo Japan)" autocomplete="address-line1">
+                    <input type="text" id="location-input" class="search-input" placeholder="Enter city, address, or coordinates (e.g., London UK, Tokyo Japan)" autocomplete="address-line1">
                 </div>
                 <div class="search-controls">
                     <select id="radius-select" class="radius-select">
@@ -782,7 +783,7 @@
         <div class="results-container" id="results-container">
             <div class="loading" id="loading-state">
                 <div class="spinner"></div>
-                Searching for nearby stations with real data...
+                Searching...
             </div>
         </div>
 
@@ -939,7 +940,7 @@
         }
 
         async function searchRealStations(lat, lng, radiusMeters = 5000) {
-            updateApiStatus('Fetching real fuel stations from OpenStreetMap...', 'default');
+            updateApiStatus('Searching...', 'default');
             try {
                 const overpassQuery = `
                     [out:json][timeout:30];
@@ -965,7 +966,7 @@
                         updateApiStatus('No stations found, expanding search radius...', 'default');
                         return await searchRealStations(lat, lng, radiusMeters * 2);
                     }
-                    updateApiStatus('No stations found in OpenStreetMap data', 'error');
+                    updateApiStatus('No stations found in this area', 'error');
                     throw new Error('No fuel stations found. Try increasing search radius.');
                 }
                 const stations = await Promise.all(
@@ -1003,11 +1004,11 @@
                 );
                 const validStations = stations.filter(station => station !== null);
                 const sortedStations = validStations.sort((a, b) => a.distance - b.distance);
-                updateApiStatus(`Found ${sortedStations.length} real stations`, 'success');
+                updateApiStatus(`Found ${sortedStations.length} stations`, 'success');
                 return sortedStations;
             } catch (error) {
                 console.error('Overpass API Error:', error);
-                updateApiStatus('OpenStreetMap API unavailable - using fallback', 'error');
+                updateApiStatus('Search unavailable - using fallback data', 'error');
                 return generateFallbackStations(lat, lng, radiusMeters);
             }
         }
@@ -1239,7 +1240,7 @@
             return patterns[Math.floor(Math.random() * patterns.length)];
         }
 
-        async function searchStations(searchQuery = null) {
+        async function searchStations(searchQuery = null, radiusMeters = null) {
             showLoading(true);
             try {
                 let searchLocation;
@@ -1251,7 +1252,7 @@
                 } else {
                     throw new Error('Please enter a location or enable location services');
                 }
-                const radius = parseInt(document.getElementById('radius-select').value);
+                const radius = radiusMeters || parseInt(document.getElementById('radius-select').value);
                 allStations = await searchRealStations(searchLocation.lat, searchLocation.lng, radius);
                 map.setView([searchLocation.lat, searchLocation.lng], 13);
                 if (userMarker) map.removeLayer(userMarker);
@@ -1281,7 +1282,7 @@
             }
             displayResults(filteredStations);
             updateMapMarkers(filteredStations);
-            const statusText = `Showing ${filteredStations.length} real ${currentFilter === 'all' ? 'stations' : currentFilter === 'ev' ? 'EV charging points' : 'fuel stations'}`;
+            const statusText = `Showing ${filteredStations.length} ${currentFilter === 'all' ? 'stations' : currentFilter === 'ev' ? 'EV charging points' : 'fuel stations'}`;
             updateApiStatus(statusText, 'success');
         }
 
@@ -1367,7 +1368,7 @@
                 container.innerHTML = `
                     <div class="loading">
                         <div class="spinner"></div>
-                        Fetching real station data from OpenStreetMap...
+                        Searching...
                     </div>`;
             }
         }
@@ -1414,7 +1415,7 @@
         function tryAgain() {
             const input = document.getElementById('location-input');
             input.focus();
-            input.placeholder = 'Try: Lagos Nigeria, London UK, Tokyo Japan...';
+            input.placeholder = 'Try: London UK, Tokyo Japan...';
         }
 
         function openAffiliate(type) {
@@ -1438,11 +1439,11 @@
                 const location = await getUserLocation();
                 userLocation = location;
                 updateApiStatus(`Location found (±${Math.round(location.accuracy)}m accuracy)`, 'success');
-                await searchStations();
+                await searchStations(null, parseInt(document.getElementById('radius-select').value));
             } catch (error) {
                 console.log('Location detection failed:', error.message);
                 updateApiStatus('Location access denied - search any city worldwide!', 'error');
-                const examples = ['Lagos Nigeria', 'London UK', 'New York USA', 'Tokyo Japan', 'Sydney Australia', 'Berlin Germany'];
+                const examples = ['London UK', 'New York USA', 'Tokyo Japan', 'Sydney Australia', 'Berlin Germany'];
                 const randomExample = examples[Math.floor(Math.random() * examples.length)];
                 document.getElementById('location-input').placeholder = `Try searching: ${randomExample}`;
                 showError('Location access denied. Please search for a city or address.');
@@ -1468,7 +1469,7 @@
                     updateApiStatus('Requesting precise location access...', 'default');
                     userLocation = await getUserLocation();
                     updateApiStatus(`Location acquired (±${Math.round(userLocation.accuracy)}m)`, 'success');
-                    await searchStations();
+                    await searchStations(null, parseInt(document.getElementById('radius-select').value));
                 } catch (error) {
                     console.log('Location detection failed:', error.message);
                     updateApiStatus(error.message, 'error');
