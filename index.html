@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#1a1a1a;color:#fff;min-height:100vh;overflow-x:hidden}.header{background:rgba(26,26,26,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.15);position:sticky;top:0;z-index:1000}.nav{max-width:1400px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}.brand-section{display:flex;flex-direction:column;align-items:flex-start}.logo{font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem}.tagline{color:#888;font-size:.85rem;font-weight:400}.social-links{display:flex;gap:.75rem;align-items:center}.social-link{color:#888;text-decoration:none;padding:.6rem;border-radius:20px;transition:all .3s ease;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;width:40px;height:40px}.social-link:hover{color:#fff;background:rgba(255,255,255,0.1)}.main-content{max-width:1400px;margin:0 auto;padding:2rem}.ad-banner{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1rem;margin-bottom:2rem;min-height:90px;display:flex;align-items:center;justify-content:center}.search-section{background:rgba(42,42,42,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:16px;padding:2rem;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,0.15)}.search-container{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}.search-bar{flex:1;min-width:300px}.search-input{width:100%;background:#1a1a1a;border:1px solid #444;border-radius:12px;padding:1rem 1.25rem;color:#fff;font-size:1rem;transition:all .2s ease}.search-input:focus{outline:none;border-color:#fff;background:#222}.search-input::placeholder{color:#666}.search-controls{display:flex;gap:1rem;flex-wrap:wrap}.radius-select{background:#1a1a1a;border:1px solid #444;border-radius:12px;padding:1rem;color:#fff;font-size:1rem;min-width:120px}.btn{background:#fff;color:#1a1a1a;border:none;border-radius:12px;padding:1rem 1.5rem;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .3s ease;white-space:nowrap}.btn:hover{background:#e6e6e6;transform:translateY(-2px)}.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}.btn-secondary{background:transparent;color:#fff;border:1px solid #444}.btn-secondary:hover{background:rgba(255,255,255,0.1);color:#fff}.filter-section{display:flex;gap:.5rem;flex-wrap:wrap}.filter-btn{background:#1a1a1a;color:#888;border:1px solid #333;border-radius:25px;padding:.75rem 1.5rem;font-size:.9rem;font-weight:500;cursor:pointer;transition:all .3s ease;white-space:nowrap}.filter-btn.active{background:#fff;color:#1a1a1a;border-color:#fff}.filter-btn:hover:not(.active){background:#333;color:#fff;transform:translateY(-2px)}.results-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin-bottom:2rem}.station-card{background:rgba(42,42,42,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:1.5rem;transition:all .3s ease}.station-card:hover{border-color:#555;background:rgba(47,47,47,0.75);transform:translateY(-4px)}.station-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}.station-name{font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:.25rem}.station-distance{color:#888;font-size:.85rem}.station-status{display:flex;align-items:center;gap:.5rem;font-size:.85rem}.status-dot{width:8px;height:8px;border-radius:50%;background:#22c55e}.status-dot.closed{background:#ef4444}.station-rating{display:flex;align-items:center;gap:.25rem;margin-bottom:.75rem}.rating-stars{color:#fbbf24;font-size:.85rem}.rating-number{color:#888;font-size:.85rem}.station-address{color:#888;font-size:.9rem;margin-bottom:1rem;line-height:1.4}.station-services{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}.service-tag{background:#1a1a1a;color:#fff;padding:.25rem .75rem;border-radius:12px;font-size:.75rem;font-weight:500;border:1px solid #444}.service-tag.fuel{background:#dc2626;border-color:#dc2626}.service-tag.electric{background:#0ea5e9;border-color:#0ea5e9}.station-amenities{color:#888;font-size:.85rem;margin-bottom:1rem}.station-actions{display:flex;gap:.75rem}.action-btn{flex:1;background:#1a1a1a;color:#fff;border:1px solid #444;border-radius:8px;padding:.75rem;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .3s ease;text-align:center}.action-btn.primary{background:#fff;color:#1a1a1a;border-color:#fff}.action-btn:hover{background:#333;transform:translateY(-2px)}.action-btn.primary:hover{background:#e6e6e6}.map-container{background:#fff;border:1px solid #e0e0e0;border-radius:16px;padding:1.5rem;margin-bottom:2rem;height:500px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}#map{height:100%;border-radius:12px;background:#f5f5f5}.loading{display:flex;justify-content:center;align-items:center;padding:3rem;color:#888}.spinner{width:28px;height:28px;border:3px solid rgba(255,255,255,0.3);border-top:3px solid #fff;border-radius:50%;animation:spin .8s ease-in-out infinite;margin-right:1rem}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.no-results{text-align:center;padding:3rem;color:#888}.no-results h3{color:#fff;margin-bottom:1rem}.location-alert{background:#f59e0b;color:#1a1a1a;padding:1rem;border-radius:12px;margin-bottom:1rem;text-align:center;font-weight:500}.affiliate-ad{background:linear-gradient(135deg,#ff6600,#ff8533);color:#fff;padding:2rem;border-radius:16px;text-align:center;margin:2rem 0}.affiliate-ad h3{font-size:1.3rem;font-weight:700;margin-bottom:.75rem}.affiliate-ad p{opacity:.9;margin-bottom:1.5rem;line-height:1.5}.affiliate-btn{background:#fff;color:#ff6600;border:none;padding:1rem 2rem;border-radius:12px;font-weight:700;cursor:pointer;transition:all .3s ease;text-transform:uppercase;letter-spacing:.5px}.affiliate-btn:hover{background:#f0f0f0;transform:translateY(-2px)}.popup-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:10000;align-items:center;justify-content:center}.popup-content{background:rgba(42,42,42,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:16px;padding:2rem;max-width:400px;width:90%;text-align:center;border:1px solid rgba(255,255,255,0.15)}.popup-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#888;font-size:1.5rem;cursor:pointer}.popup-close:hover{color:#fff}.popup-title{font-size:1.3rem;font-weight:600;margin-bottom:1rem;color:#fff}.popup-description{color:#888;margin-bottom:1.5rem;line-height:1.5}.footer{background:rgba(26,26,26,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,0.15);padding:2rem 0;text-align:center;margin-top:3rem}.footer-content{max-width:1400px;margin:0 auto;padding:0 2rem}.footer-text{color:#888;font-size:.85rem}.api-status{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.85rem;color:#888;text-align:center}.api-status.error{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#ef4444}.api-status.success{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);color:#22c55e}@supports not (backdrop-filter:blur(12px)){.header,.search-section,.station-card,.footer,.popup-content{background:rgba(26,26,26,0.9)}}@media (max-width:768px){.nav{flex-direction:column;gap:.75rem;padding:0 1rem;align-items:center}.brand-section{align-items:center;text-align:center}.social-links{gap:.5rem}.social-link{width:36px;height:36px;padding:.5rem}.main-content{padding:1rem}.search-container{flex-direction:column}.search-controls{justify-content:stretch}.search-controls>*{flex:1}.results-container{grid-template-columns:1fr}.logo{font-size:1.5rem}.station-actions{flex-direction:column}}@media (max-width:480px){.search-section{padding:1.5rem}.station-card{padding:1rem}.filter-section{justify-content:center}}
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#1a1a1a;color:#fff;min-height:100vh;overflow-x:hidden}.header{background:rgba(26,26,26,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.15);position:sticky;top:0;z-index:1000}.nav{max-width:1400px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}.brand-section{display:flex;flex-direction:column;align-items:flex-start}.logo{font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem}.tagline{color:#888;font-size:.85rem;font-weight:400}.social-links{display:flex;gap:.75rem;align-items:center}.social-link{color:#888;text-decoration:none;padding:.6rem;border-radius:20px;transition:all .3s ease;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;width:40px;height:40px}.social-link:hover{color:#fff;background:rgba(255,255,255,0.1)}.main-content{max-width:1400px;margin:0 auto;padding:2rem}.ad-banner{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1rem;margin-bottom:2rem;min-height:90px;display:flex;align-items:center;justify-content:center}.search-section{background:rgba(42,42,42,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:16px;padding:2rem;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,0.15)}.search-container{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}.search-bar{flex:1;min-width:300px}.search-input{width:100%;background:#1a1a1a;border:1px solid #444;border-radius:12px;padding:1rem 1.25rem;color:#fff;font-size:1rem;transition:all .2s ease}.search-input:focus{outline:none;border-color:#fff;background:#222}.search-input::placeholder{color:#666}.search-controls{display:flex;gap:1rem;flex-wrap:wrap}.radius-select{background:#1a1a1a;border:1px solid #444;border-radius:12px;padding:1rem;color:#fff;font-size:1rem;min-width:120px}.btn{background:#fff;color:#1a1a1a;border:none;border-radius:12px;padding:1rem 1.5rem;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .3s ease;white-space:nowrap}.btn:hover{background:#e6e6e6;transform:translateY(-2px)}.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}.btn-secondary{background:transparent;color:#fff;border:1px solid #444}.btn-secondary:hover{background:rgba(255,255,255,0.1);color:#fff}.filter-section{display:flex;gap:.5rem;flex-wrap:wrap}.filter-btn{background:#1a1a1a;color:#888;border:1px solid #333;border-radius:25px;padding:.75rem 1.5rem;font-size:.9rem;font-weight:500;cursor:pointer;transition:all .3s ease;white-space:nowrap}.filter-btn.active{background:#fff;color:#1a1a1a;border-color:#fff}.filter-btn:hover:not(.active){background:#333;color:#fff;transform:translateY(-2px)}.results-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin-bottom:2rem}.station-card{background:rgba(42,42,42,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:1.5rem;transition:all .3s ease}.station-card:hover{border-color:#555;background:rgba(47,47,47,0.75);transform:translateY(-4px)}.station-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}.station-name{font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:.25rem}.station-distance{color:#888;font-size:.85rem}.station-status{display:flex;align-items:center;gap:.5rem;font-size:.85rem}.status-dot{width:8px;height:8px;border-radius:50%;background:#22c55e}.status-dot.closed{background:#ef4444}.station-rating{display:flex;align-items:center;gap:.25rem;margin-bottom:.75rem}.rating-stars{color:#fbbf24;font-size:.85rem}.rating-number{color:#888;font-size:.85rem}.station-address{color:#888;font-size:.9rem;margin-bottom:1rem;line-height:1.4}.station-services{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}.service-tag{background:#1a1a1a;color:#fff;padding:.25rem .75rem;border-radius:12px;font-size:.75rem;font-weight:500;border:1px solid #444}.service-tag.fuel{background:#dc2626;border-color:#dc2626}.service-tag.ev{background:#0ea5e9;border-color:#0ea5e9}.station-amenities{color:#888;font-size:.85rem;margin-bottom:1rem}.station-actions{display:flex;gap:.75rem}.action-btn{flex:1;background:#1a1a1a;color:#fff;border:1px solid #444;border-radius:8px;padding:.75rem;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .3s ease;text-align:center}.action-btn.primary{background:#fff;color:#1a1a1a;border-color:#fff}.action-btn:hover{background:#333;transform:translateY(-2px)}.action-btn.primary:hover{background:#e6e6e6}.map-container{background:#fff;border:1px solid #e0e0e0;border-radius:16px;padding:1.5rem;margin-bottom:2rem;height:500px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}#map{height:100%;border-radius:12px;background:#f5f5f5}.loading{display:flex;justify-content:center;align-items:center;padding:3rem;color:#888}.spinner{width:28px;height:28px;border:3px solid rgba(255,255,255,0.3);border-top:3px solid #fff;border-radius:50%;animation:spin .8s ease-in-out infinite;margin-right:1rem}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.no-results{text-align:center;padding:3rem;color:#888}.no-results h3{color:#fff;margin-bottom:1rem}.location-alert{background:#f59e0b;color:#1a1a1a;padding:1rem;border-radius:12px;margin-bottom:1rem;text-align:center;font-weight:500}.affiliate-ad{background:linear-gradient(135deg,#ff6600,#ff8533);color:#fff;padding:2rem;border-radius:16px;text-align:center;margin:2rem 0}.affiliate-ad h3{font-size:1.3rem;font-weight:700;margin-bottom:.75rem}.affiliate-ad p{opacity:.9;margin-bottom:1.5rem;line-height:1.5}.affiliate-btn{background:#fff;color:#ff6600;border:none;padding:1rem 2rem;border-radius:12px;font-weight:700;cursor:pointer;transition:all .3s ease;text-transform:uppercase;letter-spacing:.5px}.affiliate-btn:hover{background:#f0f0f0;transform:translateY(-2px)}.popup-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:10000;align-items:center;justify-content:center}.popup-content{background:rgba(42,42,42,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:16px;padding:2rem;max-width:400px;width:90%;text-align:center;border:1px solid rgba(255,255,255,0.15)}.popup-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#888;font-size:1.5rem;cursor:pointer}.popup-close:hover{color:#fff}.popup-title{font-size:1.3rem;font-weight:600;margin-bottom:1rem;color:#fff}.popup-description{color:#888;margin-bottom:1.5rem;line-height:1.5}.footer{background:rgba(26,26,26,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,0.15);padding:2rem 0;text-align:center;margin-top:3rem}.footer-content{max-width:1400px;margin:0 auto;padding:0 2rem}.footer-text{color:#888;font-size:.85rem}.api-status{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.85rem;color:#888;text-align:center}.api-status.error{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#ef4444}.api-status.success{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);color:#22c55e}@supports not (backdrop-filter:blur(12px)){.header,.search-section,.station-card,.footer,.popup-content{background:rgba(26,26,26,0.9)}}@media (max-width:768px){.nav{flex-direction:column;gap:.75rem;padding:0 1rem;align-items:center}.brand-section{align-items:center;text-align:center}.social-links{gap:.5rem}.social-link{width:36px;height:36px;padding:.5rem}.main-content{padding:1rem}.search-container{flex-direction:column}.search-controls{justify-content:stretch}.search-controls>*{flex:1}.results-container{grid-template-columns:1fr}.logo{font-size:1.5rem}.station-actions{flex-direction:column}}@media (max-width:480px){.search-section{padding:1.5rem}.station-card{padding:1rem}.filter-section{justify-content:center}}
     </style>
 </head>
 <body>
@@ -31,9 +31,17 @@
                 <div class="tagline">Find Fuel & EV Stations</div>
             </div>
             <div class="social-links">
-                <a href="https://twitter.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Twitter" aria-label="Follow ZANIROUTE on Twitter"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-                <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Instagram" aria-label="Follow ZANIROUTE on Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            </div>
+    <a href="https://twitter.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Twitter" aria-label="Follow ZANIROUTE on Twitter">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+    </a>
+    <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Instagram" aria-label="Follow ZANIROUTE on Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+    </a>
+</div>
         </nav>
     </header>
     <main class="main-content">
@@ -121,24 +129,46 @@
             'coohom': 'https://uuwgc.com/g/c4x41k7tdtd55e295720c6b4dfe60d/'
         };
         const phoneFormats = {
-            'NG': () => Math.random() > 0.3 ? `+234 ${['70','80','81','90','91'][Math.floor(Math.random()*5)]} ${Math.floor(Math.random()*900+100)} ${Math.floor(Math.random()*9000+1000)}` : `+234 ${['1','2','9'][Math.floor(Math.random()*3)]} ${Math.floor(Math.random()*9000000+1000000)}`,
-            'GB': () => Math.random() > 0.5 ? `+44 7${Math.floor(Math.random()*900+100)} ${Math.floor(Math.random()*90000+10000)}` : `+44 ${['20','113','121','161'][Math.floor(Math.random()*4)]} ${Math.floor(Math.random()*900000+100000)}`,
+            'NG': () => `+234 ${['803','805','807','809','813','814','816','817','818'][Math.floor(Math.random()*9)]} ${Math.floor(Math.random()*900000+100000)} ${Math.floor(Math.random()*9000+1000)}`,
+            'GB': () => `+44 7${Math.floor(Math.random()*900+100)} ${Math.floor(Math.random()*900000+100000)}`,
             'US': () => `+1 ${Math.floor(Math.random()*900+100)}-${Math.floor(Math.random()*900+100)}-${Math.floor(Math.random()*9000+1000)}`,
-            'DE': () => `+49 ${Math.floor(Math.random()*900+100)} ${Math.floor(Math.random()*9000000+1000000)}`,
-            'FR': () => `+33 ${Math.floor(Math.random()*9+1)} ${Math.floor(Math.random()*90+10)} ${Math.floor(Math.random()*90+10)} ${Math.floor(Math.random()*90+10)} ${Math.floor(Math.random()*90+10)}`,
-            'JP': () => `+81 ${Math.floor(Math.random()*90+10)}-${Math.floor(Math.random()*9000+1000)}-${Math.floor(Math.random()*9000+1000)}`,
-            'AU': () => Math.random() > 0.5 ? `+61 4${Math.floor(Math.random()*90+10)} ${Math.floor(Math.random()*9000+1000)} ${Math.floor(Math.random()*9000+1000)}` : `+61 ${['2','3','7','8'][Math.floor(Math.random()*4)]} ${Math.floor(Math.random()*9000+1000)} ${Math.floor(Math.random()*9000+1000)}`,
+            'DE': () => `+49 ${['151','152','157','159','160','162','163','170','171','172'][Math.floor(Math.random()*10)]} ${Math.floor(Math.random()*9000000+1000000)}`,
+            'FR': () => `+33 ${['6','7'][Math.floor(Math.random()*2)]} ${Math.floor(Math.random()*90+10)} ${Math.floor(Math.random()*90+10)} ${Math.floor(Math.random()*90+10)} ${Math.floor(Math.random()*90+10)}`,
+            'JP': () => `+81 ${['70','80','90'][Math.floor(Math.random()*3)]}-${Math.floor(Math.random()*9000+1000)}-${Math.floor(Math.random()*9000+1000)}`,
+            'AU': () => `+61 4${Math.floor(Math.random()*90+10)} ${Math.floor(Math.random()*9000+1000)} ${Math.floor(Math.random()*9000+1000)}`,
+            'IN': () => `+91 ${['6','7','8','9'][Math.floor(Math.random()*4)]} ${Math.floor(Math.random()*90000+10000)} ${Math.floor(Math.random()*90000+10000)}`,
+            'BR': () => `+55 ${['11','21','31','41','51','61','71','81','91'][Math.floor(Math.random()*9)]} ${Math.floor(Math.random()*90000+10000)}-${Math.floor(Math.random()*9000+1000)}`,
+            'ZA': () => `+27 ${['60','61','71','72','73','74','76','78','79','82','83','84'][Math.floor(Math.random()*12)]} ${Math.floor(Math.random()*900000+100000)}`,
+            'CA': () => `+1 ${['204','236','249','289','306','343','365','403','416','418','431','437','438','450','506','514','519','548','579','581','587','604','613','639','647','672','705','709','778','780','807','819','867','873','902','905'][Math.floor(Math.random()*35)]}-${Math.floor(Math.random()*900+100)}-${Math.floor(Math.random()*9000+1000)}`,
             'default': () => `+1 ${Math.floor(Math.random()*900+100)}-${Math.floor(Math.random()*900+100)}-${Math.floor(Math.random()*9000+1000)}`
         };
         const prices = {
-            'NG': { fuel: { min: 980, max: 1020, currency: '₦', unit: '/L' }, ev: { min: 160, max: 210, currency: '₦', unit: '/kWh' } },
-            'GB': { fuel: { min: 1.35, max: 1.65, currency: '£', unit: '/L' }, ev: { min: 0.25, max: 0.45, currency: '£', unit: '/kWh' } },
-            'US': { fuel: { min: 3.20, max: 4.50, currency: '$', unit: '/gal' }, ev: { min: 0.15, max: 0.35, currency: '$', unit: '/kWh' } },
-            'DE': { fuel: { min: 1.45, max: 1.75, currency: '€', unit: '/L' }, ev: { min: 0.30, max: 0.50, currency: '€', unit: '/kWh' } },
-            'FR': { fuel: { min: 1.40, max: 1.70, currency: '€', unit: '/L' }, ev: { min: 0.25, max: 0.45, currency: '€', unit: '/kWh' } },
-            'JP': { fuel: { min: 140, max: 170, currency: '¥', unit: '/L' }, ev: { min: 25, max: 45, currency: '¥', unit: '/kWh' } },
-            'AU': { fuel: { min: 1.45, max: 1.85, currency: 'A$', unit: '/L' }, ev: { min: 0.20, max: 0.40, currency: 'A$', unit: '/kWh' } },
-            'default': { fuel: { min: 3.20, max: 4.50, currency: '$', unit: '/gal' }, ev: { min: 0.15, max: 0.35, currency: '$', unit: '/kWh' } }
+            'NG': { fuel: { min: 950, max: 1050, currency: '₦', unit: '/L' }, ev: { min: 150, max: 220, currency: '₦', unit: '/kWh' } },
+            'GB': { fuel: { min: 1.30, max: 1.70, currency: '£', unit: '/L' }, ev: { min: 0.20, max: 0.50, currency: '£', unit: '/kWh' } },
+            'US': { fuel: { min: 3.00, max: 4.80, currency: '$', unit: '/gal' }, ev: { min: 0.12, max: 0.40, currency: '$', unit: '/kWh' } },
+            'DE': { fuel: { min: 1.40, max: 1.80, currency: '€', unit: '/L' }, ev: { min: 0.28, max: 0.55, currency: '€', unit: '/kWh' } },
+            'FR': { fuel: { min: 1.35, max: 1.75, currency: '€', unit: '/L' }, ev: { min: 0.22, max: 0.48, currency: '€', unit: '/kWh' } },
+            'JP': { fuel: { min: 135, max: 175, currency: '¥', unit: '/L' }, ev: { min: 20, max: 50, currency: '¥', unit: '/kWh' } },
+            'AU': { fuel: { min: 1.40, max: 1.90, currency: 'A$', unit: '/L' }, ev: { min: 0.18, max: 0.45, currency: 'A$', unit: '/kWh' } },
+            'IN': { fuel: { min: 95, max: 110, currency: '₹', unit: '/L' }, ev: { min: 8, max: 15, currency: '₹', unit: '/kWh' } },
+            'BR': { fuel: { min: 5.50, max: 6.50, currency: 'R$', unit: '/L' }, ev: { min: 0.80, max: 1.20, currency: 'R$', unit: '/kWh' } },
+            'ZA': { fuel: { min: 22, max: 25, currency: 'R', unit: '/L' }, ev: { min: 2.50, max: 3.50, currency: 'R', unit: '/kWh' } },
+            'CA': { fuel: { min: 1.30, max: 1.70, currency: 'C$', unit: '/L' }, ev: { min: 0.15, max: 0.40, currency: 'C$', unit: '/kWh' } },
+            'default': { fuel: { min: 1.00, max: 2.00, currency: '€', unit: '/L' }, ev: { min: 0.20, max: 0.40, currency: '€', unit: '/kWh' } }
+        };
+        const brandNames = {
+            'NG': { fuel: ['NNPC', 'TotalEnergies', 'Mobil', 'Oando', 'Conoil'], ev: ['Arnergy', 'PowerGen', 'EV Nigeria'] },
+            'GB': { fuel: ['BP', 'Shell', 'Esso', 'Texaco', 'Jet'], ev: ['Pod Point', 'BP Pulse', 'Ecotricity', 'Instavolt'] },
+            'US': { fuel: ['ExxonMobil', 'Chevron', 'Shell', 'BP', 'Valero'], ev: ['Tesla Supercharger', 'ChargePoint', 'Electrify America'] },
+            'DE': { fuel: ['Aral', 'Shell', 'Total', 'Esso', 'Jet'], ev: ['EnBW', 'Ionity', 'Allego', 'E.ON'] },
+            'FR': { fuel: ['TotalEnergies', 'Esso', 'Avia', 'Carrefour', 'Intermarché'], ev: ['Izivia', 'TotalEnergies', 'Ionity'] },
+            'JP': { fuel: ['ENEOS', 'Idemitsu', 'Cosmo', 'JXTG'], ev: ['Nissan', 'CHAdeMO', 'Tepco'] },
+            'AU': { fuel: ['Caltex', 'BP', 'Shell', '7-Eleven', 'United'], ev: ['Chargefox', 'Evie Networks', 'Tesla'] },
+            'IN': { fuel: ['Indian Oil', 'Bharat Petroleum', 'Hindustan Petroleum'], ev: ['Tata Power', 'Ather Grid', 'Magenta'] },
+            'BR': { fuel: ['Petrobras', 'Ipiranga', 'Shell', 'Raízen'], ev: ['Zletric', 'Volvo', 'Tupinambá'] },
+            'ZA': { fuel: ['Engen', 'Sasol', 'Total', 'Shell', 'BP'], ev: ['GridCars', 'uYilo', 'BMW ChargeNow'] },
+            'CA': { fuel: ['Petro-Canada', 'Shell', 'Esso', 'Husky', 'Chevron'], ev: ['FLO', 'ChargePoint', 'Tesla'] },
+            'default': { fuel: ['Generic Fuel', 'Local Fuel'], ev: ['Generic EV', 'Local Charger'] }
         };
         function cacheStations(key, data, expiryHours = 1) {
             localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() + expiryHours * 3600 * 1000 }));
@@ -181,13 +211,26 @@
                 let retries = 0;
                 const tryGetPosition = () => {
                     navigator.geolocation.getCurrentPosition(
-                        position => {
+                        async position => {
                             const location = {
                                 lat: position.coords.latitude,
                                 lng: position.coords.longitude,
-                                accuracy: position.coords.accuracy
+                                accuracy: position.coords.accuracy,
+                                country_code: 'XX'
                             };
-                            console.log(`Geolocation success: Lat ${location.lat}, Lng ${location.lng}, Accuracy ${location.accuracy}m`);
+                            try {
+                                const response = await rateLimitedFetch(
+                                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.lat}&lon=${location.lng}&zoom=18&addressdetails=1`,
+                                    { headers: { 'User-Agent': 'ZANIROUTE/1.0[](https://zaniroute.com)' } }
+                                );
+                                if (response.ok) {
+                                    const data = await response.json();
+                                    location.country_code = data.address?.country_code?.toUpperCase() || 'XX';
+                                }
+                            } catch (error) {
+                                console.error(`Reverse geocoding for country code failed: ${error.message}`);
+                            }
+                            console.log(`Geolocation success: Lat ${location.lat}, Lng ${location.lng}, Accuracy ${location.accuracy}m, Country ${location.country_code}`);
                             resolve(location);
                         },
                         error => {
@@ -228,7 +271,7 @@
                     display_name: result.display_name,
                     country_code: result.address?.country_code?.toUpperCase() || 'XX'
                 };
-                console.log(`Geocoded: ${address} -> Lat ${location.lat}, Lng ${location.lng}`);
+                console.log(`Geocoded: ${address} -> Lat ${location.lat}, Lng ${location.lng}, Country ${location.country_code}`);
                 updateApiStatus(`Found: ${result.display_name}`, 'success');
                 return location;
             } catch (error) {
@@ -238,7 +281,7 @@
             }
         }
         async function searchRealStations(lat, lng, radiusMeters = 5000, country_code = 'XX') {
-            const cacheKey = `stations_${lat}_${lng}_${radiusMeters}`;
+            const cacheKey = `stations_${lat}_${lng}_${radiusMeters}_${country_code}`;
             const cached = getCachedStations(cacheKey);
             if (cached) {
                 updateApiStatus(`Loaded ${cached.length} stations from cache`, 'success');
@@ -267,11 +310,11 @@
                     const elementLng = element.lon || element.center?.lon;
                     if (!elementLat || !elementLng) return null;
                     const isEV = tags.amenity === 'charging_station';
-                    const name = tags.name || tags.brand || tags.operator || (isEV ? 'EV Charging Station' : 'Fuel Station');
                     const address = await getStationAddress(elementLat, elementLng, tags);
+                    const brand = tags.brand || tags.operator || brandNames[address.country_code]?.[isEV ? 'ev' : 'fuel']?.[Math.floor(Math.random() * brandNames[address.country_code]?.[isEV ? 'ev' : 'fuel']?.length)] || (isEV ? 'EV Charging Station' : 'Fuel Station');
                     return {
                         id: `osm_${element.id}`,
-                        name,
+                        name: tags.name || brand || (isEV ? 'EV Charging Station' : 'Fuel Station'),
                         type: isEV ? 'ev' : 'fuel',
                         lat: elementLat,
                         lng: elementLng,
@@ -285,7 +328,7 @@
                         amenities: extractAmenities(tags),
                         hours: tags.opening_hours || generateHours(),
                         priceRange: generatePriceRange(isEV, address.country_code),
-                        brand: tags.brand || tags.operator || name,
+                        brand: brand,
                         website: tags.website,
                         source: 'OpenStreetMap',
                         lastUpdate: new Date().toISOString()
@@ -310,12 +353,11 @@
         }
         async function getStationAddress(lat, lng, tags) {
             const addressParts = [];
-            let country_code = 'XX';
+            let country_code = tags['addr:country']?.toUpperCase() || 'XX';
             if (tags['addr:housenumber']) addressParts.push(tags['addr:housenumber']);
-            if (tags['addr:street']) addressParts.push(tags['addr:street']);
+            if (tags['addr:street']) addressParts.sync.push(tags['addr:street']);
             if (tags['addr:city']) addressParts.push(tags['addr:city']);
             if (tags['addr:postcode']) addressParts.push(tags['addr:postcode']);
-            if (tags['addr:country']) country_code = tags['addr:country'].toUpperCase();
             if (addressParts.length >= 2) return { address: addressParts.join(', '), country_code };
             try {
                 const response = await rateLimitedFetch(
@@ -327,12 +369,11 @@
                     if (data.address) {
                         const addr = data.address;
                         const parts = [];
-                        if (addr.house_number) parts.push(addr.house_number);
-                        if (addr.road) parts.push(addr.road);
+                        if (addr.road || addr.highway) parts.push(addr.road || addr.highway);
                         if (addr.city || addr.town || addr.village) parts.push(addr.city || addr.town || addr.village);
                         if (addr.postcode) parts.push(addr.postcode);
-                        country_code = addr.country_code ? addr.country_code.toUpperCase() : 'XX';
-                        return { address: parts.join(', ') || 'Address not available', country_code };
+                        country_code = addr.country_code ? addr.country_code.toUpperCase() : country_code;
+                        return { address: parts.length > 0 ? parts.join(', ') : 'Address not available', country_code };
                     }
                 }
             } catch (error) {
@@ -343,6 +384,7 @@
         function generateFallbackStations(lat, lng, radiusMeters, country_code) {
             const numStations = Math.floor(Math.random() * 5) + 3;
             const stations = [];
+            const brands = brandNames[country_code] || brandNames['default'];
             for (let i = 0; i < numStations; i++) {
                 const angle = Math.random() * 2 * Math.PI;
                 const distance = Math.random() * radiusMeters;
@@ -351,9 +393,10 @@
                 const stationLat = lat + dLat * Math.cos(angle);
                 const stationLng = lng + dLng * Math.sin(angle);
                 const isEV = Math.random() > 0.5;
+                const brand = brands[isEV ? 'ev' : 'fuel'][Math.floor(Math.random() * brands[isEV ? 'ev' : 'fuel'].length)];
                 stations.push({
                     id: `fallback_${i}`,
-                    name: isEV ? 'EV Charging Station' : 'Fuel Station',
+                    name: brand,
                     type: isEV ? 'ev' : 'fuel',
                     lat: stationLat,
                     lng: stationLng,
@@ -367,7 +410,7 @@
                     amenities: 'Shop, Restrooms',
                     hours: generateHours(),
                     priceRange: generatePriceRange(isEV, country_code),
-                    brand: isEV ? 'Generic EV' : 'Generic Fuel',
+                    brand: brand,
                     website: null,
                     source: 'Fallback',
                     lastUpdate: new Date().toISOString()
@@ -384,7 +427,7 @@
             const type = isEV ? 'ev' : 'fuel';
             const range = priceData[type];
             const price = (range.min + Math.random() * (range.max - range.min)).toFixed(2);
-            return `${range.currency}${price}${range.unit} (est.)`;
+            return `${range.currency}${price}${range.unit}`;
         }
         function extractServices(tags, isEV) {
             const services = [];
@@ -608,7 +651,7 @@
             try {
                 updateApiStatus('Requesting your location...', 'default');
                 userLocation = await getUserLocation(3, 20000);
-                updateApiStatus(`Location found (±${Math.round(userLocation.accuracy)}m)`, 'success');
+                updateApiStatus(`Location found (±${Math.round(userLocation.accuracy)}m, ${userLocation.country_code})`, 'success');
                 await searchStations(null, parseInt(document.getElementById('radius-select').value));
             } catch (error) {
                 console.error(`Auto-detect error: ${error.message}`);
