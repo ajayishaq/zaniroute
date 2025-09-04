@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZANIROUTE - Fuel & EV Station Finder</title>
-    <meta name="description" content="Find gas stations and EV charging points in 190+ countries with real-time data, prices, and directions.">
+    <meta name="description" content="Find gas stations and EV charging points in 190+ countries with real-time data and directions.">
     <meta name="keywords" content="fuel finder, gas station, EV charging, fuel prices, petrol pump">
     <meta name="author" content="ZANIROUTE">
     <meta name="robots" content="index, follow">
@@ -181,10 +181,20 @@
             }).addTo(map);
             updateApiStatus('Map initialized', 'success');
         }
-        function getUserLocation(maxRetries = 2, timeout = 10000) {
+        async function checkLocationPermission() {
+            if (!navigator.permissions) return 'unknown';
+            try {
+                const result = await navigator.permissions.query({ name: 'geolocation' });
+                return result.state; // 'granted', 'prompt', or 'denied'
+            } catch (error) {
+                console.error(`Permission check error: ${error.message}`);
+                return 'unknown';
+            }
+        }
+        function getUserLocation(maxRetries = 1, timeout = 8000) {
             return new Promise((resolve, reject) => {
                 if (!navigator.geolocation) {
-                    reject(new Error('Geolocation not supported by this browser'));
+                    reject(new Error('Geolocation not supported by your browser. Please search manually.'));
                     return;
                 }
                 let retries = 0;
@@ -207,27 +217,27 @@
                                     location.country_code = data.address?.country_code?.toUpperCase() || 'XX';
                                 }
                             } catch (error) {
-                                console.error(`Reverse geocoding for country code failed: ${error.message}`);
+                                console.error(`Reverse geocoding failed: ${error.message}`);
                             }
                             console.log(`Geolocation success: Lat ${location.lat}, Lng ${location.lng}, Accuracy ${location.accuracy}m, Country ${location.country_code}`);
                             resolve(location);
                         },
                         error => {
                             console.error(`Geolocation error (attempt ${retries + 1}): ${error.message}`);
-                            if (retries < maxRetries - 1) {
+                            if (retries < maxRetries) {
                                 retries++;
                                 setTimeout(tryGetPosition, 500);
                             } else {
-                                let message = 'Unable to get location';
+                                let message = 'Unable to get location. Please search manually.';
                                 switch(error.code) {
-                                    case error.PERMISSION_DENIED: message = 'Location access denied. Please enable location services.'; break;
-                                    case error.POSITION_UNAVAILABLE: message = 'Location unavailable. Check GPS/network.'; break;
-                                    case error.TIMEOUT: message = 'Location request timed out.'; break;
+                                    case error.PERMISSION_DENIED: message = 'Location access denied. Please enable location permissions in your browser.'; break;
+                                    case error.POSITION_UNAVAILABLE: message = 'Location unavailable. Check GPS or network settings.'; break;
+                                    case error.TIMEOUT: message = 'Location request timed out. Try again or search manually.'; break;
                                 }
                                 reject(new Error(message));
                             }
                         },
-                        { enableHighAccuracy: true, timeout, maximumAge: 10000 }
+                        { enableHighAccuracy: true, timeout, maximumAge: 5000 }
                     );
                 };
                 tryGetPosition();
@@ -309,7 +319,6 @@
                         services: extractServices(tags, isEV),
                         amenities: extractAmenities(tags),
                         hours: tags.opening_hours || 'Hours unavailable',
-                        priceRange: null, // Removed estimated prices
                         brand: tags.brand || tags.operator || (isEV ? 'EV Charger' : 'Fuel Station'),
                         website: tags.website || null,
                         source: 'OpenStreetMap',
@@ -403,7 +412,7 @@
         function evaluateOpeningHours(hours) {
             try {
                 if (!hours || hours === '24/7') return true;
-                const now = new Date('2025-09-05T00:43:00+03:00'); // Current time in EEST
+                const now = new Date('2025-09-05T01:01:00+03:00'); // Current time in EEST
                 const day = now.getDay();
                 const hour = now.getHours();
                 const minute = now.getMinutes();
@@ -480,9 +489,10 @@
                 <div class="no-results">
                     <h3>No Stations Found</h3>
                     <p>${message}</p>
-                    <p>Try increasing the search radius, searching a different location, or checking your internet connection.</p>
+                    <p>Try enabling location permissions in your browser or enter a city/address to search.</p>
                     <button class="btn" onclick="tryAgain()" style="margin-top:1rem;" aria-label="Try a different location">Try Again</button>
                 </div>`;
+            document.getElementById('location-input').focus();
         }
         function tryAgain() {
             document.getElementById('location-input').value = '';
@@ -610,18 +620,22 @@
         async function autoDetectLocation() {
             if (window.location.protocol !== 'https:') {
                 updateApiStatus('Please use HTTPS to enable location services', 'error');
-                showError('This app requires HTTPS for location services. Please host on a secure server.');
+                showError('This app requires HTTPS for location services. Please host on a secure server or search manually.');
+                document.getElementById('location-input').focus();
                 return;
             }
             try {
                 updateApiStatus('Checking location access...', 'default');
-                userLocation = await getUserLocation(2, 10000);
+                const permission = await checkLocationPermission();
+                if (permission === 'denied') {
+                    throw new Error('Location access denied. Please enable location permissions in your browser.');
+                }
+                userLocation = await getUserLocation(1, 8000);
                 updateApiStatus(`Location detected (±${Math.round(userLocation.accuracy)}m, ${userLocation.country_code})`, 'success');
             } catch (error) {
                 console.error(`Auto-detect error: ${error.message}`);
-                updateApiStatus('Location unavailable, please search manually', 'error');
-                showError('Could not access location. Please search for a city or address.');
-                document.getElementById('location-input').focus();
+                updateApiStatus(error.message, 'error');
+                showError(`${error.message} Enter a city or address to search.`);
             }
         }
         document.addEventListener('DOMContentLoaded', () => {
@@ -640,14 +654,18 @@
             document.getElementById('near-me-btn').addEventListener('click', async () => {
                 showLoading(true);
                 try {
+                    const permission = await checkLocationPermission();
+                    if (permission === 'denied') {
+                        throw new Error('Location access denied. Please enable location permissions in your browser.');
+                    }
                     if (!userLocation) {
-                        userLocation = await getUserLocation(2, 10000);
+                        userLocation = await getUserLocation(1, 8000);
                     }
                     await searchStations(null, parseInt(document.getElementById('radius-select').value));
                 } catch (error) {
                     console.error(`Near Me error: ${error.message}`);
                     updateApiStatus(error.message, 'error');
-                    showError(error.message);
+                    showError(`${error.message} Enter a city or address to search.`);
                 } finally {
                     showLoading(false);
                 }
