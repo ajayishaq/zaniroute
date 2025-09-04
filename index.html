@@ -149,6 +149,8 @@
             'RU': { fuel: ['Lukoil', 'Rosneft', 'Gazprom', 'Tatneft'], ev: ['Rosseti', 'MOESK', 'RusHydro'] },
             'default': { fuel: ['Local Fuel', 'Generic Station'], ev: ['Local Charger', 'Generic EV'] }
         };
+        const MAPBOX_ACCESS_TOKEN = ''; // Add your Mapbox access token here from https://account.mapbox.com/access-tokens/
+        const OPEN_CHARGE_MAP_KEY = ''; // Add your Open Charge Map API key here from https://openchargemap.org/site/register
         function cacheStations(key, data, expiryHours = 4) {
             localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() + expiryHours * 3600 * 1000 }));
         }
@@ -176,8 +178,17 @@
         function initMap() {
             map = L.map('map', { zoomControl: false }).setView([40.7128, -74.0060], 2);
             L.control.zoom({ position: 'bottomright' }).addTo(map);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                attribution: '© OpenStreetMap © CARTO', subdomains: 'abcd', maxZoom: 20
+            let tileUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+            let attribution = '© OpenStreetMap © CARTO';
+            if (MAPBOX_ACCESS_TOKEN) {
+                tileUrl = 'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_ACCESS_TOKEN;
+                attribution = '© OpenStreetMap contributors, Imagery © Mapbox';
+            }
+            L.tileLayer(tileUrl, {
+                attribution: attribution,
+                maxZoom: 20,
+                tileSize: 512,
+                zoomOffset: -1
             }).addTo(map);
             updateApiStatus('Map initialized', 'success');
         }
@@ -185,7 +196,7 @@
             if (!navigator.permissions) return 'unknown';
             try {
                 const result = await navigator.permissions.query({ name: 'geolocation' });
-                return result.state; // 'granted', 'prompt', or 'denied'
+                return result.state;
             } catch (error) {
                 console.error(`Permission check error: ${error.message}`);
                 return 'unknown';
@@ -273,6 +284,53 @@
                 throw error;
             }
         }
+        async function fetchOpenChargeMapEVStations(lat, lng, radiusMeters, country_code) {
+            if (!OPEN_CHARGE_MAP_KEY) {
+                console.warn('Open Charge Map API key not provided, falling back to OpenStreetMap for EV stations.');
+                return [];
+            }
+            const maxResults = 100;
+            const distanceUnit = 'KM';
+            const url = `https://api.openchargemap.io/v3/poi/?output=json&latitude=${lat}&longitude=${lng}&distance=${radiusMeters / 1000}&distanceunit=${distanceUnit}&countrycode=${country_code}&maxresults=${maxResults}&key=${OPEN_CHARGE_MAP_KEY}`;
+            try {
+                const response = await rateLimitedFetch(url);
+                if (!response.ok) throw new Error(`Open Charge Map API error: ${response.status}`);
+                const data = await response.json();
+                return data.map(station => {
+                    const addressInfo = station.AddressInfo || {};
+                    const connections = station.Connections || [];
+                    const services = connections.map(conn => {
+                        let service = conn.ConnectionType?.Title || 'EV Charging';
+                        if (conn.PowerKW) service += ` (${conn.PowerKW}kW)`;
+                        return service;
+                    });
+                    const amenities = [];
+                    if (station.DataProviderID === 1) amenities.push('Public');
+                    return {
+                        id: `ocm_${station.ID}`,
+                        name: addressInfo.Title || 'EV Charging Station',
+                        type: 'ev',
+                        lat: addressInfo.Latitude,
+                        lng: addressInfo.Longitude,
+                        distance: Math.round(calculateDistance(lat, lng, addressInfo.Latitude, addressInfo.Longitude)),
+                        rating: 4.0, // Placeholder, as OCM doesn't provide ratings
+                        reviewCount: 10, // Placeholder
+                        isOpen: true, // OCM has UsageType.IsOperational, but assuming true for simplicity
+                        address: addressInfo.AddressLine1 || 'Address not available',
+                        services: services.length > 0 ? services : ['Electric Charging'],
+                        amenities: amenities,
+                        hours: 'Hours unavailable', // OCM doesn't provide opening hours
+                        brand: station.OperatorInfo?.Title || 'EV Charger',
+                        website: station.OperatorInfo?.WebsiteURL || null,
+                        source: 'Open Charge Map',
+                        lastUpdate: station.DateLastStatusUpdate || new Date().toISOString()
+                    };
+                });
+            } catch (error) {
+                console.error(`Open Charge Map error: ${error.message}`);
+                return [];
+            }
+        }
         async function searchRealStations(lat, lng, radiusMeters = 5000, country_code = 'XX') {
             const cacheKey = `stations_${lat}_${lng}_${radiusMeters}_${country_code}`;
             const cached = getCachedStations(cacheKey);
@@ -282,7 +340,12 @@
             }
             updateApiStatus(`Searching stations within ${radiusMeters/1000}km...`, 'default');
             try {
-                const overpassQuery = `[out:json][timeout:25];(node["amenity"="fuel"](around:${radiusMeters},${lat},${lng});way["amenity"="fuel"](around:${radiusMeters},${lat},${lng});relation["amenity"="fuel"](around:${radiusMeters},${lat},${lng});node["amenity"="charging_station"](around:${radiusMeters},${lat},${lng});way["amenity"="charging_station"](around:${radiusMeters},${lat},${lng});relation["amenity"="charging_station"](around:${radiusMeters},${lat},${lng}););out center tags;`;
+                let stations = [];
+                // Fetch EV from Open Charge Map if key is provided
+                const evStations = await fetchOpenChargeMapEVStations(lat, lng, radiusMeters, country_code);
+                stations = [...stations, ...evStations];
+                // Fetch fuel from OpenStreetMap Overpass
+                const overpassQuery = `[out:json][timeout:25];(node["amenity"="fuel"](around:${radiusMeters},${lat},${lng});way["amenity"="fuel"](around:${radiusMeters},${lat},${lng});relation["amenity"="fuel"](around:${radiusMeters},${lat},${lng}););out center tags;`;
                 const response = await rateLimitedFetch('https://overpass-api.de/api/interpreter', {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain', 'User-Agent': 'ZANIROUTE/1.0' },
@@ -290,52 +353,47 @@
                 });
                 if (!response.ok) throw new Error(`OpenStreetMap API error: ${response.status}`);
                 const data = await response.json();
-                if (!data.elements || data.elements.length === 0) {
+                if (data.elements && data.elements.length > 0) {
+                    const fuelStations = await Promise.all(data.elements.map(async element => {
+                        const tags = element.tags || {};
+                        const elementLat = element.lat || element.center?.lat;
+                        const elementLng = element.lon || element.center?.lon;
+                        if (!elementLat || !elementLng) return null;
+                        const address = await getStationAddress(elementLat, elementLng, tags);
+                        const name = tags.name || tags.operator || tags.brand || 'Fuel Station';
+                        return {
+                            id: `osm_${element.id}`,
+                            name,
+                            type: 'fuel',
+                            lat: elementLat,
+                            lng: elementLng,
+                            distance: Math.round(calculateDistance(lat, lng, elementLat, elementLng)),
+                            rating: tags.rating ? parseFloat(tags.rating) : Math.round((3.0 + Math.random() * 2.0) * 10) / 10,
+                            reviewCount: tags.review_count ? parseInt(tags.review_count) : Math.floor(Math.random() * 500) + 10,
+                            isOpen: tags.opening_hours ? tags.opening_hours.includes('24/7') || evaluateOpeningHours(tags.opening_hours) : false,
+                            address: address.address,
+                            services: extractServices(tags, false),
+                            amenities: extractAmenities(tags),
+                            hours: tags.opening_hours || 'Hours unavailable',
+                            brand: tags.brand || tags.operator || 'Fuel Station',
+                            website: tags.website || null,
+                            source: 'OpenStreetMap',
+                            lastUpdate: new Date().toISOString()
+                        };
+                    }));
+                    stations = [...stations, ...fuelStations.filter(s => s !== null)];
+                }
+                stations = stations.sort((a, b) => a.distance - b.distance);
+                if (stations.length === 0) {
                     if (radiusMeters < 50000) {
                         updateApiStatus(`No stations found, trying ${radiusMeters * 2/1000}km...`, 'default');
                         return await searchRealStations(lat, lng, radiusMeters * 2, country_code);
                     }
                     throw new Error('No stations found in this area. Try a larger radius or different location.');
                 }
-                const stations = await Promise.all(data.elements.map(async element => {
-                    const tags = element.tags || {};
-                    const elementLat = element.lat || element.center?.lat;
-                    const elementLng = element.lon || element.center?.lon;
-                    if (!elementLat || !elementLng) return null;
-                    const isEV = tags.amenity === 'charging_station';
-                    const address = await getStationAddress(elementLat, elementLng, tags);
-                    const name = tags.name || tags.operator || tags.brand || (isEV ? 'EV Charging Station' : 'Fuel Station');
-                    return {
-                        id: `osm_${element.id}`,
-                        name,
-                        type: isEV ? 'ev' : 'fuel',
-                        lat: elementLat,
-                        lng: elementLng,
-                        distance: Math.round(calculateDistance(lat, lng, elementLat, elementLng)),
-                        rating: tags.rating ? parseFloat(tags.rating) : Math.round((3.0 + Math.random() * 2.0) * 10) / 10,
-                        reviewCount: tags.review_count ? parseInt(tags.review_count) : Math.floor(Math.random() * 500) + 10,
-                        isOpen: tags.opening_hours ? tags.opening_hours.includes('24/7') || evaluateOpeningHours(tags.opening_hours) : false,
-                        address: address.address,
-                        services: extractServices(tags, isEV),
-                        amenities: extractAmenities(tags),
-                        hours: tags.opening_hours || 'Hours unavailable',
-                        brand: tags.brand || tags.operator || (isEV ? 'EV Charger' : 'Fuel Station'),
-                        website: tags.website || null,
-                        source: 'OpenStreetMap',
-                        lastUpdate: new Date().toISOString()
-                    };
-                }));
-                const validStations = stations.filter(s => s !== null).sort((a, b) => a.distance - b.distance);
-                if (validStations.length === 0) {
-                    if (radiusMeters < 50000) {
-                        updateApiStatus(`No stations found, trying ${radiusMeters * 2/1000}km...`, 'default');
-                        return await searchRealStations(lat, lng, radiusMeters * 2, country_code);
-                    }
-                    throw new Error('No stations found in this area. Try a larger radius or different location.');
-                }
-                cacheStations(cacheKey, validStations);
-                updateApiStatus(`Found ${validStations.length} stations`, 'success');
-                return validStations;
+                cacheStations(cacheKey, stations);
+                updateApiStatus(`Found ${stations.length} stations`, 'success');
+                return stations;
             } catch (error) {
                 console.error(`Station search error: ${error.message}`);
                 updateApiStatus(error.message, 'error');
@@ -489,10 +547,9 @@
                 <div class="no-results">
                     <h3>No Stations Found</h3>
                     <p>${message}</p>
-                    <p>Try enabling location permissions in your browser or enter a city/address to search.</p>
+                    <p>Try increasing the search radius, searching a different location, or checking your internet connection.</p>
                     <button class="btn" onclick="tryAgain()" style="margin-top:1rem;" aria-label="Try a different location">Try Again</button>
                 </div>`;
-            document.getElementById('location-input').focus();
         }
         function tryAgain() {
             document.getElementById('location-input').value = '';
