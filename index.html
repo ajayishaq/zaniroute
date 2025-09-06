@@ -9,7 +9,7 @@
     <meta name="author" content="ZANIROUTE">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://zaniroute.com">
-    <meta name="theme-color" content="#1a1a1a">
+    <meta name="theme-color" content="#ffffff">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://zaniroute.com">
     <meta property="og:title" content="ZANIROUTE - Fuel & EV Station Finder">
@@ -20,30 +20,780 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#1a1a1a;color:#fff;min-height:100vh;overflow-x:hidden}.header{background:rgba(26,26,26,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.15);position:sticky;top:0;z-index:1000}.nav{max-width:1400px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}.brand-section{display:flex;flex-direction:column;align-items:flex-start}.logo{font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem}.tagline{color:#888;font-size:.85rem;font-weight:400}.social-links{display:flex;gap:.75rem;align-items:center}.social-link{color:#888;text-decoration:none;padding:.6rem;border-radius:20px;transition:all .3s ease;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;width:40px;height:40px}.social-link:hover{color:#fff;background:rgba(255,255,255,0.1)}.main-content{max-width:1400px;margin:0 auto;padding:2rem}.ad-banner{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1rem;margin-bottom:2rem;min-height:90px;display:flex;align-items:center;justify-content:center}.search-section{background:rgba(42,42,42,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:16px;padding:2rem;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,0.15)}.search-container{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}.search-bar{flex:1;min-width:300px}.search-input{width:100%;background:#1a1a1a;border:1px solid #444;border-radius:12px;padding:1rem 1.25rem;color:#fff;font-size:1rem;transition:all .2s ease}.search-input:focus{outline:none;border-color:#fff;background:#222}.search-input::placeholder{color:#666}.search-controls{display:flex;gap:1rem;flex-wrap:wrap}.radius-select{background:#1a1a1a;border:1px solid #444;border-radius:12px;padding:1rem;color:#fff;font-size:1rem;min-width:120px}.btn{background:#fff;color:#1a1a1a;border:none;border-radius:12px;padding:1rem 1.5rem;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .3s ease;white-space:nowrap}.btn:hover{background:#e6e6e6;transform:translateY(-2px)}.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}.btn-secondary{background:transparent;color:#fff;border:1px solid #444}.btn-secondary:hover{background:rgba(255,255,255,0.1);color:#fff}.filter-section{display:flex;gap:.5rem;flex-wrap:wrap}.filter-btn{background:#1a1a1a;color:#888;border:1px solid #333;border-radius:25px;padding:.75rem 1.5rem;font-size:.9rem;font-weight:500;cursor:pointer;transition:all .3s ease;white-space:nowrap}.filter-btn.active{background:#fff;color:#1a1a1a;border-color:#fff}.filter-btn:hover:not(.active){background:#333;color:#fff;transform:translateY(-2px)}.results-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin-bottom:2rem}.station-card{background:rgba(42,42,42,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:1.5rem;transition:all .3s ease}.station-card:hover{border-color:#555;background:rgba(47,47,47,0.75);transform:translateY(-4px)}.station-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}.station-name{font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:.25rem}.station-distance{color:#888;font-size:.85rem}.station-status{display:flex;align-items:center;gap:.5rem;font-size:.85rem}.status-dot{width:8px;height:8px;border-radius:50%;background:#22c55e}.status-dot.closed{background:#ef4444}.station-rating{display:flex;align-items:center;gap:.25rem;margin-bottom:.75rem}.rating-stars{color:#fbbf24;font-size:.85rem}.rating-number{color:#888;font-size:.85rem}.station-address{color:#888;font-size:.9rem;margin-bottom:1rem;line-height:1.4}.station-services{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}.service-tag{background:#1a1a1a;color:#fff;padding:.25rem .75rem;border-radius:12px;font-size:.75rem;font-weight:500;border:1px solid #444}.service-tag.fuel{background:#dc2626;border-color:#dc2626}.service-tag.ev{background:#0ea5e9;border-color:#0ea5e9}.station-amenities{display:flex;gap:.5rem;color:#888;font-size:.85rem;margin-bottom:1rem}.station-amenities span{font-size:1.1rem;cursor:pointer;transition:color .3s}.station-amenities span:hover{color:#fff}.station-actions{display:flex;gap:.75rem}.action-btn{flex:1;background:#1a1a1a;color:#fff;border:1px solid #444;border-radius:8px;padding:.75rem;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .3s ease;text-align:center}.action-btn.primary{background:#fff;color:#1a1a1a;border-color:#fff}.action-btn:hover{background:#333;transform:translateY(-2px)}.action-btn.primary:hover{background:#e6e6e6}.map-container{background:#fff;border:1px solid #e0e0e0;border-radius:16px;padding:1.5rem;margin-bottom:2rem;height:500px;box-shadow:0 4px 12px rgba(0,0,0,0.1);background:#f5f5f5}#map{height:100%;border-radius:12px;background:#fff}.loading{display:flex;justify-content:center;align-items:center;padding:3rem;color:#888}.spinner{width:28px;height:28px;border:3px solid rgba(255,255,255,0.3);border-top:3px solid #fff;border-radius:50%;animation:spin .8s ease-in-out infinite;margin-right:1rem}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.no-results{text-align:center;padding:3rem;color:#888}.no-results h3{color:#fff;margin-bottom:1rem}.location-alert{background:#f59e0b;color:#1a1a1a;padding:1rem;border-radius:12px;margin-bottom:1rem;text-align:center;font-weight:500}.affiliate-ad{background:linear-gradient(135deg,#ff6600,#ff8533);color:#fff;padding:2rem;border-radius:16px;text-align:center;margin:2rem 0}.affiliate-ad h3{font-size:1.3rem;font-weight:700;margin-bottom:.75rem}.affiliate-ad p{opacity:.9;margin-bottom:1.5rem;line-height:1.5}.affiliate-btn{background:#fff;color:#ff6600;border:none;padding:1rem 2rem;border-radius:12px;font-weight:700;cursor:pointer;transition:all .3s ease;text-transform:uppercase;letter-spacing:.5px}.affiliate-btn:hover{background:#f0f0f0;transform:translateY(-2px)}.popup-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:10000;align-items:center;justify-content:center}.popup-content{background:rgba(42,42,42,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:16px;padding:2rem;max-width:400px;width:90%;text-align:center;border:1px solid rgba(255,255,255,0.15)}.popup-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#888;font-size:1.5rem;cursor:pointer}.popup-close:hover{color:#fff}.popup-title{font-size:1.3rem;font-weight:600;margin-bottom:1rem;color:#fff}.popup-description{color:#888;margin-bottom:1.5rem;line-height:1.5}.footer{background:rgba(26,26,26,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,0.15);padding:2rem 0;text-align:center;margin-top:3rem}.footer-content{max-width:1400px;margin:0 auto;padding:0 2rem}.footer-text{color:#888;font-size:.85rem}.api-status{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.85rem;color:#888;text-align:center}.api-status.error{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#ef4444}.api-status.success{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);color:#22c55e}.api-status.hidden{display:none}@supports not (backdrop-filter:blur(12px)){.header,.search-section,.station-card,.footer,.popup-content{background:rgba(26,26,26,0.9)}}@media (max-width:768px){.nav{flex-direction:column;gap:.75rem;padding:0 1rem;align-items:center}.brand-section{align-items:center;text-align:center}.social-links{gap:.5rem}.social-link{width:36px;height:36px;padding:.5rem}.main-content{padding:1rem}.search-container{flex-direction:column}.search-controls{justify-content:stretch}.search-controls>*{flex:1}.results-container{grid-template-columns:1fr}.logo{font-size:1.5rem}.station-actions{flex-direction:column}}@media (max-width:480px){.search-section{padding:1.5rem}.station-card{padding:1rem}.filter-section{justify-content:center}}
+        :root {
+            --primary-white: #ffffff;
+            --soft-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #6c757d;
+            --deep-black: #000000;
+            --blue-accent: #007AFF;
+            --blue-light: #E3F2FD;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --primary-white: #1a1a1a;
+            --soft-gray: #2a2a2a;
+            --medium-gray: #3a3a3a;
+            --dark-gray: #888888;
+            --deep-black: #ffffff;
+            --blue-accent: #0A84FF;
+            --blue-light: #1C3A57;
+            --shadow-light: rgba(255, 255, 255, 0.1);
+            --shadow-medium: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-white);
+            color: var(--deep-black);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--medium-gray);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(26, 26, 26, 0.8);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--deep-black);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-menu {
+            display: none;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--blue-accent);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dark-mode-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode-toggle:hover {
+            background: var(--medium-gray);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .social-link {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .social-link:hover {
+            color: var(--blue-accent);
+            background: var(--blue-light);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Search Section */
+        .search-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            margin: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px var(--shadow-light);
+        }
+
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            background: var(--primary-white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            color: var(--deep-black);
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 0 2px 4px var(--shadow-light);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--blue-accent);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .search-input::placeholder {
+            color: var(--dark-gray);
+        }
+
+        .search-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .radius-select {
+            background: var(--primary-white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 25px;
+            padding: 0.75rem 1rem;
+            color: var(--deep-black);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn {
+            background: var(--blue-accent);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+        }
+
+        .btn:hover {
+            background: #0056CC;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--deep-black);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px var(--shadow-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--medium-gray);
+            transform: translateY(-2px);
+        }
+
+        /* Filter Chips */
+        .filter-section {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            color: var(--deep-black);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .filter-chip:hover {
+            background: var(--blue-light);
+            transform: translateY(-1px);
+        }
+
+        .filter-chip.active {
+            background: var(--blue-accent);
+            color: white;
+            border-color: var(--blue-accent);
+        }
+
+        /* Content Layout */
+        .content-layout {
+            display: flex;
+            flex: 1;
+            gap: 1rem;
+            margin: 0 1rem;
+        }
+
+        /* Map Section */
+        .map-container {
+            flex: 1;
+            background: var(--soft-gray);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px var(--shadow-light);
+            border: 1px solid var(--medium-gray);
+            min-height: 400px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+        }
+
+        /* Station List */
+        .station-list-container {
+            width: 100%;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px var(--shadow-light);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .station-list-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--medium-gray);
+            background: var(--primary-white);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .station-list-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--deep-black);
+            margin-bottom: 0.5rem;
+        }
+
+        .station-count {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .station-list {
+            padding: 1rem;
+        }
+
+        .station-card {
+            background: var(--primary-white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 16px var(--shadow-light);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .station-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--shadow-medium);
+            border-color: var(--blue-accent);
+        }
+
+        .station-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .station-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--deep-black);
+            margin-bottom: 0.25rem;
+        }
+
+        .station-type {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue-accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .station-distance {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .station-info {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .station-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10B981;
+        }
+
+        .status-indicator.closed {
+            background: #EF4444;
+        }
+
+        .station-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .station-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            color: var(--deep-black);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .action-btn:hover {
+            background: var(--blue-accent);
+            color: white;
+            border-color: var(--blue-accent);
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: var(--dark-gray);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--medium-gray);
+            border-top: 3px solid var(--blue-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* API Status */
+        .api-status {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: var(--deep-black);
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 999;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px var(--shadow-light);
+        }
+
+        .api-status.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        .api-status.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #EF4444;
+            color: #EF4444;
+        }
+
+        .api-status.success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10B981;
+            color: #10B981;
+        }
+
+        /* Ads Section */
+        .ads-section {
+            margin: 2rem 1rem;
+        }
+
+        .ad-banner {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 16px var(--shadow-light);
+        }
+
+        .affiliate-card {
+            background: linear-gradient(135deg, var(--blue-accent), #0056CC);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 122, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .affiliate-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .affiliate-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .affiliate-card p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .affiliate-btn {
+            background: white;
+            color: var(--blue-accent);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .affiliate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--soft-gray);
+            border-top: 1px solid var(--medium-gray);
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-text {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .popup-content {
+            background: var(--primary-white);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 1px solid var(--medium-gray);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--dark-gray);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .popup-close:hover {
+            background: var(--medium-gray);
+        }
+
+        .popup-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--deep-black);
+        }
+
+        .popup-description {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .nav-menu {
+                display: flex;
+            }
+
+            .content-layout {
+                flex-direction: row;
+            }
+
+            .map-container {
+                min-height: 600px;
+            }
+
+            .station-list-container {
+                width: 400px;
+                flex-shrink: 0;
+            }
+
+            .search-container {
+                flex-wrap: nowrap;
+            }
+
+            .search-input {
+                min-width: 300px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .content-layout {
+                flex-direction: column;
+            }
+
+            .map-container {
+                order: 1;
+                min-height: 300px;
+            }
+
+            .station-list-container {
+                order: 2;
+                max-height: 400px;
+            }
+
+            .nav {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .search-section {
+                margin: 0.5rem;
+                padding: 1rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-controls {
+                justify-content: space-between;
+            }
+
+            .station-card {
+                padding: 1rem;
+            }
+
+            .station-actions {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* iOS-style animations */
+        @media (prefers-reduced-motion: no-preference) {
+            * {
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        }
     </style>
 </head>
-<body>
+<body data-theme="light">
+    <!-- Header -->
     <header class="header">
         <nav class="nav">
-            <div class="brand-section">
+            <div class="logo-section">
                 <div class="logo">ZANIROUTE</div>
-                <div class="tagline">Find Fuel & EV Stations</div>
             </div>
-            <div class="social-links">
-                <a href="https://twitter.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Twitter" aria-label="Follow ZANIROUTE on Twitter"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-                <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Instagram" aria-label="Follow ZANIROUTE on Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            
+            <ul class="nav-menu">
+            </ul>
+            
+            <div class="header-controls">
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                </button>
+                
+                <div class="social-links">
+                    <a href="https://twitter.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Twitter" aria-label="Follow ZANIROUTE on Twitter">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Instagram" aria-label="Follow ZANIROUTE on Instagram">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </nav>
     </header>
-    <main class="main-content">
-        <div class="ad-banner"><iframe data-aa='2407562' src='//acceptable.a-ads.com/2407562/?size=Adaptive' style='border:0;padding:0;width:70%;height:auto;overflow:hidden;display:block;margin:auto'></iframe></div>
-        <div id="api-status" class="api-status">Searching for nearby stations...</div>
+
+    <!-- API Status -->
+    <div id="api-status" class="api-status hidden">Searching for nearby stations...</div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Search Section -->
         <div class="search-section">
             <div class="search-container">
-                <div class="search-bar">
-                    <input type="text" id="location-input" class="search-input" placeholder="Enter city, address, or coordinates" aria-label="Search for a location" autocomplete="off">
-                </div>
+                <input type="text" id="location-input" class="search-input" placeholder="Search for city, address, or coordinates..." aria-label="Search for a location" autocomplete="off">
                 <div class="search-controls">
                     <select id="radius-select" class="radius-select" aria-label="Select search radius">
                         <option value="1000">1 km</option>
@@ -57,36 +807,84 @@
                     <button id="near-me-btn" class="btn btn-secondary" aria-label="Find stations near my location">Near Me</button>
                 </div>
             </div>
+            
             <div class="filter-section">
-                <button class="filter-btn active" data-type="all" aria-label="Show all stations">All Stations</button>
-                <button class="filter-btn" data-type="fuel" aria-label="Show gas stations">Gas Stations</button>
-                <button class="filter-btn" data-type="ev" aria-label="Show EV charging stations">EV Charging</button>
-                <button class="filter-btn" data-type="open" aria-label="Show open stations">Open Now</button>
+                <button class="filter-chip active" data-type="all" aria-label="Show all stations">All Stations</button>
+                <button class="filter-chip" data-type="fuel" aria-label="Show gas stations">Petrol</button>
+                <button class="filter-chip" data-type="fuel" aria-label="Show diesel stations">Diesel</button>
+                <button class="filter-chip" data-type="ev" aria-label="Show EV charging stations">EV</button>
+                <button class="filter-chip" data-type="open" aria-label="Show open stations">Open Now</button>
             </div>
         </div>
-        <div class="results-container" id="results-container"><div class="loading" id="loading-state"><div class="spinner"></div>Searching for stations...</div></div>
-        <div class="map-container"><div id="map"></div></div>
-        <div class="affiliate-ad">
+
+        <!-- Content Layout -->
+        <div class="content-layout">
+            <!-- Map Container -->
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+            <!-- Station List -->
+            <div class="station-list-container">
+                <div class="station-list-header">
+                    <h2 class="station-list-title">Nearby Stations</h2>
+                    <p class="station-count">Finding stations near you...</p>
+                </div>
+                <div class="station-list" id="results-container">
+                    <div class="loading" id="loading-state">
+                        <div class="spinner"></div>
+                        <p>Searching for stations...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ads Section -->
+    <div class="ads-section">
+        <div class="ad-banner">
+            <iframe data-aa='2407562' src='//acceptable.a-ads.com/2407562/?size=Adaptive' style='border:0;padding:0;width:70%;height:auto;overflow:hidden;display:block;margin:auto'></iframe>
+        </div>
+
+        <div class="affiliate-card" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+            <h3>Learn While You Drive</h3>
+            <p>Get insights from bestselling books in 15 minutes with Headway.</p>
+            <button class="affiliate-btn" onclick="openAffiliate('headway')" aria-label="Start learning with Headway">Start Learning Free</button>
+        </div>
+
+        <div class="affiliate-card" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+            <h3>Design Your Dream Space</h3>
+            <p>Create 3D home designs with Coohom's powerful tools.</p>
+            <button class="affiliate-btn" onclick="openAffiliate('coohom')" aria-label="Start designing with Coohom">Start Designing Free</button>
+        </div>
+
+        <div class="affiliate-card" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
             <h3>Car Accessories & More</h3>
             <p>Shop automotive products and travel essentials at unbeatable prices!</p>
             <button class="affiliate-btn" onclick="openAffiliate('aliexpress')" aria-label="Shop on AliExpress">Shop AliExpress</button>
         </div>
-        <div style="background:#3b82f6;color:#fff;padding:2rem;border-radius:16px;text-align:center;margin:2rem 0">
-            <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:.75rem">Learn While You Drive</h3>
-            <p style="opacity:.9;margin-bottom:1.5rem">Get insights from bestselling books in 15 minutes with Headway.</p>
-            <button style="background:#fff;color:#3b82f6;border:none;padding:1rem 2rem;border-radius:12px;font-weight:700;cursor:pointer" onclick="openAffiliate('headway')" aria-label="Start learning with Headway">Start Learning Free</button>
-        </div>
-        <div style="background:#8b5cf6;color:#fff;padding:2rem;border-radius:16px;text-align:center;margin:2rem 0">
-            <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:.75rem">Design Your Dream Space</h3>
-            <p style="opacity:.9;margin-bottom:1.5rem">Create 3D home designs with Coohom's powerful tools.</p>
-            <button style="background:#fff;color:#8b5cf6;border:none;padding:1rem 2rem;border-radius:12px;font-weight:700;cursor:pointer" onclick="openAffiliate('coohom')" aria-label="Start designing with Coohom">Start Designing Free</button>
-        </div>
-    </main>
+    </div>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-text">© ZANIROUTE. All Rights Reserved</div>
+            <div class="social-links">
+                <a href="https://twitter.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Twitter">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+                <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Instagram">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+            </div>
         </div>
     </footer>
+
+    <!-- Popups -->
     <div class="popup-overlay" id="aliexpress-popup">
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup('aliexpress-popup')" aria-label="Close popup">&times;</button>
@@ -95,6 +893,7 @@
             <button class="btn" onclick="openAffiliatePopup('aliexpress')" aria-label="Shop now on AliExpress">Shop Now</button>
         </div>
     </div>
+
     <div class="popup-overlay" id="headway-popup">
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup('headway-popup')" aria-label="Close popup">&times;</button>
@@ -103,6 +902,7 @@
             <button class="btn" onclick="openAffiliatePopup('headway')" aria-label="Start learning with Headway">Start Learning Free</button>
         </div>
     </div>
+
     <div class="popup-overlay" id="coohom-popup">
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup('coohom-popup')" aria-label="Close popup">&times;</button>
@@ -111,22 +911,29 @@
             <button class="btn" onclick="openAffiliatePopup('coohom')" aria-label="Start designing with Coohom">Start Designing Free</button>
         </div>
     </div>
+
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
     <script>
+        // Global variables
         let map, currentMarkers = [], userLocation = null, currentFilter = 'all', allStations = [], routingControl = null, userMarker = null, lastApiCall = 0;
+        
+        // Affiliate links
         const affiliateLinks = {
             'aliexpress': 'https://rzekl.com/g/1e8d114494d55e29572016525dc3e8/',
             'headway': 'https://dorinebeaumont.com/g/0lsosy937ld55e295720c6b4dfe60d/',
             'coohom': 'https://uuwgc.com/g/c4x41k7tdtd55e295720c6b4dfe60d/'
         };
+
+        // Amenity icons
         const amenityIcons = {
             'Shop': '🛒', 'Car Wash': '🚿', 'ATM': '🏧', 'Restrooms': '🚻', 'WiFi': '📶',
             'Air Pump': '💨', 'Restaurant': '🍴', 'Cafe': '☕', 'Fast Food': '🍔',
             'Parking': '🅿️', 'Repair': '🔧', 'Convenience Store': '🏪', 'Car Parts': '🔩'
         };
 
-        // Enhanced API keys and configuration
+        // API Configuration
         const API_CONFIG = {
             MAPBOX_TOKEN: '', // Add your Mapbox token
             OPEN_CHARGE_MAP_KEY: '', // Add your Open Charge Map key
@@ -135,22 +942,55 @@
             USE_ENHANCED_APIS: true
         };
 
+        // Dark mode toggle
+        function toggleDarkMode() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update theme color meta tag
+            const themeColor = newTheme === 'dark' ? '#1a1a1a' : '#ffffff';
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor);
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            const themeColor = savedTheme === 'dark' ? '#1a1a1a' : '#ffffff';
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor);
+        }
+
+        // Update API status
         function updateApiStatus(message, type = 'default') {
             const statusElement = document.getElementById('api-status');
             statusElement.textContent = message;
             statusElement.className = `api-status ${type}`;
             
+            if (type !== 'hidden') {
+                statusElement.classList.remove('hidden');
+            }
+            
             // Auto-hide success messages after 3 seconds
             if (type === 'success') {
                 setTimeout(() => {
-                    statusElement.className = `api-status hidden`;
+                    statusElement.classList.add('hidden');
                 }, 3000);
             }
         }
 
+        // Initialize map
         function initMap() {
-            map = L.map('map', { zoomControl: false }).setView([40.7128, -74.0060], 2);
+            map = L.map('map', { 
+                zoomControl: false,
+                attributionControl: false 
+            }).setView([40.7128, -74.0060], 2);
+            
             L.control.zoom({ position: 'bottomright' }).addTo(map);
+            L.control.attribution({ position: 'bottomleft', prefix: false }).addTo(map);
             
             let tileUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
             let attribution = '© OpenStreetMap © CARTO';
@@ -166,8 +1006,14 @@
                 tileSize: 512,
                 zoomOffset: -1
             }).addTo(map);
+
+            // Resize map when container changes
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 100);
         }
 
+        // Rate limited fetch
         async function rateLimitedFetch(url, options, delay = 300) {
             const now = Date.now();
             if (now - lastApiCall < delay) {
@@ -177,6 +1023,7 @@
             return fetch(url, options);
         }
 
+        // Get user location
         function getUserLocation(maxRetries = 2, timeout = 10000) {
             return new Promise((resolve, reject) => {
                 if (!navigator.geolocation) {
@@ -227,6 +1074,7 @@
             });
         }
 
+        // Geocode address
         async function geocodeAddress(address) {
             if (!address || address.trim().length < 2) {
                 throw new Error('Please enter a valid location');
@@ -256,6 +1104,18 @@
                 updateApiStatus('Location search failed', 'error');
                 throw error;
             }
+        }
+
+        // Calculate distance
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c * 1000; // Return distance in meters
         }
 
         // Enhanced station search with multiple APIs
@@ -389,28 +1249,47 @@
                         
                         if (!elementLat || !elementLng) continue;
                         
-                        const isEV = tags.amenity === 'charging_station';
-                        const name = tags.name || tags.operator || tags.brand || (isEV ? 'EV Charging Station' : 'Fuel Station');
+                        const stationType = tags.amenity === 'charging_station' ? 'ev' : 'fuel';
+                        const services = [];
                         
-                        // Get enhanced address
-                        const address = await getEnhancedAddress(elementLat, elementLng, tags);
+                        if (stationType === 'fuel') {
+                            if (tags.fuel?.includes('diesel') || tags['fuel:diesel'] === 'yes') services.push('Diesel');
+                            if (tags.fuel?.includes('octane') || tags['fuel:octane_91'] === 'yes' || tags['fuel:octane_95'] === 'yes') services.push('Petrol');
+                            if (!services.length) services.push('Petrol', 'Diesel');
+                        } else {
+                            const socketTypes = [];
+                            if (tags['socket:type2'] === 'yes') socketTypes.push('Type 2');
+                            if (tags['socket:chademo'] === 'yes') socketTypes.push('CHAdeMO');
+                            if (tags['socket:ccs'] === 'yes') socketTypes.push('CCS');
+                            services.push(...socketTypes);
+                            if (!services.length) services.push('Electric Charging');
+                        }
+                        
+                        const amenities = [];
+                        if (tags.shop) amenities.push('Shop');
+                        if (tags.amenity === 'restaurant' || tags.restaurant) amenities.push('Restaurant');
+                        if (tags.amenity === 'cafe' || tags.cafe) amenities.push('Cafe');
+                        if (tags.car_wash === 'yes') amenities.push('Car Wash');
+                        if (tags.atm === 'yes') amenities.push('ATM');
+                        if (tags.toilets === 'yes') amenities.push('Restrooms');
+                        if (tags.wifi === 'yes' || tags.internet_access === 'wlan') amenities.push('WiFi');
                         
                         stations.push({
-                            id: `osm_${element.id}`,
-                            name,
-                            type: isEV ? 'ev' : 'fuel',
+                            id: `osm_${element.type}_${element.id}`,
+                            name: tags.name || tags.brand || (stationType === 'ev' ? 'EV Charging Station' : 'Fuel Station'),
+                            type: stationType,
                             lat: elementLat,
                             lng: elementLng,
                             distance: Math.round(calculateDistance(lat, lng, elementLat, elementLng)),
-                            rating: parseFloat(tags.rating) || Math.round((3.2 + Math.random() * 1.8) * 10) / 10,
-                            reviewCount: parseInt(tags.review_count) || Math.floor(Math.random() * 200) + 15,
-                            isOpen: evaluateOpeningHours(tags.opening_hours),
-                            address: address,
-                            services: extractServices(tags, isEV),
-                            amenities: extractAmenities(tags),
+                            rating: Math.round((3.8 + Math.random() * 1.4) * 10) / 10,
+                            reviewCount: Math.floor(Math.random() * 150) + 15,
+                            isOpen: tags.opening_hours !== 'closed' && tags['opening_hours:covid19'] !== 'closed',
+                            address: formatAddress(tags),
+                            services: services,
+                            amenities: amenities,
                             hours: tags.opening_hours || 'Hours not available',
-                            brand: tags.brand || tags.operator || name,
-                            website: tags.website,
+                            brand: tags.brand || tags.operator || tags.name || 'Independent',
+                            website: tags.website || tags.contact?.website,
                             source: 'OpenStreetMap',
                             lastUpdate: new Date().toISOString()
                         });
@@ -424,446 +1303,428 @@
             }
         }
 
-        async function getEnhancedAddress(lat, lng, tags) {
-            // Check if we have address tags first
-            const addressParts = [];
-            if (tags['addr:housenumber']) addressParts.push(tags['addr:housenumber']);
-            if (tags['addr:street']) addressParts.push(tags['addr:street']);
-            if (tags['addr:city']) addressParts.push(tags['addr:city']);
-            if (tags['addr:state']) addressParts.push(tags['addr:state']);
-            
-            if (addressParts.length >= 2) return addressParts.join(', ');
-            
-            // Fallback to reverse geocoding
-            try {
-                const response = await rateLimitedFetch(
-                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
-                    { headers: { 'User-Agent': 'ZANIROUTE/2.0' } }
-                );
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.address) {
-                        const addr = data.address;
-                        const parts = [];
-                        if (addr.house_number && addr.road) parts.push(`${addr.house_number} ${addr.road}`);
-                        else if (addr.road) parts.push(addr.road);
-                        if (addr.city || addr.town || addr.village) parts.push(addr.city || addr.town || addr.village);
-                        if (addr.state && addr.postcode) parts.push(`${addr.state} ${addr.postcode}`);
-                        else if (addr.state) parts.push(addr.state);
-                        
-                        return parts.length > 0 ? parts.join(', ') : 'Address not available';
-                    }
-                }
-            } catch (error) {
-                console.error('Enhanced address lookup failed:', error.message);
+        function formatAddress(tags) {
+            const parts = [];
+            if (tags['addr:housenumber'] && tags['addr:street']) {
+                parts.push(`${tags['addr:housenumber']} ${tags['addr:street']}`);
+            } else if (tags['addr:street']) {
+                parts.push(tags['addr:street']);
             }
-            
-            return 'Address not available';
+            if (tags['addr:city']) parts.push(tags['addr:city']);
+            if (tags['addr:state'] || tags['addr:province']) parts.push(tags['addr:state'] || tags['addr:province']);
+            return parts.length > 0 ? parts.join(', ') : 'Address not available';
         }
 
-        async function searchRealStations(lat, lng, radiusMeters = 5000, country_code = 'XX') {
-            updateApiStatus(`Searching stations within ${radiusMeters/1000}km...`);
+        // Search for stations
+        async function searchStations(location, radiusMeters) {
+            updateApiStatus('Searching for stations...', 'default');
+            allStations = [];
             
             try {
-                let allStationsFound = [];
+                const searchPromises = [
+                    fetchOverpassStations(location.lat, location.lng, radiusMeters)
+                ];
                 
-                // Fetch from multiple sources in parallel
-                const [overpassStations, ocmStations, foursquareStations] = await Promise.all([
-                    fetchOverpassStations(lat, lng, radiusMeters),
-                    fetchOpenChargeMapEVStations(lat, lng, radiusMeters, country_code),
-                    API_CONFIG.USE_ENHANCED_APIS ? fetchFoursquareStations(lat, lng, radiusMeters) : Promise.resolve([])
-                ]);
-                
-                // Combine all results
-                allStationsFound = [...overpassStations, ...ocmStations, ...foursquareStations];
-                
-                // Remove duplicates based on proximity (within 50 meters)
-                const uniqueStations = [];
-                for (const station of allStationsFound) {
-                    const isDuplicate = uniqueStations.some(existing => 
-                        calculateDistance(station.lat, station.lng, existing.lat, existing.lng) < 50 &&
-                        station.type === existing.type
+                if (API_CONFIG.USE_ENHANCED_APIS) {
+                    searchPromises.push(
+                        fetchFoursquareStations(location.lat, location.lng, radiusMeters),
+                        fetchOpenChargeMapEVStations(location.lat, location.lng, radiusMeters, location.country_code)
                     );
-                    
-                    if (!isDuplicate) {
-                        uniqueStations.push(station);
+                }
+                
+                const results = await Promise.allSettled(searchPromises);
+                
+                results.forEach((result, index) => {
+                    if (result.status === 'fulfilled') {
+                        allStations.push(...result.value);
+                    } else {
+                        console.error(`API ${index} failed:`, result.reason);
                     }
-                }
+                });
                 
-                // Sort by distance
-                const sortedStations = uniqueStations.sort((a, b) => a.distance - b.distance);
+                // Remove duplicates and sort by distance
+                allStations = removeDuplicateStations(allStations);
+                allStations.sort((a, b) => a.distance - b.distance);
                 
-                if (sortedStations.length === 0) {
-                    if (radiusMeters < 50000) {
-                        updateApiStatus(`Expanding search to ${radiusMeters * 2/1000}km...`);
-                        return await searchRealStations(lat, lng, radiusMeters * 2, country_code);
-                    }
-                    throw new Error('No stations found in this area');
-                }
-                
-                updateApiStatus(`Found ${sortedStations.length} stations from multiple sources`, 'success');
-                return sortedStations;
-                
-            } catch (error) {
-                updateApiStatus(error.message, 'error');
-                throw error;
-            }
-        }
-
-        function extractServices(tags, isEV) {
-            const services = [];
-            
-            if (isEV) {
-                services.push('Electric Charging');
-                if (tags.socket) {
-                    const sockets = Object.keys(tags).filter(key => key.startsWith('socket:')).map(key => key.split(':')[1].toUpperCase());
-                    services.push(...sockets.slice(0, 2));
-                }
-                if (tags['charging:output'] || tags.output) services.push(`${tags['charging:output'] || tags.output}kW`);
-            } else {
-                services.push('Petrol', 'Diesel');
-                if (tags['fuel:lpg'] === 'yes') services.push('LPG');
-                if (tags['fuel:cng'] === 'yes') services.push('CNG');
-                if (tags['fuel:adblue'] === 'yes') services.push('AdBlue');
-                if (tags['fuel:e10'] === 'yes') services.push('E10');
-                if (tags['fuel:octane_95'] === 'yes') services.push('Premium');
-            }
-            
-            return services.slice(0, 4);
-        }
-
-        function extractAmenities(tags) {
-            const amenities = [];
-            
-            if (tags.shop === 'convenience' || tags.shop === 'yes') amenities.push('Shop');
-            if (tags['car_wash'] === 'yes') amenities.push('Car Wash');
-            if (tags.atm === 'yes') amenities.push('ATM');
-            if (tags.toilets === 'yes') amenities.push('Restrooms');
-            if (tags.wifi === 'yes') amenities.push('WiFi');
-            if (tags['compressed_air'] === 'yes') amenities.push('Air Pump');
-            if (tags.restaurant === 'yes') amenities.push('Restaurant');
-            if (tags.cafe === 'yes') amenities.push('Cafe');
-            if (tags['service:vehicle:repair'] === 'yes') amenities.push('Repair');
-            if (tags.parking === 'yes') amenities.push('Parking');
-            
-            return amenities.slice(0, 6);
-        }
-
-        function evaluateOpeningHours(hours) {
-            if (!hours || hours === '24/7') return true;
-            
-            try {
-                const now = new Date();
-                const day = now.getDay();
-                const hour = now.getHours();
-                const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-                const dayStr = days[day];
-                
-                if (hours.includes(dayStr) || hours.includes('Mo-Su')) {
-                    const timeMatch = hours.match(/(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/);
-                    if (timeMatch) {
-                        const openHour = parseInt(timeMatch[1]);
-                        const closeHour = parseInt(timeMatch[3]);
-                        return hour >= openHour && hour < closeHour;
-                    }
-                }
-                return Math.random() > 0.3; // Default to likely open
-            } catch {
-                return Math.random() > 0.3;
-            }
-        }
-
-        function calculateDistance(lat1, lng1, lat2, lng2) {
-            const R = 6371000; // Earth's radius in meters
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLng = (lng2 - lng1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
-                     Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-                     Math.sin(dLng/2) * Math.sin(dLng/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c;
-        }
-
-        async function autoDetectAndSearch() {
-            try {
-                updateApiStatus('Getting your location...');
-                userLocation = await getUserLocation();
-                
-                // Set map view to user location
-                map.setView([userLocation.lat, userLocation.lng], 13);
-                
-                // Add user location marker
-                if (userMarker) map.removeLayer(userMarker);
-                userMarker = L.marker([userLocation.lat, userLocation.lng], {
-                    icon: L.divIcon({
-                        html: '<div style="background:#22c55e;width:20px;height:20px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>',
-                        iconSize: [20, 20],
-                        className: 'user-location-marker'
-                    })
-                }).addTo(map).bindPopup(`<strong>Your Location</strong><br>${userLocation.display_name || 'Current Position'}`);
-                
-                // Automatically search for stations
-                const radius = parseInt(document.getElementById('radius-select').value);
-                allStations = await searchRealStations(userLocation.lat, userLocation.lng, radius, userLocation.country_code);
-                
-                applyFilter();
-                
-            } catch (error) {
-                console.error('Auto-detect error:', error.message);
-                updateApiStatus('Enter a location to search for stations', 'error');
-                showManualSearch();
-            }
-        }
-
-        function showManualSearch() {
-            document.getElementById('results-container').innerHTML = `
-                <div class="no-results">
-                    <h3>Find Stations Near You</h3>
-                    <p>Enter your city, address, or use "Near Me" to find fuel and EV stations.</p>
-                    <button class="btn" onclick="document.getElementById('location-input').focus()" style="margin-top:1rem;">Search Now</button>
-                </div>`;
-        }
-
-        async function searchStations(searchQuery = null, radiusMeters = null) {
-            showLoading(true);
-            try {
-                let searchLocation;
-                if (searchQuery && searchQuery.trim()) {
-                    searchLocation = await geocodeAddress(searchQuery);
-                } else if (userLocation) {
-                    searchLocation = userLocation;
+                if (allStations.length === 0) {
+                    updateApiStatus('No stations found in this area', 'error');
                 } else {
-                    throw new Error('Please enter a location or enable location services');
+                    updateApiStatus(`Found ${allStations.length} stations`, 'success');
                 }
                 
-                const radius = radiusMeters || parseInt(document.getElementById('radius-select').value);
-                allStations = await searchRealStations(searchLocation.lat, searchLocation.lng, radius, searchLocation.country_code || 'XX');
-                
-                map.setView([searchLocation.lat, searchLocation.lng], 13);
-                
-                if (userMarker) map.removeLayer(userMarker);
-                userMarker = L.marker([searchLocation.lat, searchLocation.lng], {
-                    icon: L.divIcon({
-                        html: '<div style="background:#22c55e;width:20px;height:20px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>',
-                        iconSize: [20, 20],
-                        className: 'user-location-marker'
-                    })
-                }).addTo(map).bindPopup(`<strong>Search Location</strong><br>${searchLocation.display_name || 'Searched Position'}`);
-                
-                userLocation = searchLocation;
-                applyFilter();
+                displayStations(allStations);
+                updateMap();
                 
             } catch (error) {
-                updateApiStatus(error.message, 'error');
-                showError(error.message);
-            } finally {
-                showLoading(false);
+                console.error('Search error:', error);
+                updateApiStatus('Search failed. Please try again.', 'error');
             }
         }
 
-        function showLoading(show) {
-            const resultsContainer = document.getElementById('results-container');
-            if (show) {
-                resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Searching stations...</div>';
-            }
-        }
-
-        function showError(message) {
-            document.getElementById('results-container').innerHTML = `
-                <div class="no-results">
-                    <h3>Search Error</h3>
-                    <p>${message}</p>
-                    <button class="btn" onclick="tryAgain()" style="margin-top:1rem;">Try Again</button>
-                </div>`;
-        }
-
-        function tryAgain() {
-            document.getElementById('location-input').value = '';
-            updateApiStatus('Ready for a new search');
-            autoDetectAndSearch();
-        }
-
-        function applyFilter() {
-            let filteredStations = [...allStations];
+        function removeDuplicateStations(stations) {
+            const uniqueStations = [];
+            const seenCoordinates = new Set();
             
-            switch (currentFilter) {
-                case 'fuel': filteredStations = allStations.filter(s => s.type === 'fuel'); break;
-                case 'ev': filteredStations = allStations.filter(s => s.type === 'ev'); break;
-                case 'open': filteredStations = allStations.filter(s => s.isOpen); break;
+            for (const station of stations) {
+                const coordKey = `${station.lat.toFixed(4)},${station.lng.toFixed(4)}`;
+                if (!seenCoordinates.has(coordKey)) {
+                    seenCoordinates.add(coordKey);
+                    uniqueStations.push(station);
+                }
             }
             
-            displayResults(filteredStations);
-            updateMapMarkers(filteredStations);
-            
-            const filterText = currentFilter === 'all' ? 'stations' : 
-                             currentFilter === 'ev' ? 'EV charging points' : 
-                             currentFilter === 'open' ? 'open stations' : 'fuel stations';
-            updateApiStatus(`Showing ${filteredStations.length} ${filterText}`, 'success');
+            return uniqueStations;
         }
 
-        function displayResults(stations) {
+        // Display stations in the list
+        function displayStations(stations) {
             const container = document.getElementById('results-container');
+            const stationCount = document.querySelector('.station-count');
             
             if (stations.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <h3>No stations found</h3>
-                        <p>Try increasing the search radius or changing your filter.</p>
-                        <button class="btn" onclick="tryAgain()" style="margin-top:1rem;">Try Different Location</button>
-                    </div>`;
+                container.innerHTML = '<div class="loading"><p>No stations found in this area</p></div>';
+                stationCount.textContent = 'No stations found';
                 return;
             }
             
+            stationCount.textContent = `${stations.length} stations found`;
+            
             container.innerHTML = stations.map(station => `
-                <div class="station-card" data-id="${station.id}">
+                <div class="station-card" onclick="focusStation('${station.id}')">
                     <div class="station-header">
                         <div>
-                            <h3 class="station-name">${station.name}</h3>
-                            <div class="station-distance">${(station.distance / 1000).toFixed(1)} km away</div>
+                            <div class="station-name">${station.name}</div>
+                            <span class="station-type">${station.type === 'ev' ? 'EV' : 'Fuel'}</span>
                         </div>
+                        <div class="station-distance">${formatDistance(station.distance)}</div>
+                    </div>
+                    
+                    <div class="station-info">
                         <div class="station-status">
-                            <div class="status-dot ${station.isOpen ? '' : 'closed'}"></div>
-                            <span>${station.isOpen ? 'Open' : 'Closed'}</span>
+                            <span class="status-indicator ${station.isOpen ? '' : 'closed'}"></span>
+                            ${station.isOpen ? 'Open' : 'Closed'}
+                        </div>
+                        <div class="station-rating">
+                            ⭐ ${station.rating} (${station.reviewCount})
                         </div>
                     </div>
-                    <div class="station-rating">
-                        <div class="rating-stars">${'★'.repeat(Math.floor(station.rating))}${'☆'.repeat(5-Math.floor(station.rating))}</div>
-                        <div class="rating-number">${station.rating} (${station.reviewCount.toLocaleString()})</div>
-                    </div>
-                    <div class="station-address">${station.address}</div>
+                    
                     <div class="station-services">
-                        ${station.services.map(service => `<span class="service-tag ${station.type}">${service}</span>`).join('')}
+                        ${station.services.slice(0, 3).map(service => `<span class="service-tag">${service}</span>`).join('')}
                     </div>
-                    <div class="station-amenities">
-                        ${station.amenities.map(a => `<span title="${a}">${amenityIcons[a] || '❓'}</span>`).join('')}
-                    </div>
-                    <div style="color:#888;font-size:.8rem;margin-bottom:1rem">${station.hours}</div>
+                    
                     <div class="station-actions">
-                        <button class="action-btn primary" onclick="getDirections(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}')" aria-label="Get directions">Directions</button>
-                        ${station.website ? `<button class="action-btn" onclick="window.open('${station.website}', '_blank')" aria-label="Visit website">Website</button>` : ''}
+                        <button class="action-btn" onclick="getDirections(${station.lat}, ${station.lng}); event.stopPropagation();">
+                            Directions
+                        </button>
+                        <button class="action-btn" onclick="showStationDetails('${station.id}'); event.stopPropagation();">
+                            Details
+                        </button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function updateMapMarkers(stations) {
+        function formatDistance(meters) {
+            if (meters < 1000) {
+                return `${Math.round(meters)}m`;
+            } else {
+                return `${(meters / 1000).toFixed(1)}km`;
+            }
+        }
+
+        // Update map with stations
+        function updateMap() {
+            // Clear existing markers
             currentMarkers.forEach(marker => map.removeLayer(marker));
             currentMarkers = [];
             
-            stations.forEach(station => {
-                const iconColor = station.type === 'ev' ? '#0ea5e9' : '#dc2626';
-                const iconSymbol = station.type === 'ev' ? '⚡' : '⛽';
-                
+            // Add station markers
+            allStations.forEach(station => {
                 const icon = L.divIcon({
-                    html: `<div style="background:${iconColor};width:26px;height:26px;border-radius:50%;border:3px solid white;display:flex;align-items:center;justify-content:center;font-size:14px;color:white;font-weight:bold;box-shadow:0 2px 8px rgba(0,0,0,0.3);cursor:pointer">${iconSymbol}</div>`,
-                    iconSize: [26, 26],
-                    className: 'custom-station-icon'
+                    html: `<div class="custom-marker ${station.type}">${station.type === 'ev' ? 'EV' : 'F'}</div>`,
+                    className: 'custom-marker-container',
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
                 });
                 
                 const marker = L.marker([station.lat, station.lng], { icon })
-                    .addTo(map)
                     .bindPopup(`
-                        <div style="color:#333;font-family:Inter,sans-serif;min-width:280px;max-width:320px">
-                            <h3 style="margin:0 0 10px 0;color:#1a1a1a;font-size:18px;font-weight:600">${station.name}</h3>
-                            <p style="margin:0 0 8px 0;font-size:14px;color:#666">${station.address}</p>
-                            <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                                <span style="font-size:13px;color:${station.isOpen ? '#22c55e' : '#ef4444'};font-weight:500">
-                                    ${station.isOpen ? '✓ Open' : '✗ Closed'} • ${(station.distance / 1000).toFixed(1)} km
-                                </span>
-                            </div>
-                            <p style="margin:0 0 8px 0;font-size:12px;color:#666">${station.services.join(', ')}</p>
-                            <div style="display:flex;gap:.5rem;font-size:14px;color:#666;margin:0 0 8px 0">${station.amenities.map(a => `<span title="${a}">${amenityIcons[a] || '❓'}</span>`).join('')}</div>
-                            <p style="margin:0;font-size:12px;color:#666">${station.hours}</p>
-                            ${station.website ? `<p style="margin:8px 0 0;font-size:12px;color:#666"><a href="${station.website}" target="_blank">Website</a></p>` : ''}
+                        <div class="popup-content">
+                            <h3>${station.name}</h3>
+                            <p><strong>Type:</strong> ${station.type === 'ev' ? 'EV Charging' : 'Fuel Station'}</p>
+                            <p><strong>Distance:</strong> ${formatDistance(station.distance)}</p>
+                            <p><strong>Status:</strong> ${station.isOpen ? 'Open' : 'Closed'}</p>
+                            <button onclick="getDirections(${station.lat}, ${station.lng})" class="btn">Get Directions</button>
                         </div>
-                    `);
+                    `)
+                    .addTo(map);
                 
                 currentMarkers.push(marker);
             });
+            
+            // Fit map to show all stations
+            if (allStations.length > 0) {
+                const group = new L.featureGroup(currentMarkers);
+                if (userMarker) group.addLayer(userMarker);
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
         }
 
-        function getDirections(lat, lng, name) {
+        // Focus on a specific station
+        function focusStation(stationId) {
+            const station = allStations.find(s => s.id === stationId);
+            if (station) {
+                map.setView([station.lat, station.lng], 16);
+                const marker = currentMarkers.find(m => 
+                    Math.abs(m.getLatLng().lat - station.lat) < 0.0001 && 
+                    Math.abs(m.getLatLng().lng - station.lng) < 0.0001
+                );
+                if (marker) marker.openPopup();
+            }
+        }
+
+        // Get directions to a station
+        function getDirections(lat, lng) {
             if (!userLocation) {
-                updateApiStatus('Please set your location first', 'error');
+                updateApiStatus('Please enable location to get directions', 'error');
                 return;
             }
             
-            if (routingControl) map.removeControl(routingControl);
+            // Remove existing routing control
+            if (routingControl) {
+                map.removeControl(routingControl);
+            }
             
+            // Add new routing control
             routingControl = L.Routing.control({
                 waypoints: [
                     L.latLng(userLocation.lat, userLocation.lng),
                     L.latLng(lat, lng)
                 ],
-                router: L.Routing.osrmv1({
-                    serviceUrl: 'https://router.project-osrm.org/route/v1',
-                    profile: 'driving'
-                }),
-                lineOptions: { 
-                    styles: [{ color: '#3b82f6', weight: 5, opacity: 0.8 }], 
-                    addWaypoints: false 
-                },
-                createMarker: () => null,
-                show: true,
-                collapsible: true,
-                showAlternatives: false,
-                fitSelectedRoutes: true
+                routeWhileDragging: false,
+                addWaypoints: false,
+                createMarker: () => null, // Don't create default markers
+                lineOptions: {
+                    styles: [{ color: '#007AFF', weight: 4, opacity: 0.8 }]
+                }
             }).addTo(map);
             
-            updateApiStatus(`Directions to ${name}`, 'success');
+            updateApiStatus('Route calculated', 'success');
+        }
+
+        // Show station details
+        function showStationDetails(stationId) {
+            const station = allStations.find(s => s.id === stationId);
+            if (!station) return;
+            
+            // Create a simple modal for station details
+            const modal = document.createElement('div');
+            modal.className = 'popup-overlay';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="popup-content">
+                    <button class="popup-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+                    <h2 class="popup-title">${station.name}</h2>
+                    <div class="station-details">
+                        <p><strong>Type:</strong> ${station.type === 'ev' ? 'EV Charging Station' : 'Fuel Station'}</p>
+                        <p><strong>Distance:</strong> ${formatDistance(station.distance)}</p>
+                        <p><strong>Address:</strong> ${station.address}</p>
+                        <p><strong>Status:</strong> ${station.isOpen ? 'Open' : 'Closed'}</p>
+                        <p><strong>Hours:</strong> ${station.hours}</p>
+                        <p><strong>Services:</strong> ${station.services.join(', ')}</p>
+                        ${station.amenities.length > 0 ? `<p><strong>Amenities:</strong> ${station.amenities.map(a => amenityIcons[a] || a).join(' ')}</p>` : ''}
+                        <p><strong>Rating:</strong> ⭐ ${station.rating} (${station.reviewCount} reviews)</p>
+                        ${station.website ? `<p><strong>Website:</strong> <a href="${station.website}" target="_blank">Visit</a></p>` : ''}
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn" onclick="getDirections(${station.lat}, ${station.lng}); this.parentElement.parentElement.parentElement.remove();">Get Directions</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Filter stations
+        function filterStations(type) {
+            currentFilter = type;
+            
+            // Update filter chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            let filteredStations = allStations;
+            
+            if (type === 'fuel') {
+                filteredStations = allStations.filter(s => s.type === 'fuel');
+            } else if (type === 'ev') {
+                filteredStations = allStations.filter(s => s.type === 'ev');
+            } else if (type === 'open') {
+                filteredStations = allStations.filter(s => s.isOpen);
+            }
+            
+            displayStations(filteredStations);
         }
 
         // Affiliate functions
-        function openAffiliate(affiliate) {
-            document.getElementById(`${affiliate}-popup`).style.display = 'flex';
-        }
-        
-        function openAffiliatePopup(affiliate) {
-            window.open(affiliateLinks[affiliate], '_blank', 'noopener,noreferrer');
-            closePopup(`${affiliate}-popup`);
-        }
-        
-        function closePopup(popupId) {
-            document.getElementById(popupId).style.display = 'none';
+        function openAffiliate(platform) {
+            const popup = document.getElementById(`${platform}-popup`);
+            if (popup) {
+                popup.style.display = 'flex';
+            }
         }
 
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', () => {
+        function closePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        }
+
+        function openAffiliatePopup(platform) {
+            if (affiliateLinks[platform]) {
+                window.open(affiliateLinks[platform], '_blank');
+            }
+            closePopup(`${platform}-popup`);
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
             initMap();
             
-            // Search button
-            document.getElementById('search-btn').addEventListener('click', () => {
-                const query = document.getElementById('location-input').value.trim();
-                if (query) searchStations(query);
-                else updateApiStatus('Please enter a location', 'error');
-            });
-            
-            // Enter key search
-            document.getElementById('location-input').addEventListener('keypress', e => {
-                if (e.key === 'Enter') {
-                    const query = document.getElementById('location-input').value.trim();
-                    if (query) searchStations(query);
+            // Search functionality
+            document.getElementById('search-btn').addEventListener('click', async function() {
+                const address = document.getElementById('location-input').value.trim();
+                const radius = parseInt(document.getElementById('radius-select').value);
+                
+                if (!address) {
+                    updateApiStatus('Please enter a location', 'error');
+                    return;
+                }
+                
+                try {
+                    const location = await geocodeAddress(address);
+                    await searchStations(location, radius);
+                    
+                    // Update map view
+                    map.setView([location.lat, location.lng], 13);
+                    
+                    // Add location marker
+                    if (userMarker) map.removeLayer(userMarker);
+                    userMarker = L.marker([location.lat, location.lng], {
+                        icon: L.divIcon({
+                            html: '<div class="user-marker">●</div>',
+                            className: 'user-marker-container',
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 15]
+                        })
+                    }).addTo(map);
+                    
+                    userLocation = location;
+                } catch (error) {
+                    updateApiStatus(error.message, 'error');
                 }
             });
             
-            // Near me button
-            document.getElementById('near-me-btn').addEventListener('click', () => {
-                autoDetectAndSearch();
+            // Near me functionality
+            document.getElementById('near-me-btn').addEventListener('click', async function() {
+                try {
+                    updateApiStatus('Getting your location...', 'default');
+                    const location = await getUserLocation();
+                    const radius = parseInt(document.getElementById('radius-select').value);
+                    
+                    await searchStations(location, radius);
+                    
+                    // Update map view
+                    map.setView([location.lat, location.lng], 13);
+                    
+                    // Add user location marker
+                    if (userMarker) map.removeLayer(userMarker);
+                    userMarker = L.marker([location.lat, location.lng], {
+                        icon: L.divIcon({
+                            html: '<div class="user-marker">●</div>',
+                            className: 'user-marker-container',
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 15]
+                        })
+                    }).addTo(map);
+                    
+                    userLocation = location;
+                    document.getElementById('location-input').value = location.display_name || 'Your Location';
+                } catch (error) {
+                    updateApiStatus(error.message, 'error');
+                }
             });
             
-            // Filter buttons
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.dataset.type;
-                    if (allStations.length > 0) applyFilter();
+            // Enter key search
+            document.getElementById('location-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('search-btn').click();
+                }
+            });
+            
+            // Filter chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    filterStations(type);
                 });
             });
             
-            // Auto-start location detection immediately
-            autoDetectAndSearch();
+            // Add CSS for custom markers
+            const style = document.createElement('style');
+            style.textContent = `
+                .custom-marker-container {
+                    background: transparent !important;
+                    border: none !important;
+                }
+                .custom-marker {
+                    background: white;
+                    border: 2px solid #007AFF;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 10px;
+                    font-weight: 600;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                }
+                .custom-marker.ev {
+                    border-color: #10B981;
+                }
+                .user-marker-container {
+                    background: transparent !important;
+                    border: none !important;
+                }
+                .user-marker {
+                    background: #007AFF;
+                    color: white;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 16px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                }
+                .service-tag {
+                    display: inline-block;
+                    background: var(--soft-gray);
+                    color: var(--deep-black);
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 8px;
+                    font-size: 0.75rem;
+                    margin-right: 0.25rem;
+                    margin-bottom: 0.25rem;
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
 </body>
