@@ -103,23 +103,6 @@
             letter-spacing: 0.05em;
         }
 
-        .nav-menu {
-            display: none;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-menu a {
-            color: var(--dark-gray);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-menu a:hover {
-            color: var(--blue-accent);
-        }
-
         .header-controls {
             display: flex;
             align-items: center;
@@ -134,6 +117,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            font-size: 1.2rem;
         }
 
         .dark-mode-toggle:hover {
@@ -690,10 +674,6 @@
 
         /* Responsive Design */
         @media (min-width: 768px) {
-            .nav-menu {
-                display: flex;
-            }
-
             .content-layout {
                 flex-direction: row;
             }
@@ -769,13 +749,6 @@
                 flex-wrap: wrap;
             }
         }
-
-        /* iOS-style animations */
-        @media (prefers-reduced-motion: no-preference) {
-            * {
-                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            }
-        }
     </style>
 </head>
 <body data-theme="light">
@@ -785,21 +758,10 @@
             <div class="logo-section">
                 <div class="logo">ZANIROUTE</div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
             <div class="header-controls">
                 <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
                     🌙
                 </button>
-                <div class="social-links">
-                    <a href="#" class="social-link" aria-label="Twitter">🐦</a>
-                    <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
-                    <a href="#" class="social-link" aria-label="GitHub">⚙️</a>
-                </div>
             </div>
         </nav>
     </header>
@@ -866,15 +828,9 @@
             </div>
             
             <div class="affiliate-card">
-                <h3>Get Headway Premium</h3>
-                <p>Learn faster with 15-minute book summaries. Transform your commute into learning time.</p>
-                <button class="affiliate-btn" onclick="openAffiliate('headway')">Try Free</button>
-            </div>
-
-            <div class="affiliate-card">
-                <h3>Coohom 3D Design</h3>
-                <p>Create stunning 3D designs for your space. Professional interior design made easy.</p>
-                <button class="affiliate-btn" onclick="openAffiliate('coohom')">Start Designing</button>
+                <h3>AliExpress Deals</h3>
+                <p>Discover amazing deals on car accessories, electronics, and travel gear. Shop worldwide with fast shipping.</p>
+                <button class="affiliate-btn" onclick="openAffiliate('aliexpress')">Shop Now</button>
             </div>
         </section>
     </main>
@@ -883,10 +839,12 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-text">
-                © 2025 ZANIROUTE. Find fuel and EV stations worldwide.
+                © 2025 ZANIROUTE. All rights reserved.
             </div>
-            <div class="footer-text">
-                Made with ❤️ for travelers everywhere
+            <div class="social-links">
+                <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                <a href="#" class="social-link" aria-label="Facebook">📘</a>
+                <a href="#" class="social-link" aria-label="Instagram">📷</a>
             </div>
         </div>
     </footer>
@@ -940,43 +898,84 @@
                         updateMapLocation(userLocation);
                     },
                     () => {
-                        // Silently fail if location is denied
+                        // Geolocation failed, ignore
                     },
-                    { timeout: 5000, enableHighAccuracy: false }
+                    { timeout: 5000, enableHighAccuracy: false, maximumAge: 300000 }
                 );
             }
         }
 
-        // Initialize TomTom map
+        // Initialize TomTom map with proper road visibility
         function initMap() {
-            map = tt.map({
-                key: TOMTOM_API_KEY,
-                container: 'map',
-                center: [-74.0060, 40.7128], // [lng, lat] format for TomTom
-                zoom: 13,
-                style: 'tomtom://vector/1/basic-main'
-            });
+            try {
+                map = tt.map({
+                    key: TOMTOM_API_KEY,
+                    container: 'map',
+                    center: [-74.0060, 40.7128], // [lng, lat] format for TomTom
+                    zoom: 13,
+                    style: 'tomtom://vector/1/basic-light', // Using light style for better road visibility
+                    stylesVisibility: {
+                        trafficIncidents: false,
+                        trafficFlow: false
+                    }
+                });
+                
+                // Wait for map to load
+                map.on('load', function() {
+                    console.log('TomTom map loaded successfully');
+                    
+                    // Ensure roads are visible by setting appropriate layers
+                    const style = map.getStyle();
+                    if (style && style.layers) {
+                        // Make sure road layers are visible and prominent
+                        style.layers.forEach(layer => {
+                            if (layer.id.includes('road') || layer.id.includes('street') || layer.id.includes('highway')) {
+                                map.setLayerZoomRange(layer.id, 0, 22);
+                                if (layer.paint) {
+                                    // Ensure road colors are visible
+                                    if (layer.paint['line-color']) {
+                                        layer.paint['line-color'] = '#ffffff';
+                                    }
+                                    if (layer.paint['line-width']) {
+                                        layer.paint['line-width'] = Math.max(layer.paint['line-width'], 1);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+                
+                // Handle map errors
+                map.on('error', function(e) {
+                    console.error('TomTom map error:', e);
+                    showApiStatus('Map loading failed. Please refresh the page.', 'error');
+                });
+                
+                // Add controls
+                map.addControl(new tt.NavigationControl(), 'top-right');
+                
+            } catch (error) {
+                console.error('Failed to initialize TomTom map:', error);
+                showApiStatus('Failed to load map. Please check your internet connection.', 'error');
+            }
         }
 
         // Initialize event listeners
         function initEventListeners() {
-            // Get references to buttons
-            const searchButton = document.querySelector('.btn[onclick="handleSearch()"]');
-            const nearMeButton = document.querySelector('.btn[onclick="handleNearMe()"]');
+            const searchBtn = document.querySelector('.btn');
+            const nearMeBtn = document.querySelector('.btn-secondary');
             const locationInput = document.getElementById('location-input');
 
-            // Add search functionality
-            if (searchButton) {
-                searchButton.addEventListener('click', handleSearch);
+            if (searchBtn) {
+                searchBtn.addEventListener('click', handleSearch);
             }
             
-            if (nearMeButton) {
-                nearMeButton.addEventListener('click', handleNearMe);
+            if (nearMeBtn) {
+                nearMeBtn.addEventListener('click', handleNearMe);
             }
-
-            // Add enter key support for search
+            
             if (locationInput) {
-                locationInput.addEventListener('keydown', (e) => {
+                locationInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         handleSearch();
@@ -1017,10 +1016,18 @@
             } catch (e) {
                 // Ignore if localStorage is not available
             }
+
+            // Update map style based on theme
+            if (map) {
+                const mapStyle = newTheme === 'dark' ? 'tomtom://vector/1/basic-night' : 'tomtom://vector/1/basic-light';
+                map.setStyle(mapStyle);
+            }
         }
 
         // Update map location - Updated for TomTom
         function updateMapLocation(location) {
+            if (!map) return;
+            
             map.setCenter([location.lng, location.lat]); // TomTom uses [lng, lat] format
             map.setZoom(13);
             
@@ -1038,7 +1045,7 @@
                 .addTo(map);
         }
 
-        // Handle search - FIXED with better error handling and validation
+        // Handle search
         async function handleSearch() {
             const locationInput = document.getElementById('location-input');
             if (!locationInput) {
@@ -1122,7 +1129,7 @@
                 });
                 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`Geocoding failed: ${response.status}`);
                 }
                 
                 const data = await response.json();
@@ -1132,58 +1139,50 @@
                 }
                 
                 const result = data[0];
-                const lat = parseFloat(result.lat);
-                const lng = parseFloat(result.lon);
-                
-                if (isNaN(lat) || isNaN(lng)) {
-                    throw new Error('Invalid coordinates received');
-                }
-                
-                return { lat, lng };
+                return {
+                    lat: parseFloat(result.lat),
+                    lng: parseFloat(result.lon),
+                    display_name: result.display_name
+                };
             } catch (error) {
                 console.error('Geocoding error:', error);
                 throw error;
             }
         }
 
-        // Search for nearby stations using accurate data sources
+        // Search nearby stations - Enhanced for TomTom + Open Charge Map
         async function searchNearbyStations(location) {
-            showApiStatus('Finding stations...', 'loading');
-            
-            // Clear existing markers
-            stationMarkers.forEach(marker => marker.remove());
-            stationMarkers = [];
-            
-            const radius = document.getElementById('radius-select').value;
-            
+            if (!location || !location.lat || !location.lng) {
+                showApiStatus('Invalid location for search', 'error');
+                return;
+            }
+
+            showApiStatus('Finding nearby stations...', 'loading');
+
             try {
-                // Search both fuel and EV stations concurrently for better performance
-                const [gasStations, evStations] = await Promise.all([
+                const radius = parseInt(document.getElementById('radius-select').value) || 10000;
+                
+                // Search both fuel stations and EV stations concurrently
+                const [fuelStations, evStations] = await Promise.all([
                     searchTomTomFuelStations(location, radius),
                     searchOpenChargeMapEV(location, radius)
                 ]);
-                
-                // Combine and sort results by distance, limit to top 50 for performance
-                const stations = [...gasStations, ...evStations]
-                    .sort((a, b) => a.distance - b.distance)
-                    .slice(0, 50);
-                
-                if (stations.length === 0) {
-                    showApiStatus('No stations found in this area. Try a different location.', 'error');
-                    currentStations = [];
-                } else {
-                    showApiStatus(`Found ${stations.length} stations`, 'success');
-                    currentStations = stations;
-                }
-                
+
+                currentStations = [...fuelStations, ...evStations]
+                    .sort((a, b) => a.distance - b.distance);
+
                 displayStations(currentStations);
-                updateStationCount(currentStations.length);
+                addStationMarkers(currentStations);
+                
+                const totalCount = currentStations.length;
+                const fuelCount = fuelStations.length;
+                const evCount = evStations.length;
+                
+                showApiStatus(`Found ${totalCount} stations (${fuelCount} fuel, ${evCount} EV)`, 'success');
                 
             } catch (error) {
-                console.error('Error searching stations:', error);
-                showApiStatus('Search failed. Please try again.', 'error');
-                currentStations = [];
-                displayStations([]);
+                console.error('Station search error:', error);
+                showApiStatus('Failed to find stations. Please try again.', 'error');
                 updateStationCount(0);
             }
         }
@@ -1322,281 +1321,268 @@
                 
                 const data = await response.json();
                 
-                return (data || []).filter(poi => poi && poi.AddressInfo && poi.AddressInfo.Latitude && poi.AddressInfo.Longitude).map(poi => {
-                    const lat = poi.AddressInfo.Latitude;
-                    const lng = poi.AddressInfo.Longitude;
-                    const distance = poi.AddressInfo?.Distance || calculateDistance(location.lat, location.lng, lat, lng);
+                if (!Array.isArray(data)) {
+                    console.warn('Unexpected Open Charge Map response format:', data);
+                    return [];
+                }
+                
+                return data.map(station => {
+                    const lat = station.AddressInfo?.Latitude || location.lat;
+                    const lng = station.AddressInfo?.Longitude || location.lng;
+                    const distance = calculateDistance(location.lat, location.lng, lat, lng);
                     
-                    let stationName = poi.AddressInfo?.Title || 'EV Charging Station';
-                    let address = [poi.AddressInfo?.AddressLine1, poi.AddressInfo?.Town, poi.AddressInfo?.Country?.Title].filter(Boolean).join(', ') || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                    // Extract charging information
+                    const connections = station.Connections || [];
+                    const chargingTypes = connections.map(conn => {
+                        const type = conn.ConnectionType?.Title || 'Unknown';
+                        const power = conn.PowerKW ? `${conn.PowerKW}kW` : '';
+                        return power ? `${type} (${power})` : type;
+                    }).filter(Boolean);
                     
+                    // Determine status
                     let status = 'unknown';
-                    if (poi.StatusType) {
-                        status = poi.StatusType.IsOperational ? 'open' : 'closed';
+                    if (station.StatusType) {
+                        const statusTitle = station.StatusType.Title?.toLowerCase();
+                        if (statusTitle?.includes('operational') || statusTitle?.includes('available')) {
+                            status = 'open';
+                        } else if (statusTitle?.includes('out') || statusTitle?.includes('fault')) {
+                            status = 'closed';
+                        }
                     }
                     
-                    // Get charging connection details
-                    const chargingTypes = poi.Connections?.map(c => {
-                        const connType = c.ConnectionType?.Title || 'Unknown';
-                        const power = c.PowerKW ? ` (${c.PowerKW}kW)` : '';
-                        return connType + power;
-                    }).filter(Boolean) || ['EV Charging'];
-                    
                     return {
-                        id: `ocm_${poi.UUID}`,
-                        name: stationName,
-                        address: address,
-                        type: 'charging_station',
+                        id: `ocm_${station.ID}`,
+                        name: station.AddressInfo?.Title || 'EV Charging Station',
+                        address: [
+                            station.AddressInfo?.AddressLine1,
+                            station.AddressInfo?.Town,
+                            station.AddressInfo?.StateOrProvince,
+                            station.AddressInfo?.Postcode
+                        ].filter(Boolean).join(', ') || `${lat.toFixed(4)}, ${lng.toFixed(4)}`,
+                        type: 'ev',
                         lat: lat,
                         lng: lng,
                         distance: distance,
-                        brand: poi.OperatorInfo?.Title || poi.AddressInfo?.Title || '',
-                        operator: poi.OperatorInfo?.Title || '',
-                        phone: poi.AddressInfo?.ContactTelephone1 || '',
-                        website: poi.OperatorInfo?.WebsiteURL || poi.AddressInfo?.RelatedURL || '',
-                        opening_hours: poi.GeneralComments || '',
+                        brand: station.OperatorInfo?.Title || '',
+                        operator: station.OperatorInfo?.Title || '',
+                        phone: station.OperatorInfo?.PhonePrimaryContact || '',
+                        website: station.OperatorInfo?.WebsiteURL || '',
+                        opening_hours: station.AddressInfo?.AccessComments || '',
                         status: status,
                         fuel_types: [],
                         charging_types: chargingTypes,
-                        payment_methods: poi.UsageType?.Title ? [poi.UsageType.Title] : [],
-                        price_info: poi.UsageCost || (poi.UsageType?.IsPayAtLocation ? 'Payment Required' : ''),
-                        source: 'OpenChargeMap',
-                        country: poi.AddressInfo?.Country?.Title || '',
-                        city: poi.AddressInfo?.Town || '',
-                        last_updated: poi.DateLastStatusUpdate || new Date().toISOString(),
-                        raw_tags: poi,
+                        payment_methods: station.OperatorInfo?.PaymentRequiredFlag ? ['CARD', 'APP'] : ['FREE'],
+                        price_info: station.UsageCost || '',
+                        source: 'Open Charge Map',
+                        country: station.AddressInfo?.Country?.Title || '',
+                        city: station.AddressInfo?.Town || '',
+                        last_updated: station.DateLastStatusUpdate || new Date().toISOString(),
+                        raw_tags: station,
+                        connections_count: connections.length
                     };
-                });
+                }).sort((a, b) => a.distance - b.distance);
+                
             } catch (error) {
                 console.error('Open Charge Map API error:', error);
                 return [];
             }
         }
 
-        // Calculate distance between two points
+        // Calculate distance between two points using Haversine formula
         function calculateDistance(lat1, lng1, lat2, lng2) {
-            const R = 6371; // Earth's radius in km
+            const R = 6371; // Earth's radius in kilometers
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLng = (lng2 - lng1) * Math.PI / 180;
             const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                     Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                     Math.sin(dLng/2) * Math.sin(dLng/2);
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLng/2) * Math.sin(dLng/2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             return R * c;
         }
 
-        // Display stations on map and in list - Updated for TomTom
+        // Display stations in the list
         function displayStations(stations) {
-            // Clear existing markers
-            stationMarkers.forEach(marker => marker.remove());
-            stationMarkers = [];
-            
-            // Add new markers with enhanced styling
-            stations.forEach(station => {
-                const isEV = station.type === 'charging_station';
-                const color = isEV ? '#00D4AA' : '#FF6B35';
-                const icon = isEV ? '⚡' : 'F';
-                
-                // Create custom marker element
-                const markerElement = document.createElement('div');
-                markerElement.className = 'station-marker';
-                markerElement.style.cursor = 'pointer';
-                markerElement.innerHTML = `<div style="background: ${color}; width: 28px; height: 28px; border-radius: 50%; border: 3px solid white; box-shadow: 0 3px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: bold;">${icon}</div>`;
-                
-                // Create TomTom marker
-                const marker = new tt.Marker({ element: markerElement })
-                    .setLngLat([station.lng, station.lat])
-                    .addTo(map);
-                
-                // Add click event
-                markerElement.addEventListener('click', () => showStationDetails(station));
-                
-                // Create popup content
-                const popupContent = `
-                    <div style="min-width: 200px;">
-                        <h4 style="margin: 0 0 8px 0;">${station.name}</h4>
-                        <p style="margin: 0 0 4px 0; color: #666; font-size: 0.9em;">${station.address}</p>
-                        <p style="margin: 0 0 8px 0; color: #007AFF; font-size: 0.9em;">${station.distance.toFixed(1)} km away</p>
-                        <button onclick="openDirections(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}')" style="background: #007AFF; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em;">Get Directions</button>
-                    </div>
-                `;
-                
-                // Add TomTom popup
-                const popup = new tt.Popup({ offset: 35 }).setHTML(popupContent);
-                marker.setPopup(popup);
-                
-                stationMarkers.push(marker);
-            });
-            
-            // Update station list
-            updateStationList(stations);
-        }
-
-        // Update station list with enhanced information
-        function updateStationList(stations) {
             const container = document.getElementById('results-container');
-            
+            if (!container) return;
+
             if (stations.length === 0) {
                 container.innerHTML = `
                     <div class="loading">
-                        <p>No stations found in this area</p>
+                        <p>No stations found in this area. Try expanding your search radius.</p>
                     </div>
                 `;
+                updateStationCount(0);
                 return;
             }
-            
-            container.innerHTML = stations.map(station => {
-                const isEV = station.type === 'charging_station';
-                const statusClass = station.status === 'open' ? '' : (station.status === 'closed' ? 'closed' : 'unknown');
-                const statusText = station.status === 'open' ? 'Open' : (station.status === 'closed' ? 'Closed' : 'Unknown');
-                
-                // Safely escape station data for onclick
-                const escapedStationData = JSON.stringify(station).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-                
-                return `
-                    <div class="station-card" onclick="showStationDetails(${escapedStationData})">
-                        <div class="station-header">
-                            <div>
-                                <div class="station-name">${station.name}</div>
-                                <div class="station-type">${isEV ? 'EV Charging' : 'Gas Station'}</div>
-                                <div style="color: var(--deep-black); font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500; line-height: 1.3;">${station.address}</div>
-                            </div>
-                            <div class="station-distance">${station.distance.toFixed(1)} km</div>
+
+            container.innerHTML = stations.map(station => `
+                <div class="station-card" onclick="showStationDetails('${station.id}')">
+                    <div class="station-header">
+                        <div>
+                            <div class="station-name">${station.name}</div>
+                            <div class="station-type">${station.type.toUpperCase()}</div>
                         </div>
-                        
-                        <div class="station-info">
-                            <div class="station-status">
-                                <div class="status-indicator ${statusClass}"></div>
-                                <span>${statusText}</span>
-                            </div>
-                            ${station.brand ? `<div class="station-rating">${station.brand}</div>` : ''}
-                            ${station.price_info ? `<div class="station-rating">${station.price_info}</div>` : ''}
-                        </div>
-                        
-                        <div style="margin: 0.5rem 0; font-size: 0.85rem; color: var(--dark-gray);">
-                            ${isEV ? 
-                                (station.charging_types.length > 0 ? `Charging: ${station.charging_types.join(', ')}` : 'EV Charging Available') :
-                                (station.fuel_types.length > 0 ? `Fuel: ${station.fuel_types.join(', ')}` : 'Fuel Available')
-                            }
-                        </div>
-                        
-                        <div class="station-actions">
-                            <button class="action-btn primary" onclick="event.stopPropagation(); openDirections(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}')">Directions</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); showStationDetails(${escapedStationData})">Details</button>
-                            ${station.phone ? `<button class="action-btn" onclick="event.stopPropagation(); window.open('tel:${station.phone}', '_self')">Call</button>` : ''}
-                        </div>
+                        <div class="station-distance">${station.distance.toFixed(1)} km</div>
                     </div>
+                    <div class="station-info">
+                        <div class="station-status">
+                            <span class="status-indicator ${station.status}"></span>
+                            ${station.status.charAt(0).toUpperCase() + station.status.slice(1)}
+                        </div>
+                        ${station.brand ? `<div class="station-rating">${station.brand}</div>` : ''}
+                    </div>
+                    <div class="station-actions">
+                        <button class="action-btn primary" onclick="event.stopPropagation(); getDirections(${station.lat}, ${station.lng})">Directions</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); showStationDetails('${station.id}')">Details</button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateStationCount(stations.length);
+        }
+
+        // Add station markers to the map
+        function addStationMarkers(stations) {
+            if (!map) return;
+
+            // Clear existing markers
+            stationMarkers.forEach(marker => marker.remove());
+            stationMarkers = [];
+
+            stations.forEach(station => {
+                const markerElement = document.createElement('div');
+                const icon = station.type === 'fuel' ? '⛽' : '🔋';
+                markerElement.innerHTML = `
+                    <div style="
+                        background: ${station.type === 'fuel' ? '#FF6B35' : '#10B981'};
+                        color: white;
+                        border-radius: 50%;
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 14px;
+                        border: 2px solid white;
+                        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                        cursor: pointer;
+                    ">${icon}</div>
                 `;
-            }).join('');
-        }
 
-        // Filter stations
-        function filterStations() {
-            let filteredStations = currentStations;
-            
-            if (activeFilter !== 'all') {
-                filteredStations = currentStations.filter(station => {
-                    switch(activeFilter) {
-                        case 'fuel':
-                            return station.type === 'fuel';
-                        case 'diesel':
-                            return station.type === 'fuel' && station.fuel_types.includes('DIESEL');
-                        case 'ev':
-                            return station.type === 'charging_station';
-                        case 'open':
-                            return station.status === 'open';
-                        default:
-                            return true;
-                    }
+                const marker = new tt.Marker({ element: markerElement })
+                    .setLngLat([station.lng, station.lat])
+                    .addTo(map);
+
+                markerElement.addEventListener('click', () => {
+                    showStationDetails(station.id);
                 });
-            }
-            
-            displayStations(filteredStations);
-            updateStationCount(filteredStations.length);
+
+                stationMarkers.push(marker);
+            });
         }
 
-        // Update station count
+        // Filter stations based on active filter
+        function filterStations() {
+            if (!currentStations || currentStations.length === 0) {
+                return;
+            }
+
+            let filteredStations = currentStations;
+
+            switch (activeFilter) {
+                case 'fuel':
+                    filteredStations = currentStations.filter(s => s.type === 'fuel');
+                    break;
+                case 'diesel':
+                    filteredStations = currentStations.filter(s => 
+                        s.type === 'fuel' && s.fuel_types.some(type => 
+                            type.toLowerCase().includes('diesel')
+                        )
+                    );
+                    break;
+                case 'ev':
+                    filteredStations = currentStations.filter(s => s.type === 'ev');
+                    break;
+                case 'open':
+                    filteredStations = currentStations.filter(s => s.status === 'open');
+                    break;
+                case 'all':
+                default:
+                    filteredStations = currentStations;
+                    break;
+            }
+
+            displayStations(filteredStations);
+            addStationMarkers(filteredStations);
+        }
+
+        // Update station count display
         function updateStationCount(count) {
             const countElement = document.querySelector('.station-count');
             if (countElement) {
-                countElement.textContent = 
-                    count === 0 ? 'No stations found' : `${count} station${count === 1 ? '' : 's'} found`;
+                if (count === 0) {
+                    countElement.textContent = 'No stations found';
+                } else {
+                    countElement.textContent = `Found ${count} station${count === 1 ? '' : 's'}`;
+                }
             }
         }
 
-        // Show enhanced station details
-        function showStationDetails(station) {
+        // Show station details in popup
+        function showStationDetails(stationId) {
+            const station = currentStations.find(s => s.id === stationId);
+            if (!station) return;
+
             const popup = document.getElementById('popup-overlay');
             const title = document.getElementById('popup-title');
             const description = document.getElementById('popup-description');
-            
+
             if (!popup || !title || !description) return;
-            
+
             title.textContent = station.name;
-            
-            const isEV = station.type === 'charging_station';
-            const statusIcon = station.status === 'open' ? '🟢' : (station.status === 'closed' ? '🔴' : '🟡');
-            
-            let details = `
-                <div style="margin-bottom: 1rem;">
-                    <p><strong>Type:</strong> ${isEV ? 'EV Charging Station' : 'Gas Station'}</p>
-                    <p><strong>Distance:</strong> ${station.distance.toFixed(1)} km away</p>
-                    <p><strong>Status:</strong> ${statusIcon} ${station.status.charAt(0).toUpperCase() + station.status.slice(1)}</p>
-                </div>
+
+            let detailsHtml = `
+                <p><strong>Address:</strong> ${station.address}</p>
+                <p><strong>Distance:</strong> ${station.distance.toFixed(1)} km away</p>
+                <p><strong>Type:</strong> ${station.type.toUpperCase()} Station</p>
             `;
-            
-            if (station.address && station.address !== 'Address not available') {
-                details += `<p><strong>Address:</strong> ${station.address}</p>`;
-            }
-            
+
             if (station.brand) {
-                details += `<p><strong>Brand:</strong> ${station.brand}</p>`;
+                detailsHtml += `<p><strong>Brand:</strong> ${station.brand}</p>`;
             }
-            
-            if (station.operator && station.operator !== station.brand) {
-                details += `<p><strong>Operator:</strong> ${station.operator}</p>`;
+
+            if (station.type === 'fuel' && station.fuel_types.length > 0) {
+                detailsHtml += `<p><strong>Fuel Types:</strong> ${station.fuel_types.join(', ')}</p>`;
             }
-            
+
+            if (station.type === 'ev' && station.charging_types.length > 0) {
+                detailsHtml += `<p><strong>Charging:</strong> ${station.charging_types.join(', ')}</p>`;
+                if (station.connections_count) {
+                    detailsHtml += `<p><strong>Connectors:</strong> ${station.connections_count}</p>`;
+                }
+            }
+
             if (station.opening_hours) {
-                details += `<p><strong>Hours:</strong> ${station.opening_hours}</p>`;
+                detailsHtml += `<p><strong>Hours:</strong> ${station.opening_hours}</p>`;
             }
-            
+
             if (station.phone) {
-                details += `<p><strong>Phone:</strong> <a href="tel:${station.phone}" style="color: var(--blue-accent);">${station.phone}</a></p>`;
+                detailsHtml += `<p><strong>Phone:</strong> <a href="tel:${station.phone}">${station.phone}</a></p>`;
             }
-            
-            if (station.website) {
-                details += `<p><strong>Website:</strong> <a href="${station.website}" target="_blank" style="color: var(--blue-accent);">Visit Website</a></p>`;
-            }
-            
-            if (station.fuel_types && station.fuel_types.length > 0) {
-                details += `<p><strong>Fuel Types:</strong> ${station.fuel_types.join(', ')}</p>`;
-            }
-            
-            if (station.charging_types && station.charging_types.length > 0) {
-                details += `<p><strong>Charging Types:</strong> ${station.charging_types.join(', ')}</p>`;
-            }
-            
-            if (station.payment_methods && station.payment_methods.length > 0) {
-                details += `<p><strong>Payment:</strong> ${station.payment_methods.join(', ')}</p>`;
-            }
-            
+
             if (station.price_info) {
-                details += `<p><strong>Price:</strong> ${station.price_info}</p>`;
+                detailsHtml += `<p><strong>Pricing:</strong> ${station.price_info}</p>`;
             }
-            
-            if (station.source) {
-                details += `<p style="font-size: 0.85em; color: var(--dark-gray); margin-top: 1rem;"><strong>Data Source:</strong> ${station.source}</p>`;
-            }
-            
-            details += `
-                <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button onclick="openDirections(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}'); closePopup();" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Get Directions</button>
-                    ${station.phone ? `<button onclick="window.open('tel:${station.phone}', '_self');" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Call Now</button>` : ''}
+
+            detailsHtml += `
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="action-btn primary" onclick="getDirections(${station.lat}, ${station.lng})">Get Directions</button>
+                    ${station.phone ? `<button class="action-btn" onclick="window.open('tel:${station.phone}')">Call</button>` : ''}
+                    ${station.website ? `<button class="action-btn" onclick="window.open('${station.website}', '_blank')">Website</button>` : ''}
                 </div>
             `;
-            
-            description.innerHTML = details;
+
+            description.innerHTML = detailsHtml;
             popup.style.display = 'flex';
         }
 
@@ -1608,107 +1594,37 @@
             }
         }
 
-        // Enhanced directions function - opens in external navigation apps
-        function openDirections(lat, lng, name = 'Station') {
-            if (!userLocation) {
-                showApiStatus('Your location is needed for directions', 'error');
-                return;
+        // Get directions to station
+        function getDirections(lat, lng) {
+            if (userLocation) {
+                const url = `https://www.google.com/maps/dir/${userLocation.lat},${userLocation.lng}/${lat},${lng}`;
+                window.open(url, '_blank');
+            } else {
+                const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+                window.open(url, '_blank');
             }
-            
-            const encodedName = encodeURIComponent(name);
-            const destination = `${lat},${lng}`;
-            const origin = `${userLocation.lat},${userLocation.lng}`;
-            
-            // Detect platform and open appropriate navigation app
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            
-            // iOS devices
-            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                // Try Apple Maps first, fallback to Google Maps
-                const appleMapsUrl = `maps://maps.google.com/maps?daddr=${destination}&saddr=${origin}`;
-                const googleMapsUrl = `https://maps.google.com/maps?daddr=${destination}&saddr=${origin}`;
-                
-                // Create a temporary link to test if Apple Maps opens
-                const link = document.createElement('a');
-                link.href = appleMapsUrl;
-                link.click();
-                
-                // Fallback to Google Maps after a short delay
-                setTimeout(() => {
-                    window.open(googleMapsUrl, '_blank');
-                }, 500);
-            }
-            // Android devices
-            else if (/android/i.test(userAgent)) {
-                // Use Google Maps intent for Android
-                const intent = `geo:${lat},${lng}?q=${lat},${lng}(${encodedName})`;
-                const googleMapsUrl = `https://maps.google.com/maps?daddr=${destination}&saddr=${origin}`;
-                
-                try {
-                    window.location.href = intent;
-                } catch (e) {
-                    window.open(googleMapsUrl, '_blank');
-                }
-            }
-            // Desktop or other devices
-            else {
-                // Provide multiple options
-                const googleMapsUrl = `https://maps.google.com/maps?daddr=${destination}&saddr=${origin}`;
-                const wazeUrl = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
-                const appleMapsUrl = `https://maps.apple.com/?daddr=${lat},${lng}&saddr=${userLocation.lat},${userLocation.lng}`;
-                
-                // Show options popup
-                const optionsHtml = `
-                    <div style="text-align: center;">
-                        <h4 style="margin-bottom: 1rem;">Choose Navigation App</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <button onclick="window.open('${googleMapsUrl}', '_blank'); closePopup();" class="btn" style="width: 100%;">Google Maps</button>
-                            <button onclick="window.open('${wazeUrl}', '_blank'); closePopup();" class="btn btn-secondary" style="width: 100%;">Waze</button>
-                            <button onclick="window.open('${appleMapsUrl}', '_blank'); closePopup();" class="btn btn-secondary" style="width: 100%;">Apple Maps</button>
-                        </div>
-                    </div>
-                `;
-                
-                const popupTitle = document.getElementById('popup-title');
-                const popupDescription = document.getElementById('popup-description');
-                const popupOverlay = document.getElementById('popup-overlay');
-                
-                if (popupTitle && popupDescription && popupOverlay) {
-                    popupTitle.textContent = 'Navigation Options';
-                    popupDescription.innerHTML = optionsHtml;
-                    popupOverlay.style.display = 'flex';
-                }
-                return;
-            }
-            
-            showApiStatus('Opening navigation app...', 'success');
         }
 
-        // Global function for popup directions
-        window.openDirections = openDirections;
+        // Show API status
+        function showApiStatus(message, type = 'loading') {
+            const statusElement = document.getElementById('api-status');
+            if (!statusElement) return;
 
-        // Show API status with better UX
-        function showApiStatus(message, type = 'info') {
-            const statusEl = document.getElementById('api-status');
-            if (!statusEl) return;
-            
-            statusEl.textContent = message;
-            statusEl.className = `api-status ${type}`;
-            statusEl.classList.remove('hidden');
-            
-            // Auto-hide success and info messages, keep errors longer
-            const timeout = type === 'error' ? 5000 : 3000;
-            setTimeout(() => {
-                statusEl.classList.add('hidden');
-            }, timeout);
+            statusElement.textContent = message;
+            statusElement.className = `api-status ${type}`;
+            statusElement.classList.remove('hidden');
+
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    statusElement.classList.add('hidden');
+                }, 3000);
+            }
         }
 
         // Affiliate link handlers
         function openAffiliate(platform) {
             const links = {
-                headway: 'https://get.headway.org/',
-                coohom: 'https://www.coohom.com/',
-                amazon: 'https://amazon.com/automotive'
+                aliexpress: 'https://www.aliexpress.com/'
             };
             
             if (links[platform]) {
@@ -1716,48 +1632,16 @@
             }
         }
 
-        // Make functions globally available
-        window.toggleDarkMode = toggleDarkMode;
-        window.showStationDetails = showStationDetails;
-        window.closePopup = closePopup;
-        window.openAffiliate = openAffiliate;
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
 
-        // Initialize the app when DOM is loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initApp);
-        } else {
-            initApp();
-        }
-        
-        // Handle popup clicks
-        document.addEventListener('DOMContentLoaded', () => {
-            const popupOverlay = document.getElementById('popup-overlay');
-            if (popupOverlay) {
-                popupOverlay.addEventListener('click', (e) => {
-                    if (e.target.id === 'popup-overlay') {
-                        closePopup();
-                    }
-                });
+        // Close popup when clicking outside
+        document.addEventListener('click', (e) => {
+            const popup = document.getElementById('popup-overlay');
+            if (popup && e.target === popup) {
+                closePopup();
             }
         });
-
-        // Add keyboard support for popup
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const popup = document.getElementById('popup-overlay');
-                if (popup && popup.style.display === 'flex') {
-                    closePopup();
-                }
-            }
-        });
-
-        // Refresh data every 5 minutes for current location
-        setInterval(() => {
-            if (userLocation && document.visibilityState === 'visible') {
-                searchNearbyStations(userLocation);
-            }
-        }, 300000); // 5 minutes
-
     </script>
 </body>
 </html>
