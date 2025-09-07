@@ -16,8 +16,8 @@
     <meta property="og:description" content="Locate gas stations and EV chargers worldwide with live data and directions.">
     <meta property="og:image" content="https://zaniroute.com/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" />
+    <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps.css" />
+    <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/3.1.3-public-preview.0/SearchBox.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -778,10 +778,7 @@
         }
     </style>
 </head>
-<body>
-    <!-- API Status -->
-    <div class="api-status hidden" id="api-status"></div>
-
+<body data-theme="light">
     <!-- Header -->
     <header class="header">
         <nav class="nav">
@@ -790,55 +787,53 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="header-controls">
-                <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle dark mode" aria-label="Toggle dark mode">
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
                     🌙
                 </button>
                 <div class="social-links">
-                    <a href="https://twitter.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on X" aria-label="Follow ZANIROUTE on X">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                        </svg>
-                    </a>
-                    <a href="https://facebook.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Facebook" aria-label="Follow ZANIROUTE on Facebook">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                    </a>
-                    <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Instagram" aria-label="Follow ZANIROUTE on Instagram">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
+                    <a href="#" class="social-link" aria-label="GitHub">⚙️</a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Container -->
     <main class="main-container">
         <!-- Search Section -->
         <section class="search-section">
             <div class="search-container">
-                <input type="text" id="location-input" class="search-input" placeholder="Enter city, address, or coordinates">
+                <input 
+                    type="text" 
+                    id="location-input" 
+                    class="search-input" 
+                    placeholder="Enter location (city, address, or landmark)" 
+                    autocomplete="address-line1"
+                >
                 <div class="search-controls">
                     <select id="radius-select" class="radius-select">
                         <option value="5000">5 km</option>
-                        <option value="10000">10 km</option>
+                        <option value="10000" selected>10 km</option>
                         <option value="25000">25 km</option>
                         <option value="50000">50 km</option>
                     </select>
-                    <button onclick="searchLocation()" class="btn">Search</button>
-                    <button onclick="findMyLocation()" class="btn btn-secondary">📍 My Location</button>
+                    <button class="btn" onclick="handleSearch()">Search</button>
+                    <button class="btn btn-secondary" onclick="handleNearMe()">Near Me</button>
                 </div>
             </div>
+            
             <div class="filter-section">
-                <span class="filter-chip active" data-filter="all" onclick="setFilter('all')">All Stations</span>
-                <span class="filter-chip" data-filter="fuel" onclick="setFilter('fuel')">⛽ Gas Stations</span>
-                <span class="filter-chip" data-filter="charging_station" onclick="setFilter('charging_station')">⚡ EV Charging</span>
+                <div class="filter-chip active" data-type="all">All Stations</div>
+                <div class="filter-chip" data-type="fuel">Fuel Only</div>
+                <div class="filter-chip" data-type="diesel">Diesel</div>
+                <div class="filter-chip" data-type="ev">EV Charging</div>
+                <div class="filter-chip" data-type="open">Open Now</div>
             </div>
         </section>
 
@@ -853,89 +848,73 @@
             <div class="station-list-container">
                 <div class="station-list-header">
                     <h2 class="station-list-title">Nearby Stations</h2>
-                    <p class="station-count" id="station-count">0 stations found</p>
+                    <p class="station-count">Search for stations to see results</p>
                 </div>
-                <div class="station-list">
-                    <div id="results-container">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Finding stations near you...</p>
-                        </div>
+                <div class="station-list" id="results-container">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Search for a location to find nearby stations</p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Ads Section -->
+        <section class="ads-section">
+            <div class="ad-banner">
+                <p style="color: var(--dark-gray); font-size: 0.9rem;">Advertisement Space</p>
+            </div>
+            
+            <div class="affiliate-card">
+                <h3>Get Headway Premium</h3>
+                <p>Learn faster with 15-minute book summaries. Transform your commute into learning time.</p>
+                <button class="affiliate-btn" onclick="openAffiliate('headway')">Try Free</button>
+            </div>
+
+            <div class="affiliate-card">
+                <h3>Coohom 3D Design</h3>
+                <p>Create stunning 3D designs for your space. Professional interior design made easy.</p>
+                <button class="affiliate-btn" onclick="openAffiliate('coohom')">Start Designing</button>
+            </div>
+        </section>
     </main>
-
-    <!-- Ads Section -->
-    <section class="ads-section">
-        <div class="ad-banner">
-            <p style="color: var(--dark-gray); font-style: italic;">Advertisement space</p>
-        </div>
-
-        <div class="affiliate-card">
-            <h3>📚 Learn Something New Today</h3>
-            <p>Discover bite-sized learning with expert-curated content. Transform your daily commute into knowledge gains with Headway.</p>
-            <button onclick="openAffiliate('headway')" class="affiliate-btn">Start Learning →</button>
-        </div>
-
-        <div class="affiliate-card">
-            <h3>🏠 Design Your Dream Space</h3>
-            <p>Create stunning 3D home designs with AI-powered tools. From concept to reality - design like a pro with Coohom.</p>
-            <button onclick="openAffiliate('coohom')" class="affiliate-btn">Design Now →</button>
-        </div>
-
-        <div class="affiliate-card">
-            <h3>🚗 Automotive Essentials</h3>
-            <p>Find everything for your car - from maintenance supplies to accessories. Quality products delivered to your door.</p>
-            <button onclick="openAffiliate('amazon')" class="affiliate-btn">Shop Now →</button>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p class="footer-text">&copy; 2024 ZANIROUTE. Find fuel & EV stations worldwide.</p>
-            <div class="social-links">
-                <a href="https://twitter.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on X" aria-label="Follow ZANIROUTE on X">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                </a>
-                <a href="https://facebook.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Facebook" aria-label="Follow ZANIROUTE on Facebook">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                </a>
-                <a href="https://instagram.com/zaniroute" target="_blank" rel="noopener" class="social-link" title="Follow us on Instagram" aria-label="Follow ZANIROUTE on Instagram">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                </a>
+            <div class="footer-text">
+                © 2025 ZANIROUTE. Find fuel and EV stations worldwide.
+            </div>
+            <div class="footer-text">
+                Made with ❤️ for travelers everywhere
             </div>
         </div>
     </footer>
 
-    <!-- Popup -->
-    <div class="popup-overlay" id="popup-overlay">
+    <!-- API Status Indicator -->
+    <div id="api-status" class="api-status hidden">
+        Loading...
+    </div>
+
+    <!-- Popup Modal -->
+    <div id="popup-overlay" class="popup-overlay">
         <div class="popup-content">
-            <button class="popup-close" onclick="closePopup()" aria-label="Close popup">&times;</button>
-            <h3 class="popup-title" id="popup-title">Station Details</h3>
-            <div class="popup-description" id="popup-description">
+            <button class="popup-close" onclick="closePopup()">×</button>
+            <h3 id="popup-title" class="popup-title">Station Details</h3>
+            <div id="popup-description" class="popup-description">
                 Loading station information...
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
+    <!-- TomTom SDK Scripts -->
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps-web.min.js"></script>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/services/services-web.min.js"></script>
     <script>
-        // Make API keys available (these will be injected server-side in production)
-        window.TOMTOM_API_KEY = 'WZs47YSTQtzJjBIXKkbdV0U0pbOHg3cd';
-        window.OPENCHARGEMAP_API_KEY = '87e356c0-2256-49b4-adf8-509e040551ea';
-    </script>
-    <script>
+        // API Keys - configured for production
+        const TOMTOM_API_KEY = 'WZs47YSTQtzJjBIXKkbdV0U0pbOHg3cd';
+        const OPEN_CHARGE_API_KEY = '87e356c0-2256-49b4-adf8-509e040551ea';
+        
         // Global variables
         let map;
         let userMarker;
@@ -950,7 +929,7 @@
             initEventListeners();
             setupDarkMode();
             
-            // Check for geolocation support with faster timeout
+            // Try to get user's location on startup
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -959,133 +938,122 @@
                             lng: position.coords.longitude
                         };
                         updateMapLocation(userLocation);
-                        searchNearbyStations(userLocation);
                     },
-                    (error) => {
-                        // Default to New York if geolocation fails
-                        userLocation = { lat: 40.7128, lng: -74.0060 };
-                        updateMapLocation(userLocation);
-                        searchNearbyStations(userLocation);
+                    () => {
+                        // Silently fail if location is denied
                     },
-                    { timeout: 5000, enableHighAccuracy: false, maximumAge: 300000 }
+                    { timeout: 5000, enableHighAccuracy: false }
                 );
-            } else {
-                // Default location
-                userLocation = { lat: 40.7128, lng: -74.0060 };
-                updateMapLocation(userLocation);
-                searchNearbyStations(userLocation);
             }
         }
 
-        // Initialize map
+        // Initialize TomTom map
         function initMap() {
-            map = L.map('map').setView([40.7128, -74.0060], 13);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 19
-            }).addTo(map);
-
-            // Add click handler for map
-            map.on('click', async function(e) {
-                const clickedLocation = { lat: e.latlng.lat, lng: e.latlng.lng };
-                userLocation = clickedLocation;
-                updateMapLocation(clickedLocation);
-                await searchNearbyStations(clickedLocation);
+            map = tt.map({
+                key: TOMTOM_API_KEY,
+                container: 'map',
+                center: [-74.0060, 40.7128], // [lng, lat] format for TomTom
+                zoom: 13,
+                style: 'tomtom://vector/1/basic-main'
             });
         }
 
         // Initialize event listeners
         function initEventListeners() {
-            // Search input enter key
+            // Get references to buttons
+            const searchButton = document.querySelector('.btn[onclick="handleSearch()"]');
+            const nearMeButton = document.querySelector('.btn[onclick="handleNearMe()"]');
             const locationInput = document.getElementById('location-input');
+
+            // Add search functionality
+            if (searchButton) {
+                searchButton.addEventListener('click', handleSearch);
+            }
+            
+            if (nearMeButton) {
+                nearMeButton.addEventListener('click', handleNearMe);
+            }
+
+            // Add enter key support for search
             if (locationInput) {
-                locationInput.addEventListener('keypress', function(e) {
+                locationInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') {
-                        searchLocation();
+                        e.preventDefault();
+                        handleSearch();
                     }
                 });
             }
 
-            // Radius change handler
-            const radiusSelect = document.getElementById('radius-select');
-            if (radiusSelect) {
-                radiusSelect.addEventListener('change', async function() {
-                    if (userLocation) {
-                        await searchNearbyStations(userLocation);
-                    }
+            // Filter chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                    e.target.classList.add('active');
+                    activeFilter = e.target.dataset.type;
+                    filterStations();
                 });
-            }
+            });
         }
 
         // Setup dark mode
         function setupDarkMode() {
-            const isDark = localStorage.getItem('darkMode') === 'true' || 
-                          (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-            
-            if (isDark) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                document.querySelector('.dark-mode-toggle').textContent = '☀️';
+            try {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.body.setAttribute('data-theme', savedTheme);
+            } catch (e) {
+                // Fallback if localStorage is not available
+                document.body.setAttribute('data-theme', 'light');
             }
         }
 
         // Toggle dark mode
         function toggleDarkMode() {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const toggle = document.querySelector('.dark-mode-toggle');
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', newTheme);
             
-            if (isDark) {
-                document.documentElement.removeAttribute('data-theme');
-                toggle.textContent = '🌙';
-                localStorage.setItem('darkMode', 'false');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                toggle.textContent = '☀️';
-                localStorage.setItem('darkMode', 'true');
+            try {
+                localStorage.setItem('theme', newTheme);
+            } catch (e) {
+                // Ignore if localStorage is not available
             }
         }
 
-        // Update map location
+        // Update map location - Updated for TomTom
         function updateMapLocation(location) {
-            if (userMarker) {
-                map.removeLayer(userMarker);
-            }
-
-            const userIcon = L.divIcon({
-                className: 'user-marker',
-                html: '<div style="background: #007AFF; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>',
-                iconSize: [16, 16],
-                iconAnchor: [8, 8]
-            });
-
-            userMarker = L.marker([location.lat, location.lng], { icon: userIcon })
-                .addTo(map)
-                .bindPopup('You are here')
-                .openPopup();
-
-            map.setView([location.lat, location.lng], 13);
-        }
-
-        // Update station count
-        function updateStationCount(count) {
-            const countElement = document.getElementById('station-count');
-            if (countElement) {
-                countElement.textContent = `${count} station${count !== 1 ? 's' : ''} found`;
-            }
-        }
-
-        // Search location
-        async function searchLocation() {
-            const input = document.getElementById('location-input');
-            const query = input?.value.trim();
+            map.setCenter([location.lng, location.lat]); // TomTom uses [lng, lat] format
+            map.setZoom(13);
             
+            if (userMarker) {
+                userMarker.remove();
+            }
+            
+            // Create user marker with TomTom
+            const userMarkerElement = document.createElement('div');
+            userMarkerElement.className = 'user-marker';
+            userMarkerElement.innerHTML = '<div style="background: #007AFF; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>';
+            
+            userMarker = new tt.Marker({ element: userMarkerElement })
+                .setLngLat([location.lng, location.lat])
+                .addTo(map);
+        }
+
+        // Handle search - FIXED with better error handling and validation
+        async function handleSearch() {
+            const locationInput = document.getElementById('location-input');
+            if (!locationInput) {
+                showApiStatus('Search input not found', 'error');
+                return;
+            }
+            
+            const query = locationInput.value.trim();
             if (!query) {
                 showApiStatus('Please enter a location to search', 'error');
                 return;
             }
 
-            showApiStatus('Searching for location...', 'loading');
-
+            showApiStatus('Searching location...', 'loading');
+            
             try {
                 const location = await geocodeLocation(query);
                 if (location && location.lat && location.lng) {
@@ -1102,15 +1070,15 @@
             }
         }
 
-        // Find my location
-        async function findMyLocation() {
+        // Handle near me
+        function handleNearMe() {
             if (!navigator.geolocation) {
-                showApiStatus('Geolocation is not supported by this browser', 'error');
+                showApiStatus('Geolocation not supported by this browser.', 'error');
                 return;
             }
 
             showApiStatus('Getting your location...', 'loading');
-
+            
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
                     userLocation = {
@@ -1134,7 +1102,7 @@
                             errorMessage += 'Location request timed out.';
                             break;
                         default:
-                            errorMessage += 'An unknown error occurred.';
+                            errorMessage += 'Please try again.';
                             break;
                     }
                     showApiStatus(errorMessage, 'error');
@@ -1143,7 +1111,7 @@
             );
         }
 
-        // Geocode location using Nominatim
+        // Geocode location using Nominatim with better error handling
         async function geocodeLocation(query) {
             try {
                 const encodedQuery = encodeURIComponent(query);
@@ -1183,17 +1151,22 @@
             showApiStatus('Finding stations...', 'loading');
             
             // Clear existing markers
-            stationMarkers.forEach(marker => map.removeLayer(marker));
+            stationMarkers.forEach(marker => marker.remove());
             stationMarkers = [];
             
             const radius = document.getElementById('radius-select').value;
             
             try {
-                // Use TomTom for gas and Open Charge Map for EV
-                const gasStations = await searchTomTomGas(location, radius);
-                const evStations = await searchOpenChargeMapEV(location, radius);
+                // Search both fuel and EV stations concurrently for better performance
+                const [gasStations, evStations] = await Promise.all([
+                    searchTomTomFuelStations(location, radius),
+                    searchOpenChargeMapEV(location, radius)
+                ]);
                 
-                const stations = [...gasStations, ...evStations].sort((a, b) => a.distance - b.distance);
+                // Combine and sort results by distance, limit to top 50 for performance
+                const stations = [...gasStations, ...evStations]
+                    .sort((a, b) => a.distance - b.distance)
+                    .slice(0, 50);
                 
                 if (stations.length === 0) {
                     showApiStatus('No stations found in this area. Try a different location.', 'error');
@@ -1215,67 +1188,95 @@
             }
         }
 
-        // Search gas stations using TomTom Search API
-        async function searchTomTomGas(location, radius) {
-            // Get API key from environment (server-side)
-            const radiusMeters = Math.round(radius); // Keep in meters for TomTom
-            // Use POI search for fuel stations with proper query
-            const url = `https://api.tomtom.com/search/2/poiSearch/gas%20station.json?key=${window.TOMTOM_API_KEY || 'WZs47YSTQtzJjBIXKkbdV0U0pbOHg3cd'}&lat=${location.lat}&lon=${location.lng}&radius=${radiusMeters}&limit=50&fuelSet=Petrol,Diesel,LPG&extendedPostalCodesFor=Addr`;
+        // Search fuel and gas stations using TomTom Places API with specific categories
+        async function searchTomTomFuelStations(location, radius) {
+            const radiusInMeters = Math.min(radius, 50000); // TomTom max radius is 50km
+            
+            // Search for multiple fuel-related categories to get comprehensive results
+            const fuelCategories = [
+                'petrol%20station',
+                'gas%20station', 
+                'fuel%20station',
+                'gasoline%20station'
+            ];
             
             try {
-                const response = await fetch(url);
+                // Search all fuel categories concurrently
+                const searchPromises = fuelCategories.map(category => 
+                    fetch(`https://api.tomtom.com/search/2/categorySearch/${category}.json?key=${TOMTOM_API_KEY}&lat=${location.lat}&lon=${location.lng}&radius=${radiusInMeters}&limit=50`)
+                        .then(response => response.ok ? response.json() : { results: [] })
+                        .catch(() => ({ results: [] }))
+                );
                 
-                if (!response.ok) {
-                    throw new Error(`TomTom API error: ${response.status}`);
-                }
+                const allResponses = await Promise.all(searchPromises);
+                const allResults = allResponses.flatMap(data => data.results || []);
                 
-                const data = await response.json();
+                // Remove duplicates based on coordinates (same station may appear in multiple categories)
+                const uniqueResults = [];
+                const seenCoords = new Set();
                 
-                return (data.results || []).map(result => {
-                    const lat = result.position?.lat || location.lat;
-                    const lng = result.position?.lon || location.lng;
-                    const distance = (result.dist || calculateDistance(location.lat, location.lng, lat, lng) * 1000) / 1000; // Convert to km
-                    
-                    // Get the actual station name from POI data
-                    let stationName = result.poi?.name || 'Gas Station';
-                    
-                    // Use the proper formatted address from TomTom
-                    let address = result.address?.freeformAddress || '';
-                    if (!address && result.address) {
-                        // Build address from components if freeformAddress is not available
-                        const parts = [];
-                        if (result.address.streetNumber) parts.push(result.address.streetNumber);
-                        if (result.address.streetName) parts.push(result.address.streetName);
-                        if (result.address.municipality) parts.push(result.address.municipality);
-                        if (result.address.countrySubdivision) parts.push(result.address.countrySubdivision);
-                        if (result.address.postalCode) parts.push(result.address.postalCode);
-                        address = parts.join(', ') || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                allResults.forEach(result => {
+                    if (result.position?.lat && result.position?.lon) {
+                        const coordKey = `${result.position.lat.toFixed(6)},${result.position.lon.toFixed(6)}`;
+                        if (!seenCoords.has(coordKey)) {
+                            seenCoords.add(coordKey);
+                            uniqueResults.push(result);
+                        }
                     }
+                });
+                
+                return uniqueResults.map(result => {
+                    const lat = result.position.lat;
+                    const lng = result.position.lon;
+                    const distance = result.dist ? (result.dist / 1000) : calculateDistance(location.lat, location.lng, lat, lng);
                     
-                    // Extract brand information properly
+                    let stationName = result.poi?.name || 'Fuel Station';
+                    let address = result.address?.freeformAddress || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                    
+                    // Extract brand information more accurately
                     let brand = '';
+                    let operator = '';
                     if (result.poi?.brands && result.poi.brands.length > 0) {
-                        brand = result.poi.brands[0].name || '';
+                        brand = result.poi.brands[0].name;
+                        operator = brand;
+                    } else {
+                        // Try to extract brand from station name
+                        const commonBrands = ['Shell', 'BP', 'Exxon', 'Mobil', 'Chevron', 'Total', 'Esso', 'Texaco', 'Citgo', 'Valero', 'Sunoco', '76', 'Arco', 'Speedway', 'Marathon', 'Phillips 66', 'Circle K', 'Wawa', '7-Eleven'];
+                        const foundBrand = commonBrands.find(brandName => 
+                            stationName.toLowerCase().includes(brandName.toLowerCase())
+                        );
+                        if (foundBrand) {
+                            brand = foundBrand;
+                            operator = foundBrand;
+                        }
                     }
                     
-                    // Better fuel type detection based on POI categories
-                    let fuelTypes = ['GASOLINE']; // Default
-                    if (result.poi?.categorySet) {
-                        result.poi.categorySet.forEach(category => {
-                            // TomTom category IDs for different fuel types
-                            if (category.id === 7311) fuelTypes.push('DIESEL');
-                            if (category.id === 7312) fuelTypes.push('LPG');
-                        });
+                    // Determine fuel types based on category and brand
+                    let fuelTypes = ['GASOLINE', 'DIESEL'];
+                    if (result.poi?.categories) {
+                        const categories = result.poi.categories.join(' ').toLowerCase();
+                        if (categories.includes('lpg') || categories.includes('autogas')) {
+                            fuelTypes.push('LPG');
+                        }
+                        if (categories.includes('premium')) {
+                            fuelTypes.push('PREMIUM');
+                        }
                     }
                     
-                    // Parse opening hours better
+                    // Extract opening hours
                     let openingHours = '';
-                    if (result.poi?.openingHours && result.poi.openingHours.mode) {
-                        openingHours = result.poi.openingHours.mode;
+                    let status = 'unknown';
+                    if (result.poi?.openingHours) {
+                        if (result.poi.openingHours.mode === '24/7') {
+                            openingHours = '24/7';
+                            status = 'open';
+                        } else if (result.poi.openingHours.timeRanges) {
+                            openingHours = 'Check hours';
+                        }
                     }
                     
                     return {
-                        id: `tomtom_${result.id}`,
+                        id: `tt_${result.id}`,
                         name: stationName,
                         address: address,
                         type: 'fuel',
@@ -1283,35 +1284,34 @@
                         lng: lng,
                         distance: distance,
                         brand: brand,
-                        operator: brand,
+                        operator: operator,
                         phone: result.poi?.phone || '',
                         website: result.poi?.url || '',
                         opening_hours: openingHours,
-                        status: 'unknown',
+                        status: status,
                         fuel_types: fuelTypes,
                         charging_types: [],
-                        payment_methods: [],
+                        payment_methods: ['CASH', 'CARD'], // Common payment methods
                         price_info: '',
-                        source: 'TomTom',
+                        source: 'TomTom Places',
                         country: result.address?.country || '',
                         city: result.address?.municipality || result.address?.localName || '',
                         last_updated: new Date().toISOString(),
                         raw_tags: result,
                     };
-                });
+                }).sort((a, b) => a.distance - b.distance);
+                
             } catch (error) {
                 console.error('TomTom API error:', error);
                 return [];
             }
         }
 
-        // Search EV charging stations using Open Charge Map API
+        // Search EV charging stations using Open Charge Map API - EV ONLY
         async function searchOpenChargeMapEV(location, radius) {
-            // Use API key from environment
-            const ocmKey = window.OPENCHARGEMAP_API_KEY || '87e356c0-2256-49b4-adf8-509e040551ea';
-            const distanceKm = radius / 1000; // Convert meters to km
-            // Fixed URL with proper parameters for EV charging stations
-            const url = `https://api.openchargemap.io/v3/poi/?key=${ocmKey}&output=json&latitude=${location.lat}&longitude=${location.lng}&distance=${distanceKm}&distanceunit=KM&maxresults=100&compact=false&verbose=false&includecomments=false&statusid=50&usagetypeid=1`;
+            const distanceKm = Math.min(radius / 1000, 100); // Convert meters to km, max 100km
+            // Only search for operational EV charging stations
+            const url = `https://api.openchargemap.io/v3/poi/?key=${OPEN_CHARGE_API_KEY}&output=json&latitude=${location.lat}&longitude=${location.lng}&distance=${distanceKm}&distanceunit=km&maxresults=100&compact=false&verbose=true&statustypeid=50&submissionstatustypeid=200`;
             
             try {
                 const response = await fetch(url);
@@ -1322,77 +1322,44 @@
                 
                 const data = await response.json();
                 
-                return (data || []).map(poi => {
-                    const lat = poi.AddressInfo?.Latitude || location.lat;
-                    const lng = poi.AddressInfo?.Longitude || location.lng;
+                return (data || []).filter(poi => poi && poi.AddressInfo && poi.AddressInfo.Latitude && poi.AddressInfo.Longitude).map(poi => {
+                    const lat = poi.AddressInfo.Latitude;
+                    const lng = poi.AddressInfo.Longitude;
                     const distance = poi.AddressInfo?.Distance || calculateDistance(location.lat, location.lng, lat, lng);
                     
-                    // Get proper station name from OpenChargeMap
                     let stationName = poi.AddressInfo?.Title || 'EV Charging Station';
+                    let address = [poi.AddressInfo?.AddressLine1, poi.AddressInfo?.Town, poi.AddressInfo?.Country?.Title].filter(Boolean).join(', ') || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
                     
-                    // Build proper address from OpenChargeMap structure
-                    let address = '';
-                    const addressParts = [];
-                    if (poi.AddressInfo?.AddressLine1) addressParts.push(poi.AddressInfo.AddressLine1);
-                    if (poi.AddressInfo?.Town) addressParts.push(poi.AddressInfo.Town);
-                    if (poi.AddressInfo?.StateOrProvince) addressParts.push(poi.AddressInfo.StateOrProvince);
-                    if (poi.AddressInfo?.Postcode) addressParts.push(poi.AddressInfo.Postcode);
-                    if (poi.AddressInfo?.Country?.Title) addressParts.push(poi.AddressInfo.Country.Title);
-                    
-                    address = addressParts.join(', ') || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-                    
-                    // Better status detection
                     let status = 'unknown';
                     if (poi.StatusType) {
-                        if (poi.StatusType.IsOperational === true) {
-                            status = 'open';
-                        } else if (poi.StatusType.IsOperational === false) {
-                            status = 'closed';
-                        }
+                        status = poi.StatusType.IsOperational ? 'open' : 'closed';
                     }
                     
-                    // Get detailed charging information
-                    let chargingTypes = [];
-                    let powerInfo = '';
-                    if (poi.Connections && poi.Connections.length > 0) {
-                        chargingTypes = poi.Connections.map(conn => {
-                            let type = conn.ConnectionType?.Title || 'Unknown';
-                            if (conn.PowerKW) {
-                                type += ` (${conn.PowerKW}kW)`;
-                            }
-                            return type;
-                        }).filter(Boolean);
-                        
-                        const maxPower = Math.max(...poi.Connections.map(c => c.PowerKW || 0).filter(p => p > 0));
-                        if (maxPower > 0) {
-                            powerInfo = `Up to ${maxPower}kW`;
-                        }
-                    }
-                    
-                    // Get usage information
-                    let usageInfo = '';
-                    if (poi.UsageType?.Title) {
-                        usageInfo = poi.UsageType.Title;
-                    }
+                    // Get charging connection details
+                    const chargingTypes = poi.Connections?.map(c => {
+                        const connType = c.ConnectionType?.Title || 'Unknown';
+                        const power = c.PowerKW ? ` (${c.PowerKW}kW)` : '';
+                        return connType + power;
+                    }).filter(Boolean) || ['EV Charging'];
                     
                     return {
-                        id: `ocm_${poi.ID}`,
+                        id: `ocm_${poi.UUID}`,
                         name: stationName,
                         address: address,
                         type: 'charging_station',
                         lat: lat,
                         lng: lng,
                         distance: distance,
-                        brand: poi.OperatorInfo?.Title || '',
+                        brand: poi.OperatorInfo?.Title || poi.AddressInfo?.Title || '',
                         operator: poi.OperatorInfo?.Title || '',
                         phone: poi.AddressInfo?.ContactTelephone1 || '',
-                        website: poi.OperatorInfo?.WebsiteURL || '',
-                        opening_hours: usageInfo,
+                        website: poi.OperatorInfo?.WebsiteURL || poi.AddressInfo?.RelatedURL || '',
+                        opening_hours: poi.GeneralComments || '',
                         status: status,
                         fuel_types: [],
                         charging_types: chargingTypes,
-                        payment_methods: [],
-                        price_info: powerInfo || poi.UsageCost || '',
+                        payment_methods: poi.UsageType?.Title ? [poi.UsageType.Title] : [],
+                        price_info: poi.UsageCost || (poi.UsageType?.IsPayAtLocation ? 'Payment Required' : ''),
                         source: 'OpenChargeMap',
                         country: poi.AddressInfo?.Country?.Title || '',
                         city: poi.AddressInfo?.Town || '',
@@ -1418,10 +1385,10 @@
             return R * c;
         }
 
-        // Display stations on map and in list
+        // Display stations on map and in list - Updated for TomTom
         function displayStations(stations) {
             // Clear existing markers
-            stationMarkers.forEach(marker => map.removeLayer(marker));
+            stationMarkers.forEach(marker => marker.remove());
             stationMarkers = [];
             
             // Add new markers with enhanced styling
@@ -1430,26 +1397,33 @@
                 const color = isEV ? '#00D4AA' : '#FF6B35';
                 const icon = isEV ? '⚡' : 'F';
                 
-                const markerIcon = L.divIcon({
-                    className: 'station-marker',
-                    html: `<div style="background: ${color}; width: 28px; height: 28px; border-radius: 50%; border: 3px solid white; box-shadow: 0 3px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: bold;">${icon}</div>`,
-                    iconSize: [28, 28],
-                    iconAnchor: [14, 14]
-                });
+                // Create custom marker element
+                const markerElement = document.createElement('div');
+                markerElement.className = 'station-marker';
+                markerElement.style.cursor = 'pointer';
+                markerElement.innerHTML = `<div style="background: ${color}; width: 28px; height: 28px; border-radius: 50%; border: 3px solid white; box-shadow: 0 3px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: bold;">${icon}</div>`;
                 
-                const marker = L.marker([station.lat, station.lng], { icon: markerIcon })
-                    .addTo(map)
-                    .on('click', () => showStationDetails(station));
+                // Create TomTom marker
+                const marker = new tt.Marker({ element: markerElement })
+                    .setLngLat([station.lng, station.lat])
+                    .addTo(map);
                 
-                // Add popup with basic info
-                marker.bindPopup(`
+                // Add click event
+                markerElement.addEventListener('click', () => showStationDetails(station));
+                
+                // Create popup content
+                const popupContent = `
                     <div style="min-width: 200px;">
                         <h4 style="margin: 0 0 8px 0;">${station.name}</h4>
                         <p style="margin: 0 0 4px 0; color: #666; font-size: 0.9em;">${station.address}</p>
                         <p style="margin: 0 0 8px 0; color: #007AFF; font-size: 0.9em;">${station.distance.toFixed(1)} km away</p>
                         <button onclick="openDirections(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}')" style="background: #007AFF; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em;">Get Directions</button>
                     </div>
-                `);
+                `;
+                
+                // Add TomTom popup
+                const popup = new tt.Popup({ offset: 35 }).setHTML(popupContent);
+                marker.setPopup(popup);
                 
                 stationMarkers.push(marker);
             });
@@ -1470,75 +1444,87 @@
                 `;
                 return;
             }
-
-            const filteredStations = stations.filter(station => {
-                if (activeFilter === 'all') return true;
-                return station.type === activeFilter;
-            });
-
-            container.innerHTML = filteredStations.map(station => {
+            
+            container.innerHTML = stations.map(station => {
                 const isEV = station.type === 'charging_station';
-                const stationType = isEV ? 'EV Charging' : 'Gas Station';
-                const statusClass = station.status === 'open' ? 'open' : station.status === 'closed' ? 'closed' : 'unknown';
+                const statusClass = station.status === 'open' ? '' : (station.status === 'closed' ? 'closed' : 'unknown');
+                const statusText = station.status === 'open' ? 'Open' : (station.status === 'closed' ? 'Closed' : 'Unknown');
                 
-                let additionalInfo = '';
-                if (isEV && station.charging_types.length > 0) {
-                    additionalInfo = station.charging_types.slice(0, 3).join(', ');
-                } else if (!isEV && station.fuel_types.length > 0) {
-                    additionalInfo = station.fuel_types.join(', ');
-                }
+                // Safely escape station data for onclick
+                const escapedStationData = JSON.stringify(station).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
                 
                 return `
-                    <div class="station-card" onclick="showStationDetails(${JSON.stringify(station).replace(/"/g, '&quot;')})">
+                    <div class="station-card" onclick="showStationDetails(${escapedStationData})">
                         <div class="station-header">
                             <div>
                                 <div class="station-name">${station.name}</div>
-                                <span class="station-type">${stationType}</span>
+                                <div class="station-type">${isEV ? 'EV Charging' : 'Gas Station'}</div>
+                                <div style="color: var(--deep-black); font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500; line-height: 1.3;">${station.address}</div>
                             </div>
                             <div class="station-distance">${station.distance.toFixed(1)} km</div>
                         </div>
                         
                         <div class="station-info">
                             <div class="station-status">
-                                <span class="status-indicator ${statusClass}"></span>
-                                ${station.status.charAt(0).toUpperCase() + station.status.slice(1)}
+                                <div class="status-indicator ${statusClass}"></div>
+                                <span>${statusText}</span>
                             </div>
                             ${station.brand ? `<div class="station-rating">${station.brand}</div>` : ''}
+                            ${station.price_info ? `<div class="station-rating">${station.price_info}</div>` : ''}
                         </div>
                         
-                        <p style="color: var(--dark-gray); font-size: 0.9em; margin-bottom: 1rem; line-height: 1.4;">
-                            ${station.address}
-                        </p>
-                        
-                        ${additionalInfo ? `<p style="color: var(--blue-accent); font-size: 0.85em; margin-bottom: 1rem;">${additionalInfo}</p>` : ''}
+                        <div style="margin: 0.5rem 0; font-size: 0.85rem; color: var(--dark-gray);">
+                            ${isEV ? 
+                                (station.charging_types.length > 0 ? `Charging: ${station.charging_types.join(', ')}` : 'EV Charging Available') :
+                                (station.fuel_types.length > 0 ? `Fuel: ${station.fuel_types.join(', ')}` : 'Fuel Available')
+                            }
+                        </div>
                         
                         <div class="station-actions">
-                            <button onclick="event.stopPropagation(); openDirections(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}')" class="action-btn primary">Get Directions</button>
-                            ${station.phone ? `<button onclick="event.stopPropagation(); window.open('tel:${station.phone}', '_self')" class="action-btn">Call</button>` : ''}
-                            <button onclick="event.stopPropagation(); showStationDetails(${JSON.stringify(station).replace(/"/g, '&quot;')})" class="action-btn">Details</button>
+                            <button class="action-btn primary" onclick="event.stopPropagation(); openDirections(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}')">Directions</button>
+                            <button class="action-btn" onclick="event.stopPropagation(); showStationDetails(${escapedStationData})">Details</button>
+                            ${station.phone ? `<button class="action-btn" onclick="event.stopPropagation(); window.open('tel:${station.phone}', '_self')">Call</button>` : ''}
                         </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        // Filter stations
+        function filterStations() {
+            let filteredStations = currentStations;
             
+            if (activeFilter !== 'all') {
+                filteredStations = currentStations.filter(station => {
+                    switch(activeFilter) {
+                        case 'fuel':
+                            return station.type === 'fuel';
+                        case 'diesel':
+                            return station.type === 'fuel' && station.fuel_types.includes('DIESEL');
+                        case 'ev':
+                            return station.type === 'charging_station';
+                        case 'open':
+                            return station.status === 'open';
+                        default:
+                            return true;
+                    }
+                });
+            }
+            
+            displayStations(filteredStations);
             updateStationCount(filteredStations.length);
         }
 
-        // Set filter
-        function setFilter(filter) {
-            activeFilter = filter;
-            
-            // Update filter chips
-            document.querySelectorAll('.filter-chip').forEach(chip => {
-                chip.classList.remove('active');
-            });
-            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
-            
-            // Re-display stations with filter
-            updateStationList(currentStations);
+        // Update station count
+        function updateStationCount(count) {
+            const countElement = document.querySelector('.station-count');
+            if (countElement) {
+                countElement.textContent = 
+                    count === 0 ? 'No stations found' : `${count} station${count === 1 ? '' : 's'} found`;
+            }
         }
 
-        // Show station details in popup
+        // Show enhanced station details
         function showStationDetails(station) {
             const popup = document.getElementById('popup-overlay');
             const title = document.getElementById('popup-title');
@@ -1548,18 +1534,20 @@
             
             title.textContent = station.name;
             
+            const isEV = station.type === 'charging_station';
+            const statusIcon = station.status === 'open' ? '🟢' : (station.status === 'closed' ? '🔴' : '🟡');
+            
             let details = `
                 <div style="margin-bottom: 1rem;">
-                    <p style="color: var(--dark-gray); margin-bottom: 0.5rem;"><strong>Address:</strong></p>
-                    <p style="margin-bottom: 1rem;">${station.address}</p>
-                </div>
-                
-                <div style="margin-bottom: 1rem;">
-                    <p style="color: var(--dark-gray); margin-bottom: 0.5rem;"><strong>Distance:</strong> ${station.distance.toFixed(1)} km</p>
-                    <p style="color: var(--dark-gray); margin-bottom: 0.5rem;"><strong>Type:</strong> ${station.type === 'charging_station' ? 'EV Charging Station' : 'Gas Station'}</p>
-                    <p style="color: var(--dark-gray); margin-bottom: 0.5rem;"><strong>Status:</strong> ${station.status.charAt(0).toUpperCase() + station.status.slice(1)}</p>
+                    <p><strong>Type:</strong> ${isEV ? 'EV Charging Station' : 'Gas Station'}</p>
+                    <p><strong>Distance:</strong> ${station.distance.toFixed(1)} km away</p>
+                    <p><strong>Status:</strong> ${statusIcon} ${station.status.charAt(0).toUpperCase() + station.status.slice(1)}</p>
                 </div>
             `;
+            
+            if (station.address && station.address !== 'Address not available') {
+                details += `<p><strong>Address:</strong> ${station.address}</p>`;
+            }
             
             if (station.brand) {
                 details += `<p><strong>Brand:</strong> ${station.brand}</p>`;
@@ -1620,30 +1608,87 @@
             }
         }
 
-        // Enhanced directions function - opens Google Maps directly
+        // Enhanced directions function - opens in external navigation apps
         function openDirections(lat, lng, name = 'Station') {
-            const encodedName = encodeURIComponent(name);
-            let googleMapsUrl;
-            
-            // If user location is available, include origin
-            if (userLocation) {
-                googleMapsUrl = `https://www.google.com/maps/dir/${userLocation.lat},${userLocation.lng}/${lat},${lng}/@${lat},${lng},15z`;
-            } else {
-                // Just show destination without directions
-                googleMapsUrl = `https://www.google.com/maps/place/${encodedName}/@${lat},${lng},15z`;
+            if (!userLocation) {
+                showApiStatus('Your location is needed for directions', 'error');
+                return;
             }
             
-            // Open Google Maps in new tab/window
-            window.open(googleMapsUrl, '_blank', 'noopener,noreferrer');
+            const encodedName = encodeURIComponent(name);
+            const destination = `${lat},${lng}`;
+            const origin = `${userLocation.lat},${userLocation.lng}`;
             
-            showApiStatus('Opening Google Maps...', 'success');
+            // Detect platform and open appropriate navigation app
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // iOS devices
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // Try Apple Maps first, fallback to Google Maps
+                const appleMapsUrl = `maps://maps.google.com/maps?daddr=${destination}&saddr=${origin}`;
+                const googleMapsUrl = `https://maps.google.com/maps?daddr=${destination}&saddr=${origin}`;
+                
+                // Create a temporary link to test if Apple Maps opens
+                const link = document.createElement('a');
+                link.href = appleMapsUrl;
+                link.click();
+                
+                // Fallback to Google Maps after a short delay
+                setTimeout(() => {
+                    window.open(googleMapsUrl, '_blank');
+                }, 500);
+            }
+            // Android devices
+            else if (/android/i.test(userAgent)) {
+                // Use Google Maps intent for Android
+                const intent = `geo:${lat},${lng}?q=${lat},${lng}(${encodedName})`;
+                const googleMapsUrl = `https://maps.google.com/maps?daddr=${destination}&saddr=${origin}`;
+                
+                try {
+                    window.location.href = intent;
+                } catch (e) {
+                    window.open(googleMapsUrl, '_blank');
+                }
+            }
+            // Desktop or other devices
+            else {
+                // Provide multiple options
+                const googleMapsUrl = `https://maps.google.com/maps?daddr=${destination}&saddr=${origin}`;
+                const wazeUrl = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
+                const appleMapsUrl = `https://maps.apple.com/?daddr=${lat},${lng}&saddr=${userLocation.lat},${userLocation.lng}`;
+                
+                // Show options popup
+                const optionsHtml = `
+                    <div style="text-align: center;">
+                        <h4 style="margin-bottom: 1rem;">Choose Navigation App</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <button onclick="window.open('${googleMapsUrl}', '_blank'); closePopup();" class="btn" style="width: 100%;">Google Maps</button>
+                            <button onclick="window.open('${wazeUrl}', '_blank'); closePopup();" class="btn btn-secondary" style="width: 100%;">Waze</button>
+                            <button onclick="window.open('${appleMapsUrl}', '_blank'); closePopup();" class="btn btn-secondary" style="width: 100%;">Apple Maps</button>
+                        </div>
+                    </div>
+                `;
+                
+                const popupTitle = document.getElementById('popup-title');
+                const popupDescription = document.getElementById('popup-description');
+                const popupOverlay = document.getElementById('popup-overlay');
+                
+                if (popupTitle && popupDescription && popupOverlay) {
+                    popupTitle.textContent = 'Navigation Options';
+                    popupDescription.innerHTML = optionsHtml;
+                    popupOverlay.style.display = 'flex';
+                }
+                return;
+            }
+            
+            showApiStatus('Opening navigation app...', 'success');
         }
 
         // Global function for popup directions
         window.openDirections = openDirections;
 
-        // Show API status
-        function showApiStatus(message, type) {
+        // Show API status with better UX
+        function showApiStatus(message, type = 'info') {
             const statusEl = document.getElementById('api-status');
             if (!statusEl) return;
             
@@ -1651,9 +1696,11 @@
             statusEl.className = `api-status ${type}`;
             statusEl.classList.remove('hidden');
             
+            // Auto-hide success and info messages, keep errors longer
+            const timeout = type === 'error' ? 5000 : 3000;
             setTimeout(() => {
                 statusEl.classList.add('hidden');
-            }, 3000);
+            }, timeout);
         }
 
         // Affiliate link handlers
