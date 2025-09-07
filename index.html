@@ -966,15 +966,30 @@
             }).addTo(map);
         }
 
-        // Initialize event listeners
+        // Initialize event listeners - FIXED
         function initEventListeners() {
-            document.getElementById('search-btn').addEventListener('click', handleSearch);
-            document.getElementById('near-me-btn').addEventListener('click', handleNearMe);
-            document.getElementById('location-input').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    handleSearch();
-                }
-            });
+            // Get references to buttons
+            const searchBtn = document.getElementById('search-btn');
+            const nearMeBtn = document.getElementById('near-me-btn');
+            const locationInput = document.getElementById('location-input');
+            
+            // Add event listeners with proper error checking
+            if (searchBtn) {
+                searchBtn.addEventListener('click', handleSearch);
+            }
+            
+            if (nearMeBtn) {
+                nearMeBtn.addEventListener('click', handleNearMe);
+            }
+            
+            if (locationInput) {
+                locationInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleSearch();
+                    }
+                });
+            }
 
             // Filter chips
             document.querySelectorAll('.filter-chip').forEach(chip => {
@@ -989,8 +1004,13 @@
 
         // Setup dark mode
         function setupDarkMode() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.body.setAttribute('data-theme', savedTheme);
+            try {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.body.setAttribute('data-theme', savedTheme);
+            } catch (e) {
+                // Fallback if localStorage is not available
+                document.body.setAttribute('data-theme', 'light');
+            }
         }
 
         // Toggle dark mode
@@ -998,7 +1018,12 @@
             const currentTheme = document.body.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             document.body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
+            
+            try {
+                localStorage.setItem('theme', newTheme);
+            } catch (e) {
+                // Ignore if localStorage is not available
+            }
         }
 
         // Update map location
@@ -1019,21 +1044,35 @@
             }).addTo(map);
         }
 
-        // Handle search
+        // Handle search - FIXED with better error handling and validation
         async function handleSearch() {
-            const query = document.getElementById('location-input').value.trim();
-            if (!query) return;
+            const locationInput = document.getElementById('location-input');
+            if (!locationInput) {
+                showApiStatus('Search input not found', 'error');
+                return;
+            }
+            
+            const query = locationInput.value.trim();
+            if (!query) {
+                showApiStatus('Please enter a location to search', 'error');
+                return;
+            }
 
             showApiStatus('Searching location...', 'loading');
             
             try {
                 const location = await geocodeLocation(query);
-                userLocation = location;
-                updateMapLocation(location);
-                await searchNearbyStations(location);
-                showApiStatus('Location found successfully!', 'success');
+                if (location && location.lat && location.lng) {
+                    userLocation = location;
+                    updateMapLocation(location);
+                    await searchNearbyStations(location);
+                    showApiStatus('Location found successfully!', 'success');
+                } else {
+                    throw new Error('Invalid location data received');
+                }
             } catch (error) {
-                showApiStatus('Location not found. Please try again.', 'error');
+                console.error('Search error:', error);
+                showApiStatus('Location not found. Please try a different search term.', 'error');
             }
         }
 
@@ -1057,25 +1096,60 @@
                     showApiStatus('Location found successfully!', 'success');
                 },
                 (error) => {
-                    showApiStatus('Unable to get your location. Please try again.', 'error');
+                    let errorMessage = 'Unable to get your location. ';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage += 'Please allow location access.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage += 'Location information unavailable.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage += 'Location request timed out.';
+                            break;
+                        default:
+                            errorMessage += 'Please try again.';
+                            break;
+                    }
+                    showApiStatus(errorMessage, 'error');
                 },
-                { timeout: 5000, enableHighAccuracy: false, maximumAge: 60000 }
+                { timeout: 10000, enableHighAccuracy: true, maximumAge: 60000 }
             );
         }
 
-        // Geocode location using Nominatim
+        // Geocode location using Nominatim with better error handling
         async function geocodeLocation(query) {
-            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
-            const data = await response.json();
-            
-            if (data.length === 0) {
-                throw new Error('Location not found');
+            try {
+                const encodedQuery = encodeURIComponent(query);
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodedQuery}&limit=1&addressdetails=1`, {
+                    headers: {
+                        'User-Agent': 'ZANIROUTE/1.0'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!data || data.length === 0) {
+                    throw new Error('Location not found');
+                }
+                
+                const result = data[0];
+                const lat = parseFloat(result.lat);
+                const lng = parseFloat(result.lon);
+                
+                if (isNaN(lat) || isNaN(lng)) {
+                    throw new Error('Invalid coordinates received');
+                }
+                
+                return { lat, lng };
+            } catch (error) {
+                console.error('Geocoding error:', error);
+                throw error;
             }
-            
-            return {
-                lat: parseFloat(data[0].lat),
-                lng: parseFloat(data[0].lon)
-            };
         }
 
         // Search for nearby stations using accurate data sources
@@ -1121,7 +1195,7 @@
             }
         }
 
-        // Search stations using Overpass API with optimized, accurate queries
+        // Search stations using Overpass API with optimized, accurate queries - FIXED NAMING LOGIC
         async function searchOverpassStations(location, radius) {
             const query = `
                 [out:json][timeout:15];
@@ -1136,11 +1210,14 @@
             
             try {
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
                 
                 const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`, {
                     method: 'GET',
-                    signal: controller.signal
+                    signal: controller.signal,
+                    headers: {
+                        'User-Agent': 'ZANIROUTE/1.0'
+                    }
                 });
                 
                 clearTimeout(timeoutId);
@@ -1151,6 +1228,10 @@
                 
                 const data = await response.json();
                 
+                if (!data || !data.elements) {
+                    throw new Error('Invalid response format');
+                }
+                
                 const stations = data.elements.map(element => {
                     const lat = element.lat || element.center?.lat;
                     const lng = element.lon || element.center?.lon;
@@ -1160,10 +1241,35 @@
                     const tags = element.tags || {};
                     const isEV = tags.amenity === 'charging_station';
                     
-                    // Build address from available tags
+                    // IMPROVED NAMING LOGIC - prioritize actual station names
+                    let stationName = '';
+                    
+                    // Priority order for naming: name > brand > operator > generic fallback
+                    if (tags.name && tags.name.trim()) {
+                        stationName = tags.name.trim();
+                    } else if (tags.brand && tags.brand.trim()) {
+                        stationName = tags.brand.trim();
+                    } else if (tags.operator && tags.operator.trim()) {
+                        stationName = tags.operator.trim();
+                    } else if (tags['brand:wikidata']) {
+                        // If we have brand data but no readable name, use a generic brand name
+                        stationName = isEV ? 'EV Charging Station' : 'Fuel Station';
+                    } else {
+                        // Generic fallback - try to make it more specific
+                        const houseNumber = tags['addr:housenumber'] || '';
+                        const street = tags['addr:street'] || '';
+                        
+                        if (street) {
+                            stationName = `${isEV ? 'EV Charging' : 'Fuel Station'} - ${houseNumber ? houseNumber + ' ' : ''}${street}`;
+                        } else {
+                            stationName = isEV ? 'EV Charging Station' : 'Fuel Station';
+                        }
+                    }
+                    
+                    // Build comprehensive address
                     const address = buildAddressFromTags(tags);
                     
-                    // Determine opening status quickly
+                    // Determine opening status
                     const status = determineOpenStatus(tags.opening_hours || '');
                     
                     // Calculate distance
@@ -1171,8 +1277,7 @@
                     
                     return {
                         id: `osm_${element.id}`,
-                        name: tags.name || tags.brand || tags.operator || 
-                              (isEV ? 'EV Charging Station' : 'Fuel Station'),
+                        name: stationName,
                         address: address || `${lat.toFixed(4)}, ${lng.toFixed(4)}`,
                         type: isEV ? 'charging_station' : 'fuel',
                         lat: lat,
@@ -1191,12 +1296,17 @@
                         source: 'OpenStreetMap',
                         country: tags['addr:country'] || '',
                         city: tags['addr:city'] || tags['addr:town'] || '',
-                        last_updated: new Date().toISOString()
+                        last_updated: new Date().toISOString(),
+                        // Additional metadata for better identification
+                        raw_tags: tags,
+                        osm_id: element.id,
+                        osm_type: element.type
                     };
                 }).filter(station => station !== null);
                 
-                // Sort by distance
-                return stations.sort((a, b) => a.distance - b.distance);
+                // Sort by distance and remove duplicates
+                const uniqueStations = removeDuplicateStations(stations);
+                return uniqueStations.sort((a, b) => a.distance - b.distance);
                 
             } catch (error) {
                 if (error.name === 'AbortError') {
@@ -1208,13 +1318,31 @@
             }
         }
 
+        // Remove duplicate stations (same location, different sources)
+        function removeDuplicateStations(stations) {
+            const uniqueStations = [];
+            const seenLocations = new Set();
+            
+            stations.forEach(station => {
+                // Create a location key with rounded coordinates to catch nearby duplicates
+                const locationKey = `${station.lat.toFixed(4)},${station.lng.toFixed(4)}`;
+                
+                if (!seenLocations.has(locationKey)) {
+                    seenLocations.add(locationKey);
+                    uniqueStations.push(station);
+                }
+            });
+            
+            return uniqueStations;
+        }
+
         // Helper functions for building comprehensive station data
         function buildAddressFromTags(tags) {
             const street = tags['addr:street'] || '';
             const houseNumber = tags['addr:housenumber'] || '';
             const city = tags['addr:city'] || tags['addr:town'] || tags['addr:village'] || '';
             const postcode = tags['addr:postcode'] || '';
-            const state = tags['addr:state'] || '';
+            const state = tags['addr:state'] || tags['addr:province'] || '';
             const country = tags['addr:country'] || '';
             
             let address = '';
@@ -1236,21 +1364,22 @@
         function determineOpenStatus(openingHours) {
             if (!openingHours) return 'unknown';
             
-            const now = new Date();
-            const currentHour = now.getHours();
-            const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            const lowerHours = openingHours.toLowerCase();
             
             // Simple parsing for common formats
-            if (openingHours.includes('24/7')) return 'open';
-            if (openingHours.toLowerCase().includes('closed')) return 'closed';
+            if (lowerHours.includes('24/7') || lowerHours.includes('24 hours')) return 'open';
+            if (lowerHours.includes('closed')) return 'closed';
             
-            // Basic hour parsing
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            // Basic hour parsing for simple formats like "06:00-22:00"
             const hourMatch = openingHours.match(/(\d{1,2}):?(\d{2})?\s*-\s*(\d{1,2}):?(\d{2})?/);
             if (hourMatch) {
                 const openHour = parseInt(hourMatch[1]);
                 const closeHour = parseInt(hourMatch[3]);
                 
-                if (currentHour >= openHour && currentHour < closeHour) {
+                if (openHour <= currentHour && currentHour < closeHour) {
                     return 'open';
                 } else {
                     return 'closed';
@@ -1392,8 +1521,11 @@
                 const statusClass = station.status === 'open' ? '' : (station.status === 'closed' ? 'closed' : 'unknown');
                 const statusText = station.status === 'open' ? 'Open' : (station.status === 'closed' ? 'Closed' : 'Unknown');
                 
+                // Safely escape station data for onclick
+                const escapedStationData = JSON.stringify(station).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                
                 return `
-                    <div class="station-card" onclick="showStationDetails(${JSON.stringify(station).replace(/"/g, '&quot;')})">
+                    <div class="station-card" onclick="showStationDetails(${escapedStationData})">
                         <div class="station-header">
                             <div>
                                 <div class="station-name">${station.name}</div>
@@ -1421,7 +1553,7 @@
                         
                         <div class="station-actions">
                             <button class="action-btn primary" onclick="event.stopPropagation(); openDirections(${station.lat}, ${station.lng}, '${station.name.replace(/'/g, "\\'")}')">Directions</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); showStationDetails(${JSON.stringify(station).replace(/"/g, '&quot;')})">Details</button>
+                            <button class="action-btn" onclick="event.stopPropagation(); showStationDetails(${escapedStationData})">Details</button>
                             ${station.phone ? `<button class="action-btn" onclick="event.stopPropagation(); window.open('tel:${station.phone}', '_self')">Call</button>` : ''}
                         </div>
                     </div>
@@ -1456,8 +1588,11 @@
 
         // Update station count
         function updateStationCount(count) {
-            document.querySelector('.station-count').textContent = 
-                count === 0 ? 'No stations found' : `${count} station${count === 1 ? '' : 's'} found`;
+            const countElement = document.querySelector('.station-count');
+            if (countElement) {
+                countElement.textContent = 
+                    count === 0 ? 'No stations found' : `${count} station${count === 1 ? '' : 's'} found`;
+            }
         }
 
         // Show enhanced station details
@@ -1465,6 +1600,8 @@
             const popup = document.getElementById('popup-overlay');
             const title = document.getElementById('popup-title');
             const description = document.getElementById('popup-description');
+            
+            if (!popup || !title || !description) return;
             
             title.textContent = station.name;
             
@@ -1536,7 +1673,10 @@
 
         // Close popup
         function closePopup() {
-            document.getElementById('popup-overlay').style.display = 'none';
+            const popup = document.getElementById('popup-overlay');
+            if (popup) {
+                popup.style.display = 'none';
+            }
         }
 
         // Enhanced directions function - opens in external navigation apps
@@ -1600,9 +1740,15 @@
                     </div>
                 `;
                 
-                document.getElementById('popup-title').textContent = 'Navigation Options';
-                document.getElementById('popup-description').innerHTML = optionsHtml;
-                document.getElementById('popup-overlay').style.display = 'flex';
+                const popupTitle = document.getElementById('popup-title');
+                const popupDescription = document.getElementById('popup-description');
+                const popupOverlay = document.getElementById('popup-overlay');
+                
+                if (popupTitle && popupDescription && popupOverlay) {
+                    popupTitle.textContent = 'Navigation Options';
+                    popupDescription.innerHTML = optionsHtml;
+                    popupOverlay.style.display = 'flex';
+                }
                 return;
             }
             
@@ -1615,8 +1761,11 @@
         // Show API status
         function showApiStatus(message, type) {
             const statusEl = document.getElementById('api-status');
+            if (!statusEl) return;
+            
             statusEl.textContent = message;
             statusEl.className = `api-status ${type}`;
+            statusEl.classList.remove('hidden');
             
             setTimeout(() => {
                 statusEl.classList.add('hidden');
@@ -1632,24 +1781,42 @@
             };
             
             if (links[platform]) {
-                window.open(links[platform], '_blank');
+                window.open(links[platform], '_blank', 'noopener,noreferrer');
             }
         }
 
+        // Make functions globally available
+        window.toggleDarkMode = toggleDarkMode;
+        window.showStationDetails = showStationDetails;
+        window.closePopup = closePopup;
+        window.openAffiliate = openAffiliate;
+
         // Initialize the app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initApp);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
         
         // Handle popup clicks
-        document.getElementById('popup-overlay').addEventListener('click', (e) => {
-            if (e.target.id === 'popup-overlay') {
-                closePopup();
+        document.addEventListener('DOMContentLoaded', () => {
+            const popupOverlay = document.getElementById('popup-overlay');
+            if (popupOverlay) {
+                popupOverlay.addEventListener('click', (e) => {
+                    if (e.target.id === 'popup-overlay') {
+                        closePopup();
+                    }
+                });
             }
         });
 
         // Add keyboard support for popup
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && document.getElementById('popup-overlay').style.display === 'flex') {
-                closePopup();
+            if (e.key === 'Escape') {
+                const popup = document.getElementById('popup-overlay');
+                if (popup && popup.style.display === 'flex') {
+                    closePopup();
+                }
             }
         });
 
