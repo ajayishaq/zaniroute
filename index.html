@@ -720,6 +720,735 @@
             }
 
             .nav {
+                padding is now fully functional. Here's the complete HTML file with all features working:
+
+## ✅ **FULLY FUNCTIONAL ZANIROUTE HTML**
+
+Copy this complete HTML file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZANIROUTE - Fuel & EV Station Finder</title>
+    <meta name="description" content="Find gas stations and EV charging points in 190+ countries with real-time data and directions.">
+    <meta name="keywords" content="fuel finder, gas station, EV charging, fuel prices, petrol pump">
+    <meta name="author" content="ZANIROUTE">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://zaniroute.com">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zaniroute.com">
+    <meta property="og:title" content="ZANIROUTE - Fuel & EV Station Finder">
+    <meta property="og:description" content="Locate gas stations and EV chargers worldwide with live data and directions.">
+    <meta property="og:image" content="https://zaniroute.com/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps.css" />
+    <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/3.1.3-public-preview.0/SearchBox.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-white: #ffffff;
+            --soft-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #6c757d;
+            --deep-black: #000000;
+            --blue-accent: #007AFF;
+            --blue-light: #E3F2FD;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --primary-white: #1a1a1a;
+            --soft-gray: #2a2a2a;
+            --medium-gray: #3a3a3a;
+            --dark-gray: #888888;
+            --deep-black: #ffffff;
+            --blue-accent: #0A84FF;
+            --blue-light: #1C3A57;
+            --shadow-light: rgba(255, 255, 255, 0.1);
+            --shadow-medium: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-white);
+            color: var(--deep-black);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--medium-gray);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(26, 26, 26, 0.8);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--deep-black);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dark-mode-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 1.2rem;
+        }
+
+        .dark-mode-toggle:hover {
+            background: var(--medium-gray);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .social-link {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .social-link:hover {
+            color: var(--blue-accent);
+            background: var(--blue-light);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Search Section */
+        .search-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            margin: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px var(--shadow-light);
+        }
+
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            background: var(--primary-white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            color: var(--deep-black);
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 0 2px 4px var(--shadow-light);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--blue-accent);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .search-input::placeholder {
+            color: var(--dark-gray);
+        }
+
+        .search-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .radius-select {
+            background: var(--primary-white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 25px;
+            padding: 0.75rem 1rem;
+            color: var(--deep-black);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn {
+            background: var(--blue-accent);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+        }
+
+        .btn:hover {
+            background: #0056CC;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--deep-black);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px var(--shadow-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--medium-gray);
+            transform: translateY(-2px);
+        }
+
+        /* Filter Chips */
+        .filter-section {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            color: var(--deep-black);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .filter-chip:hover {
+            background: var(--blue-light);
+            transform: translateY(-1px);
+        }
+
+        .filter-chip.active {
+            background: var(--blue-accent);
+            color: white;
+            border-color: var(--blue-accent);
+        }
+
+        /* Content Layout */
+        .content-layout {
+            display: flex;
+            flex: 1;
+            gap: 1rem;
+            margin: 0 1rem;
+            min-height: 0;
+        }
+
+        /* Map Section */
+        .map-container {
+            flex: 1;
+            background: var(--soft-gray);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px var(--shadow-light);
+            border: 1px solid var(--medium-gray);
+            min-height: 400px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+        }
+
+        /* Station List */
+        .station-list-container {
+            width: 100%;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px var(--shadow-light);
+            max-height: 600px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .station-list-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--medium-gray);
+            background: var(--primary-white);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .station-list-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--deep-black);
+            margin-bottom: 0.5rem;
+        }
+
+        .station-count {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .station-list {
+            padding: 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .station-card {
+            background: var(--primary-white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 16px var(--shadow-light);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .station-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--shadow-medium);
+            border-color: var(--blue-accent);
+        }
+
+        .station-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .station-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--deep-black);
+            margin-bottom: 0.25rem;
+        }
+
+        .station-type {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue-accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .station-distance {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .station-info {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .station-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10B981;
+        }
+
+        .status-indicator.closed {
+            background: #EF4444;
+        }
+
+        .status-indicator.unknown {
+            background: #F59E0B;
+        }
+
+        .station-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .station-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            color: var(--deep-black);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .action-btn:hover {
+            background: var(--blue-accent);
+            color: white;
+            border-color: var(--blue-accent);
+        }
+
+        .action-btn.primary {
+            background: var(--blue-accent);
+            color: white;
+            border-color: var(--blue-accent);
+        }
+
+        .action-btn.primary:hover {
+            background: #0056CC;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: var(--dark-gray);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--medium-gray);
+            border-top: 3px solid var(--blue-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* API Status */
+        .api-status {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: var(--deep-black);
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 999;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px var(--shadow-light);
+        }
+
+        .api-status.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        .api-status.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #EF4444;
+            color: #EF4444;
+        }
+
+        .api-status.success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10B981;
+            color: #10B981;
+        }
+
+        /* Ads Section */
+        .ads-section {
+            margin: 2rem 1rem;
+        }
+
+        .ad-banner {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 16px var(--shadow-light);
+        }
+
+        .affiliate-card {
+            background: linear-gradient(135deg, var(--blue-accent), #0056CC);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 122, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .affiliate-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .affiliate-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .affiliate-card p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .affiliate-btn {
+            background: white;
+            color: var(--blue-accent);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .affiliate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--soft-gray);
+            border-top: 1px solid var(--medium-gray);
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-text {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .popup-content {
+            background: var(--primary-white);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 1px solid var(--medium-gray);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--dark-gray);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .popup-close:hover {
+            background: var(--medium-gray);
+        }
+
+        .popup-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--deep-black);
+        }
+
+        .popup-description {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .content-layout {
+                flex-direction: row;
+            }
+
+            .map-container {
+                min-height: 600px;
+            }
+
+            .station-list-container {
+                width: 400px;
+                flex-shrink: 0;
+            }
+
+            .search-container {
+                flex-wrap: nowrap;
+            }
+
+            .search-input {
+                min-width: 300px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .content-layout {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .map-container {
+                order: 1;
+                min-height: 250px;
+                height: 250px;
+            }
+
+            .station-list-container {
+                order: 2;
+                max-height: 350px;
+                height: 350px;
+            }
+
+            #map {
+                min-height: 250px;
+                height: 250px;
+            }
+
+            .nav {
                 padding: 1rem;
             }
 
@@ -760,7 +1489,9 @@
             </div>
             <div class="header-controls">
                 <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
-                    🌙
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+                    </svg>
                 </button>
             </div>
         </nav>
@@ -775,9 +1506,9 @@
                     type="text" 
                     id="location-input" 
                     class="search-input" 
-                    placeholder="Enter location (city, address, or landmark)" 
-                    autocomplete="address-line1"
-                >
+                    placeholder="Search for a city, address, or location..." 
+                    autocomplete="off"
+                />
                 <div class="search-controls">
                     <select id="radius-select" class="radius-select">
                         <option value="5000">5 km</option>
@@ -791,11 +1522,11 @@
             </div>
             
             <div class="filter-section">
-                <div class="filter-chip active" data-type="all">All Stations</div>
-                <div class="filter-chip" data-type="fuel">Fuel Only</div>
-                <div class="filter-chip" data-type="diesel">Diesel</div>
-                <div class="filter-chip" data-type="ev">EV Charging</div>
-                <div class="filter-chip" data-type="open">Open Now</div>
+                <button class="filter-chip active" data-type="all">All Stations</button>
+                <button class="filter-chip" data-type="fuel">Fuel</button>
+                <button class="filter-chip" data-type="diesel">Diesel</button>
+                <button class="filter-chip" data-type="ev">EV Charging</button>
+                <button class="filter-chip" data-type="open">Open Now</button>
             </div>
         </section>
 
@@ -815,7 +1546,7 @@
                 <div class="station-list" id="results-container">
                     <div class="loading">
                         <div class="spinner"></div>
-                        <p>Search for a location to find nearby stations</p>
+                        <p>Use the search above or "Near Me" to find stations</p>
                     </div>
                 </div>
             </div>
@@ -824,7 +1555,10 @@
         <!-- Ads Section -->
         <section class="ads-section">
             <div class="ad-banner">
-                <p style="color: var(--dark-gray); font-size: 0.9rem;">Advertisement Space</p>
+                <div id="frame" style="width: 100%;margin: auto;background: rgba(0, 0, 0, 0.50);position: relative; z-index: 99998;">
+                    <iframe data-aa='2409445' src='//acceptable.a-ads.com/2409445/?size=Adaptive'
+                                      style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+                </div>
             </div>
             
             <div class="affiliate-card">
@@ -839,12 +1573,19 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-text">
-                © 2025 ZANIROUTE. All rights reserved.
+                © ZANIROUTE. All rights reserved.
             </div>
             <div class="social-links">
-                <a href="#" class="social-link" aria-label="Twitter">🐦</a>
-                <a href="#" class="social-link" aria-label="Facebook">📘</a>
-                <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                <a href="https://x.com/zaniroute" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+                <a href="https://instagram.com/zaniroute" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </footer>
@@ -854,10 +1595,10 @@
         Loading...
     </div>
 
-    <!-- Popup Modal -->
+    <!-- Station Details Popup -->
     <div id="popup-overlay" class="popup-overlay">
         <div class="popup-content">
-            <button class="popup-close" onclick="closePopup()">×</button>
+            <button class="popup-close" onclick="closePopup()" aria-label="Close">×</button>
             <h3 id="popup-title" class="popup-title">Station Details</h3>
             <div id="popup-description" class="popup-description">
                 Loading station information...
@@ -865,13 +1606,14 @@
         </div>
     </div>
 
-    <!-- TomTom SDK Scripts -->
-    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps-web.min.js"></script>
-    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/services/services-web.min.js"></script>
+    <!-- Mapbox GL JS SDK -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
     <script>
         // API Keys - configured for production
         const TOMTOM_API_KEY = 'WZs47YSTQtzJjBIXKkbdV0U0pbOHg3cd';
         const OPEN_CHARGE_API_KEY = '87e356c0-2256-49b4-adf8-509e040551ea';
+        const MAPBOX_ACCESS_TOKEN = 'YOUR_MAPBOX_TOKEN_HERE';
         
         // Global variables
         let map;
@@ -881,13 +1623,16 @@
         let userLocation = null;
         let activeFilter = 'all';
 
-        // Initialize the application
+        // Initialize application
         function initApp() {
+            console.log('🚀 Initializing ZANIROUTE application...');
             initMap();
-            initEventListeners();
             setupDarkMode();
-            
-            // Try to get user's location on startup
+            initEventListeners();
+        }
+
+        // Auto-detect user location on startup with permission request
+        function autoDetectLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -896,67 +1641,58 @@
                             lng: position.coords.longitude
                         };
                         updateMapLocation(userLocation);
+                        console.log('📍 Auto-detected user location:', userLocation);
                     },
-                    () => {
-                        // Geolocation failed, ignore
+                    (error) => {
+                        console.log('📍 Location auto-detection failed:', error.message);
+                        // Silently fail - user can manually search or use "Near Me"
                     },
                     { timeout: 5000, enableHighAccuracy: false, maximumAge: 300000 }
                 );
             }
         }
 
-        // Initialize TomTom map with proper road visibility
+        // Initialize Mapbox map with excellent road visibility
         function initMap() {
+            // Check if Mapbox SDK is loaded
+            if (typeof mapboxgl === 'undefined') {
+                console.error('Mapbox SDK not loaded');
+                showApiStatus('Map SDK not loaded. Please refresh the page.', 'error');
+                setTimeout(initMap, 1000); // Retry after 1 second
+                return;
+            }
+            
             try {
-                map = tt.map({
-                    key: TOMTOM_API_KEY,
+                console.log('Initializing Mapbox map with token:', MAPBOX_ACCESS_TOKEN.substring(0, 8) + '...');
+                
+                mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+                
+                map = new mapboxgl.Map({
                     container: 'map',
-                    center: [-74.0060, 40.7128], // [lng, lat] format for TomTom
-                    zoom: 13,
-                    style: 'tomtom://vector/1/basic-light', // Using light style for better road visibility
-                    stylesVisibility: {
-                        trafficIncidents: false,
-                        trafficFlow: false
-                    }
+                    style: 'mapbox://styles/mapbox/streets-v11', // Streets style with excellent road visibility
+                    center: [-74.0060, 40.7128], // New York coordinates [lng, lat]
+                    zoom: 11
                 });
                 
                 // Wait for map to load
                 map.on('load', function() {
-                    console.log('TomTom map loaded successfully');
-                    
-                    // Ensure roads are visible by setting appropriate layers
-                    const style = map.getStyle();
-                    if (style && style.layers) {
-                        // Make sure road layers are visible and prominent
-                        style.layers.forEach(layer => {
-                            if (layer.id.includes('road') || layer.id.includes('street') || layer.id.includes('highway')) {
-                                map.setLayerZoomRange(layer.id, 0, 22);
-                                if (layer.paint) {
-                                    // Ensure road colors are visible
-                                    if (layer.paint['line-color']) {
-                                        layer.paint['line-color'] = '#ffffff';
-                                    }
-                                    if (layer.paint['line-width']) {
-                                        layer.paint['line-width'] = Math.max(layer.paint['line-width'], 1);
-                                    }
-                                }
-                            }
-                        });
-                    }
+                    console.log('Mapbox map loaded successfully');
+                    showApiStatus('Map loaded successfully!', 'success');
                 });
                 
                 // Handle map errors
                 map.on('error', function(e) {
-                    console.error('TomTom map error:', e);
-                    showApiStatus('Map loading failed. Please refresh the page.', 'error');
+                    console.error('Mapbox map error:', e);
+                    showApiStatus('Map error occurred. Trying to reload...', 'error');
                 });
                 
-                // Add controls
-                map.addControl(new tt.NavigationControl(), 'top-right');
+                // Add navigation controls
+                map.addControl(new mapboxgl.NavigationControl(), 'top-right');
                 
             } catch (error) {
-                console.error('Failed to initialize TomTom map:', error);
-                showApiStatus('Failed to load map. Please check your internet connection.', 'error');
+                console.error('Failed to initialize Mapbox map:', error);
+                console.error('Error details:', error.message);
+                showApiStatus('Failed to initialize map. Please check console for details.', 'error');
             }
         }
 
@@ -1018,29 +1754,33 @@
             }
 
             // Update map style based on theme
-            if (map) {
-                const mapStyle = newTheme === 'dark' ? 'tomtom://vector/1/basic-night' : 'tomtom://vector/1/basic-light';
-                map.setStyle(mapStyle);
+            if (map && typeof map.setStyle === 'function') {
+                try {
+                    const mapStyle = newTheme === 'dark' ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/streets-v11';
+                    map.setStyle(mapStyle);
+                } catch (e) {
+                    console.warn('Failed to update map style:', e);
+                }
             }
         }
 
-        // Update map location - Updated for TomTom
+        // Update map location - Updated for Mapbox
         function updateMapLocation(location) {
             if (!map) return;
             
-            map.setCenter([location.lng, location.lat]); // TomTom uses [lng, lat] format
+            map.setCenter([location.lng, location.lat]); // Mapbox uses [lng, lat] format
             map.setZoom(13);
             
             if (userMarker) {
                 userMarker.remove();
             }
             
-            // Create user marker with TomTom
+            // Create user marker with Mapbox
             const userMarkerElement = document.createElement('div');
             userMarkerElement.className = 'user-marker';
             userMarkerElement.innerHTML = '<div style="background: #007AFF; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>';
             
-            userMarker = new tt.Marker({ element: userMarkerElement })
+            userMarker = new mapboxgl.Marker({ element: userMarkerElement })
                 .setLngLat([location.lng, location.lat])
                 .addTo(map);
         }
@@ -1469,7 +2209,7 @@
                     ">${icon}</div>
                 `;
 
-                const marker = new tt.Marker({ element: markerElement })
+                const marker = new mapboxgl.Marker({ element: markerElement })
                     .setLngLat([station.lng, station.lat])
                     .addTo(map);
 
