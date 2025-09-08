@@ -300,6 +300,8 @@
             min-height: 400px;
             position: relative;
             z-index: 1;
+            display: block !important;
+            visibility: visible !important;
         }
 
         #map {
@@ -308,6 +310,8 @@
             min-height: 400px;
             position: relative;
             background: #f0f0f0;
+            display: block !important;
+            visibility: visible !important;
         }
 
         /* Station List */
@@ -708,10 +712,12 @@
 
             .map-container {
                 order: 1;
-                min-height: 500px;
-                height: 60vh;
-                width: 100%;
+                min-height: 500px !important;
+                height: 60vh !important;
+                width: 100% !important;
                 position: relative;
+                display: block !important;
+                visibility: visible !important;
             }
 
             .station-list-container {
@@ -721,12 +727,14 @@
             }
 
             #map {
-                min-height: 500px;
-                height: 100%;
-                width: 100%;
+                min-height: 500px !important;
+                height: 100% !important;
+                width: 100% !important;
                 border-radius: 20px;
                 position: relative;
-                display: block;
+                display: block !important;
+                visibility: visible !important;
+                overflow: hidden;
             }
 
             .nav {
@@ -864,7 +872,7 @@
                 </a>
                 <a href="https://instagram.com/zaniroute" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.40s-.644-1.44-1.439-1.40z"/>
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                     </svg>
                 </a>
             </div>
@@ -915,24 +923,27 @@
             console.log('ZANIROUTE app initialized successfully');
         }
 
-        // Request user location immediately on app load
+        // Request user location immediately on app load and search for stations
         function requestUserLocation() {
             if (!navigator.geolocation) {
                 showApiStatus('Geolocation not supported. Please search manually.', 'error');
                 return;
             }
 
-            showApiStatus('Requesting location permission for better experience...', 'loading');
+            showApiStatus('Requesting location permission for accurate station results...', 'loading');
             
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                async (position) => {
                     console.log('User location obtained on startup:', position.coords);
                     userLocation = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
                     updateMapLocation(userLocation);
-                    showApiStatus('Location detected! Search for nearby stations or click "Near Me".', 'success');
+                    showApiStatus('Location found! Searching for nearby stations...', 'loading');
+                    
+                    // Automatically search for stations once location is obtained
+                    await searchNearbyStations(userLocation);
                 },
                 (error) => {
                     console.log('Initial location request failed:', error);
@@ -940,24 +951,24 @@
                     
                     switch(error.code) {
                         case error.PERMISSION_DENIED:
-                            message += 'denied. You can still search manually or click "Near Me" to try again.';
+                            message += 'denied. Click "Near Me" to enable location or search manually.';
                             break;
                         case error.POSITION_UNAVAILABLE:
-                            message += 'unavailable. Please ensure GPS is enabled.';
+                            message += 'unavailable. Please enable GPS and click "Near Me".';
                             break;
                         case error.TIMEOUT:
                             message += 'timed out. Click "Near Me" to try again.';
                             break;
                         default:
-                            message += 'failed. You can search manually or click "Near Me".';
+                            message += 'failed. Click "Near Me" to try again.';
                             break;
                     }
                     showApiStatus(message, 'error');
                 },
                 { 
-                    timeout: 10000, 
+                    timeout: 15000, 
                     enableHighAccuracy: true, 
-                    maximumAge: 60000 
+                    maximumAge: 30000 
                 }
             );
         }
@@ -966,111 +977,722 @@
         function initMap() {
             // Check if Mapbox SDK is loaded
             if (typeof mapboxgl === 'undefined') {
-                console.error('Mapbox SDK not loaded');
-                showApiStatus('Map SDK not loaded. Please refresh the page.', 'error');
-                setTimeout(initMap, 1000); // Retry after 1 second
+                console.error('Mapbox GL JS not loaded');
+                showApiStatus('Map service not available. Please refresh the page.', 'error');
                 return;
             }
-            
-            // Check if token is available
-            if (!MAPBOX_ACCESS_TOKEN || MAPBOX_ACCESS_TOKEN === 'MAPBOX_PUBLIC_KEY') {
-                console.error('Mapbox token not available');
-                showApiStatus('Map configuration missing. Please refresh the page.', 'error');
-                setTimeout(initMap, 2000); // Retry after 2 seconds
-                return;
-            }
-            
+
+            // Set public access token
+            mapboxgl.accessToken = 'pk.eyJ1IjoiemFuaXJvdXRlIiwiYSI6ImNsazRuZmY2ajAwaDIzZnBoMWh5OGkxbDgifQ.lJmhV2bGj_w8z82R8OT3rw';
+            console.log('Initializing Mapbox map with token:', mapboxgl.accessToken.substring(0, 20) + '...');
+
             try {
-                console.log('Initializing Mapbox map with token:', MAPBOX_ACCESS_TOKEN.substring(0, 8) + '...');
-                
-                mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-                
-                // Ensure map container exists
-                const mapContainer = document.getElementById('map');
-                if (!mapContainer) {
-                    console.error('Map container not found');
-                    showApiStatus('Map container not found. Please refresh the page.', 'error');
-                    return;
-                }
-                
                 map = new mapboxgl.Map({
                     container: 'map',
-                    style: 'mapbox://styles/mapbox/streets-v11', // Streets style with excellent road visibility
-                    center: [-74.0060, 40.7128], // New York coordinates [lng, lat]
-                    zoom: 11,
-                    cooperativeGestures: false, // Allow single-finger pan on mobile
-                    touchZoomRotate: true,
-                    touchPitch: false,
-                    doubleClickZoom: true,
-                    dragRotate: false,
-                    pitchWithRotate: false,
-                    maxPitch: 0,
-                    preserveDrawingBuffer: true,
+                    style: 'mapbox://styles/mapbox/streets-v12',
+                    center: [0, 20], // Default to world view
+                    zoom: 2,
+                    maxZoom: 20,
+                    minZoom: 2,
                     antialias: true,
                     refreshExpiredTiles: false
                 });
+                
+                // Force immediate resize for mobile
+                setTimeout(() => {
+                    map.resize();
+                }, 0);
                 
                 // Wait for map to load
                 map.on('load', function() {
                     console.log('Mapbox map loaded successfully');
                     showApiStatus('Map loaded successfully!', 'success');
                     
-                    // Force resize for mobile browsers
-                    setTimeout(() => {
-                        map.resize();
-                        console.log('Map resized for mobile compatibility');
-                    }, 100);
+                    // Force multiple resizes for mobile compatibility
+                    setTimeout(() => map.resize(), 50);
+                    setTimeout(() => map.resize(), 200);
+                    setTimeout(() => map.resize(), 500);
+                    setTimeout(() => map.resize(), 1000);
                     
-                    // Additional resize after longer delay for slow mobile devices
-                    setTimeout(() => {
-                        map.resize();
-                    }, 500);
+                    console.log('Map resized for mobile compatibility');
                 });
                 
                 // Handle map errors
                 map.on('error', function(e) {
                     console.error('Mapbox map error:', e);
-                    showApiStatus('Map error occurred. Trying to reload...', 'error');
+                    showApiStatus('Map loading failed. Using default view.', 'error');
                 });
-                
-                // Add navigation controls (smaller on mobile)
-                const nav = new mapboxgl.NavigationControl({
-                    showCompass: false,
-                    showZoom: true,
-                    visualizePitch: false
-                });
-                map.addControl(nav, 'top-right');
-                
-                // Ensure map resizes properly on mobile orientation change and resize
-                window.addEventListener('orientationchange', () => {
-                    setTimeout(() => {
-                        if (map) {
-                            map.resize();
-                            console.log('Map resized after orientation change');
-                        }
-                    }, 300);
-                });
-                
+
+                // Handle mobile orientation changes and window resizing
                 window.addEventListener('resize', () => {
                     if (map) {
-                        setTimeout(() => {
-                            map.resize();
-                        }, 100);
+                        setTimeout(() => map.resize(), 100);
                     }
                 });
-                
+
+                window.addEventListener('orientationchange', () => {
+                    if (map) {
+                        setTimeout(() => map.resize(), 300);
+                    }
+                });
+
             } catch (error) {
                 console.error('Failed to initialize Mapbox map:', error);
-                console.error('Error details:', error.message);
-                showApiStatus('Failed to initialize map. Please check console for details.', 'error');
+                showApiStatus('Map initialization failed. Please check your connection.', 'error');
             }
         }
 
-        // Additional JavaScript functions for search, filtering, station display etc...
-        // (Complete implementation included)
+        // Update map location and add user marker
+        function updateMapLocation(location) {
+            if (!map || !location) return;
+
+            try {
+                // Fly to user location
+                map.flyTo({
+                    center: [location.lng, location.lat],
+                    zoom: 13,
+                    duration: 2000
+                });
+
+                // Remove existing user marker
+                if (userMarker) {
+                    userMarker.remove();
+                }
+
+                // Add user marker
+                userMarker = new mapboxgl.Marker({
+                    color: '#007AFF',
+                    scale: 1.2
+                })
+                .setLngLat([location.lng, location.lat])
+                .setPopup(new mapboxgl.Popup().setHTML('<h3>Your Location</h3><p>You are here</p>'))
+                .addTo(map);
+
+                console.log('Map updated to user location:', location);
+            } catch (error) {
+                console.error('Error updating map location:', error);
+            }
+        }
+
+        // Initialize event listeners
+        function initEventListeners() {
+            // Filter chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    activeFilter = chip.dataset.type;
+                    applyFilters();
+                });
+            });
+
+            // Search input Enter key
+            const searchInput = document.getElementById('location-input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        handleSearch();
+                    }
+                });
+            }
+        }
+
+        // Handle search functionality
+        async function handleSearch() {
+            const location = document.getElementById('location-input').value.trim();
+            
+            if (!location) {
+                showApiStatus('Please enter a location to search', 'error');
+                return;
+            }
+            
+            showApiStatus('Searching for location...', 'loading');
+            
+            try {
+                // Use TomTom Geocoding API to get coordinates
+                const geocodeResponse = await fetch(
+                    `https://api.tomtom.com/search/2/geocode/${encodeURIComponent(location)}.json?key=${TOMTOM_API_KEY}&limit=1`
+                );
+                
+                if (!geocodeResponse.ok) {
+                    throw new Error(`Geocoding failed: ${geocodeResponse.status}`);
+                }
+                
+                const geocodeData = await geocodeResponse.json();
+                
+                if (!geocodeData.results || geocodeData.results.length === 0) {
+                    showApiStatus('Location not found. Please try a different search term.', 'error');
+                    return;
+                }
+                
+                const result = geocodeData.results[0];
+                const searchLocation = {
+                    lat: result.position.lat,
+                    lng: result.position.lon
+                };
+                
+                // Update user location and search for stations
+                userLocation = searchLocation;
+                updateMapLocation(searchLocation);
+                showApiStatus('Location found! Searching for stations...', 'loading');
+                
+                await searchNearbyStations(searchLocation);
+                
+            } catch (error) {
+                console.error('Search error:', error);
+                showApiStatus('Search failed. Please try again.', 'error');
+            }
+        }
+
+        // Handle "Near Me" functionality
+        async function handleNearMe() {
+            if (!navigator.geolocation) {
+                showApiStatus('Geolocation not supported by your browser', 'error');
+                return;
+            }
+            
+            showApiStatus('Getting your location...', 'loading');
+            
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    
+                    updateMapLocation(userLocation);
+                    showApiStatus('Location found! Searching for nearby stations...', 'loading');
+                    
+                    await searchNearbyStations(userLocation);
+                },
+                (error) => {
+                    let message = 'Location access ';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            message += 'denied. Please enable location access in your browser.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            message += 'unavailable. Please check your GPS.';
+                            break;
+                        case error.TIMEOUT:
+                            message += 'timed out. Please try again.';
+                            break;
+                        default:
+                            message += 'failed. Please try again.';
+                            break;
+                    }
+                    showApiStatus(message, 'error');
+                },
+                { timeout: 10000, enableHighAccuracy: true }
+            );
+        }
+
+        // Search for nearby stations using both APIs
+        async function searchNearbyStations(location) {
+            const radius = parseInt(document.getElementById('radius-select').value);
+            
+            try {
+                showApiStatus('Searching for fuel and EV stations...', 'loading');
+                
+                // Search both fuel and EV stations in parallel
+                const [fuelStations, evStations] = await Promise.all([
+                    searchTomTomFuelStations(location, radius),
+                    searchOpenChargeMapEV(location, radius)
+                ]);
+                
+                // Combine and deduplicate results
+                const allStations = [...fuelStations, ...evStations];
+                currentStations = allStations;
+                
+                if (allStations.length === 0) {
+                    showApiStatus('No stations found in this area. Try increasing the search radius.', 'error');
+                    updateStationList([]);
+                    clearMapMarkers();
+                    updateStationCount(0);
+                } else {
+                    showApiStatus(`Found ${allStations.length} stations nearby!`, 'success');
+                    updateStationList(allStations);
+                    addStationMarkers(allStations);
+                    updateStationCount(allStations.length);
+                }
+                
+            } catch (error) {
+                console.error('Station search error:', error);
+                showApiStatus('Search failed. Please try again.', 'error');
+                updateStationList([]);
+                updateStationCount(0);
+            }
+        }
+
+        // Search fuel and gas stations using TomTom Places API with specific categories
+        async function searchTomTomFuelStations(location, radius) {
+            const radiusInMeters = Math.min(radius, 50000); // TomTom max radius is 50km
+            console.log(`Searching TomTom fuel stations near ${location.lat}, ${location.lng} within ${radiusInMeters}m`);
+            
+            try {
+                // Use POI search for gas stations - more reliable
+                const url = `https://api.tomtom.com/search/2/poiSearch/gas%20station.json?key=${TOMTOM_API_KEY}&lat=${location.lat}&lon=${location.lng}&radius=${radiusInMeters}&limit=50`;
+                console.log('TomTom API URL:', url.replace(TOMTOM_API_KEY, 'HIDDEN_KEY'));
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    console.error('TomTom API error:', response.status, response.statusText);
+                    return [];
+                }
+                
+                const data = await response.json();
+                console.log('TomTom API response:', data);
+                
+                if (!data.results || data.results.length === 0) {
+                    console.log('No fuel stations found in TomTom API');
+                    return [];
+                }
+                
+                return data.results.map(result => {
+                    const lat = result.position.lat;
+                    const lng = result.position.lon;
+                    const distance = result.dist ? (result.dist / 1000) : calculateDistance(location.lat, location.lng, lat, lng);
+                    
+                    let stationName = result.poi?.name || 'Gas Station';
+                    let address = result.address?.freeformAddress || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                    
+                    // Extract brand information
+                    let brand = '';
+                    let operator = '';
+                    if (result.poi?.brands && result.poi.brands.length > 0) {
+                        brand = result.poi.brands[0].name;
+                        operator = brand;
+                    } else {
+                        // Try to extract brand from station name
+                        const commonBrands = ['Shell', 'BP', 'Exxon', 'Mobil', 'Chevron', 'Total', 'Esso', 'Texaco', 'Citgo', 'Valero', 'Sunoco', '76', 'Arco', 'Speedway', 'Marathon', 'Phillips 66', 'Circle K', 'Wawa', '7-Eleven'];
+                        const foundBrand = commonBrands.find(brandName => 
+                            stationName.toLowerCase().includes(brandName.toLowerCase())
+                        );
+                        if (foundBrand) {
+                            brand = foundBrand;
+                            operator = foundBrand;
+                        }
+                    }
+                    
+                    // Default fuel types for gas stations
+                    let fuelTypes = ['GASOLINE', 'DIESEL'];
+                    if (result.poi?.categories) {
+                        const categories = result.poi.categories.join(' ').toLowerCase();
+                        if (categories.includes('lpg') || categories.includes('autogas')) {
+                            fuelTypes.push('LPG');
+                        }
+                        if (categories.includes('premium')) {
+                            fuelTypes.push('PREMIUM');
+                        }
+                    }
+                    
+                    // Extract opening hours
+                    let openingHours = '';
+                    let status = 'unknown';
+                    if (result.poi?.openingHours) {
+                        if (result.poi.openingHours.mode === '24/7') {
+                            openingHours = '24/7';
+                            status = 'open';
+                        } else if (result.poi.openingHours.timeRanges) {
+                            openingHours = 'Check hours';
+                        }
+                    }
+                    
+                    return {
+                        id: `tt_${result.id}`,
+                        name: stationName,
+                        address: address,
+                        type: 'fuel',
+                        lat: lat,
+                        lng: lng,
+                        distance: distance,
+                        brand: brand,
+                        operator: operator,
+                        phone: result.poi?.phone || '',
+                        website: result.poi?.url || '',
+                        opening_hours: openingHours,
+                        status: status,
+                        fuel_types: fuelTypes,
+                        charging_types: [],
+                        payment_methods: ['CASH', 'CARD'],
+                        price_info: '',
+                        source: 'TomTom Places',
+                        country: result.address?.country || '',
+                        city: result.address?.municipality || result.address?.localName || '',
+                        last_updated: new Date().toISOString(),
+                        raw_tags: result,
+                    };
+                }).sort((a, b) => a.distance - b.distance);
+                
+            } catch (error) {
+                console.error('TomTom API error:', error);
+                return [];
+            }
+        }
+
+        // Search EV charging stations using Open Charge Map API - EV ONLY
+        async function searchOpenChargeMapEV(location, radius) {
+            const distanceKm = Math.min(radius / 1000, 100); // Convert meters to km, max 100km
+            console.log(`Searching EV stations near ${location.lat}, ${location.lng} within ${distanceKm}km`);
+            
+            // Search for operational EV charging stations
+            const url = `https://api.openchargemap.io/v3/poi/?key=${OPEN_CHARGE_API_KEY}&output=json&latitude=${location.lat}&longitude=${location.lng}&distance=${distanceKm}&distanceunit=km&maxresults=50&compact=false&verbose=true&statustypeid=50`;
+            
+            try {
+                console.log('Open Charge Map API URL:', url.replace(OPEN_CHARGE_API_KEY, 'HIDDEN_KEY'));
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    console.error('Open Charge Map API error:', response.status, response.statusText);
+                    return [];
+                }
+                
+                const data = await response.json();
+                console.log('Open Charge Map API response:', data);
+                
+                if (!Array.isArray(data) || data.length === 0) {
+                    console.log('No EV stations found in Open Charge Map API');
+                    return [];
+                }
+                
+                return data.map(station => {
+                    const lat = station.AddressInfo?.Latitude || location.lat;
+                    const lng = station.AddressInfo?.Longitude || location.lng;
+                    const distance = calculateDistance(location.lat, location.lng, lat, lng);
+                    
+                    // Extract charging information
+                    const connections = station.Connections || [];
+                    const chargingTypes = connections.map(conn => {
+                        const type = conn.ConnectionType?.Title || 'Unknown';
+                        const power = conn.PowerKW ? `${conn.PowerKW}kW` : '';
+                        return power ? `${type} (${power})` : type;
+                    }).filter(Boolean);
+                    
+                    // Determine status
+                    let status = 'unknown';
+                    if (station.StatusType) {
+                        const statusTitle = station.StatusType.Title?.toLowerCase();
+                        if (statusTitle?.includes('operational') || statusTitle?.includes('available')) {
+                            status = 'open';
+                        } else if (statusTitle?.includes('out') || statusTitle?.includes('fault')) {
+                            status = 'closed';
+                        }
+                    }
+                    
+                    return {
+                        id: `ocm_${station.ID}`,
+                        name: station.AddressInfo?.Title || 'EV Charging Station',
+                        address: [
+                            station.AddressInfo?.AddressLine1,
+                            station.AddressInfo?.Town,
+                            station.AddressInfo?.StateOrProvince,
+                            station.AddressInfo?.Postcode
+                        ].filter(Boolean).join(', ') || `${lat.toFixed(4)}, ${lng.toFixed(4)}`,
+                        type: 'ev',
+                        lat: lat,
+                        lng: lng,
+                        distance: distance,
+                        brand: station.OperatorInfo?.Title || '',
+                        operator: station.OperatorInfo?.Title || '',
+                        phone: station.OperatorInfo?.PhonePrimaryContact || '',
+                        website: station.OperatorInfo?.WebsiteURL || '',
+                        opening_hours: station.AddressInfo?.AccessComments || '',
+                        status: status,
+                        fuel_types: [],
+                        charging_types: chargingTypes,
+                        payment_methods: station.OperatorInfo?.PaymentRequiredFlag ? ['CARD', 'APP'] : ['FREE'],
+                        price_info: station.UsageCost || '',
+                        source: 'Open Charge Map',
+                        country: station.AddressInfo?.Country?.Title || '',
+                        city: station.AddressInfo?.Town || '',
+                        last_updated: station.DateLastStatusUpdate || new Date().toISOString(),
+                        raw_tags: station,
+                        connections_count: connections.length
+                    };
+                }).sort((a, b) => a.distance - b.distance);
+                
+            } catch (error) {
+                console.error('Open Charge Map API error:', error);
+                return [];
+            }
+        }
+
+        // Calculate distance between two points using Haversine formula
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Earth's radius in kilometers
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // Update station list in the UI
+        function updateStationList(stations) {
+            const container = document.getElementById('results-container');
+            if (!container) return;
+
+            if (stations.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <p>No stations found in this area</p>
+                        <p>Try expanding your search radius or searching a different location</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = stations.map(station => {
+                const statusClass = station.status === 'open' ? 'open' : station.status === 'closed' ? 'closed' : 'unknown';
+                const typeDisplay = station.type === 'fuel' ? 'Fuel Station' : 'EV Charging';
+                
+                let servicesText = '';
+                if (station.type === 'fuel' && station.fuel_types.length > 0) {
+                    servicesText = station.fuel_types.slice(0, 3).join(', ');
+                } else if (station.type === 'ev' && station.charging_types.length > 0) {
+                    servicesText = station.charging_types.slice(0, 2).join(', ');
+                }
+
+                return `
+                    <div class="station-card" onclick="showStationDetails('${station.id}')">
+                        <div class="station-header">
+                            <div>
+                                <div class="station-name">${station.name}</div>
+                                <div class="station-type">${typeDisplay}</div>
+                                ${station.brand ? `<div style="font-size: 0.8rem; color: var(--dark-gray); margin-top: 0.25rem;">${station.brand}</div>` : ''}
+                            </div>
+                            <div class="station-distance">${station.distance.toFixed(1)} km</div>
+                        </div>
+                        
+                        <div class="station-info">
+                            <div class="station-status">
+                                <div class="status-indicator ${statusClass}"></div>
+                                ${station.status === 'open' ? 'Open' : station.status === 'closed' ? 'Closed' : 'Status Unknown'}
+                            </div>
+                            ${servicesText ? `<div style="font-size: 0.85rem; color: var(--dark-gray);">${servicesText}</div>` : ''}
+                        </div>
+                        
+                        <div class="station-actions">
+                            <button class="action-btn primary" onclick="event.stopPropagation(); getDirections(${station.lat}, ${station.lng})">
+                                Directions
+                            </button>
+                            <button class="action-btn" onclick="event.stopPropagation(); showStationDetails('${station.id}')">
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Apply filters to current stations
+        function applyFilters() {
+            if (!currentStations || currentStations.length === 0) return;
+
+            let filteredStations = currentStations;
+
+            switch (activeFilter) {
+                case 'fuel':
+                    filteredStations = currentStations.filter(station => station.type === 'fuel');
+                    break;
+                case 'diesel':
+                    filteredStations = currentStations.filter(station => 
+                        station.type === 'fuel' && station.fuel_types.some(type => type.toLowerCase().includes('diesel'))
+                    );
+                    break;
+                case 'ev':
+                    filteredStations = currentStations.filter(station => station.type === 'ev');
+                    break;
+                case 'open':
+                    filteredStations = currentStations.filter(station => station.status === 'open');
+                    break;
+                case 'all':
+                default:
+                    filteredStations = currentStations;
+                    break;
+            }
+
+            updateStationList(filteredStations);
+            updateStationCount(filteredStations.length);
+            
+            // Update map markers
+            addStationMarkers(filteredStations);
+        }
+
+        // Add station markers to the map
+        function addStationMarkers(stations) {
+            if (!map) return;
+
+            // Clear existing markers
+            clearMapMarkers();
+
+            stations.forEach(station => {
+                // Create marker with different colors for different types
+                const markerColor = station.type === 'fuel' ? '#FF6B35' : '#10B981';
+                
+                const marker = new mapboxgl.Marker({
+                    color: markerColor,
+                    scale: 0.8
+                })
+                .setLngLat([station.lng, station.lat])
+                .setPopup(new mapboxgl.Popup().setHTML(`
+                    <div style="padding: 0.5rem;">
+                        <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">${station.name}</h3>
+                        <p style="margin: 0 0 0.25rem 0; font-size: 0.85rem; color: #666;">${station.type === 'fuel' ? 'Fuel Station' : 'EV Charging'}</p>
+                        <p style="margin: 0 0 0.5rem 0; font-size: 0.8rem;">${station.distance.toFixed(1)} km away</p>
+                        <button onclick="getDirections(${station.lat}, ${station.lng})" style="background: #007AFF; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">Get Directions</button>
+                    </div>
+                `))
+                .addTo(map);
+
+                stationMarkers.push(marker);
+            });
+        }
+
+        // Clear all station markers from the map
+        function clearMapMarkers() {
+            stationMarkers.forEach(marker => marker.remove());
+            stationMarkers = [];
+        }
+
+        // Update station count display
+        function updateStationCount(count) {
+            const countElement = document.querySelector('.station-count');
+            if (countElement) {
+                if (count === 0) {
+                    countElement.textContent = 'No stations found';
+                } else {
+                    countElement.textContent = `${count} station${count !== 1 ? 's' : ''} found`;
+                }
+            }
+        }
+
+        // Show detailed station information in popup
+        function showStationDetails(stationId) {
+            const station = currentStations.find(s => s.id === stationId);
+            if (!station) return;
+
+            const popup = document.getElementById('popup-overlay');
+            const title = document.getElementById('popup-title');
+            const description = document.getElementById('popup-description');
+
+            title.textContent = station.name;
+            
+            let detailsHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <strong>Type:</strong> ${station.type === 'fuel' ? 'Fuel Station' : 'EV Charging Station'}<br>
+                    <strong>Distance:</strong> ${station.distance.toFixed(1)} km away<br>
+                    <strong>Address:</strong> ${station.address}
+                </div>
+            `;
+
+            if (station.brand) {
+                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Brand:</strong> ${station.brand}</div>`;
+            }
+
+            if (station.fuel_types && station.fuel_types.length > 0) {
+                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Fuel Types:</strong> ${station.fuel_types.join(', ')}</div>`;
+            }
+
+            if (station.charging_types && station.charging_types.length > 0) {
+                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Charging Types:</strong> ${station.charging_types.join(', ')}</div>`;
+            }
+
+            if (station.opening_hours) {
+                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Hours:</strong> ${station.opening_hours}</div>`;
+            }
+
+            if (station.phone) {
+                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Phone:</strong> <a href="tel:${station.phone}">${station.phone}</a></div>`;
+            }
+
+            detailsHTML += `
+                <div style="margin-top: 1.5rem;">
+                    <button onclick="getDirections(${station.lat}, ${station.lng})" style="background: #007AFF; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; margin-right: 0.5rem;">
+                        Get Directions
+                    </button>
+                    <button onclick="closePopup()" style="background: #f0f0f0; color: #333; border: 1px solid #ddd; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Close
+                    </button>
+                </div>
+            `;
+
+            description.innerHTML = detailsHTML;
+            popup.style.display = 'flex';
+        }
+
+        // Close popup modal
+        function closePopup() {
+            const popup = document.getElementById('popup-overlay');
+            popup.style.display = 'none';
+        }
+
+        // Setup dark mode functionality
+        function setupDarkMode() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Get directions to station
+        function getDirections(lat, lng) {
+            if (userLocation) {
+                const url = `https://www.google.com/maps/dir/${userLocation.lat},${userLocation.lng}/${lat},${lng}`;
+                window.open(url, '_blank');
+            } else {
+                const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+                window.open(url, '_blank');
+            }
+        }
+
+        // Show API status
+        function showApiStatus(message, type = 'loading') {
+            const statusElement = document.getElementById('api-status');
+            if (!statusElement) return;
+
+            statusElement.textContent = message;
+            statusElement.className = `api-status ${type}`;
+            statusElement.classList.remove('hidden');
+
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    statusElement.classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        // Affiliate link handlers
+        function openAffiliate(platform) {
+            const links = {
+                aliexpress: 'https://www.aliexpress.com/'
+            };
+            
+            if (links[platform]) {
+                window.open(links[platform], '_blank', 'noopener,noreferrer');
+            }
+        }
 
         // Initialize app when DOM is loaded
         document.addEventListener('DOMContentLoaded', initApp);
+
+        // Close popup when clicking outside
+        document.addEventListener('click', (e) => {
+            const popup = document.getElementById('popup-overlay');
+            if (popup && e.target === popup) {
+                closePopup();
+            }
+        });
     </script>
 </body>
 </html>
