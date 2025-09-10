@@ -16,8 +16,7 @@
     <meta property="og:description" content="Locate gas stations and EV chargers worldwide with live data and directions.">
     <meta property="og:image" content="https://zaniroute.com/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps.css" />
-    <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/3.1.3-public-preview.0/SearchBox.css" />
+    <!-- TomTom CSS removed - replaced with HERE Maps -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -55,12 +54,16 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--primary-white);
             color: var(--deep-black);
             min-height: 100vh;
             overflow-x: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            line-height: 1.6;
+            font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Header */
@@ -100,7 +103,21 @@
             font-weight: 900;
             color: var(--deep-black);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, var(--deep-black) 0%, var(--blue-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 122, 255, 0.3);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="dark"] .logo {
+            background: linear-gradient(135deg, var(--deep-black) 0%, var(--blue-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header-controls {
@@ -181,19 +198,28 @@
             flex: 1;
             min-width: 250px;
             background: var(--primary-white);
-            border: 1px solid var(--medium-gray);
-            border-radius: 50px;
-            padding: 1rem 1.5rem;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 1.25rem 1.75rem;
             color: var(--deep-black);
             font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: inset 0 2px 4px var(--shadow-light);
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 20px var(--shadow-light), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            outline: none;
         }
 
         .search-input:focus {
-            outline: none;
             border-color: var(--blue-accent);
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.12), 0 8px 32px var(--shadow-medium);
+            transform: translateY(-2px) scale(1.02);
+            background: var(--primary-white);
+        }
+        
+        .search-input:hover {
+            border-color: rgba(0, 122, 255, 0.3);
+            box-shadow: 0 6px 24px var(--shadow-light), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transform: translateY(-1px);
         }
 
@@ -219,21 +245,45 @@
         }
 
         .btn {
-            background: var(--blue-accent);
+            background: linear-gradient(135deg, var(--blue-accent) 0%, #0056CC 100%);
             color: white;
             border: none;
-            border-radius: 25px;
-            padding: 0.75rem 1.5rem;
+            border-radius: 16px;
+            padding: 1rem 2rem;
             font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 20px rgba(0, 122, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.025em;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
-            background: #0056CC;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+            background: linear-gradient(135deg, #0056CC 0%, #003d99 100%);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(0, 122, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px) scale(1.01);
+            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
         }
 
         .btn-secondary {
@@ -258,26 +308,55 @@
 
         .filter-chip {
             background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 0.5rem 1rem;
+            border: 2px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 0.75rem 1.25rem;
             color: var(--deep-black);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(15px);
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .filter-chip::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 122, 255, 0.1) 0%, transparent 70%);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+        
+        .filter-chip:hover::before {
+            width: 200px;
+            height: 200px;
         }
 
         .filter-chip:hover {
             background: var(--blue-light);
-            transform: translateY(-1px);
+            transform: translateY(-2px) scale(1.05);
+            border-color: rgba(0, 122, 255, 0.3);
+            box-shadow: 0 4px 16px var(--shadow-light);
         }
 
         .filter-chip.active {
-            background: var(--blue-accent);
+            background: linear-gradient(135deg, var(--blue-accent) 0%, #0056CC 100%);
             color: white;
             border-color: var(--blue-accent);
+            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .filter-chip.active:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
         }
 
         /* Content Layout */
@@ -336,10 +415,12 @@
         }
 
         .station-list-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.35rem;
+            font-weight: 700;
             color: var(--deep-black);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         .station-count {
@@ -356,18 +437,41 @@
         .station-card {
             background: var(--primary-white);
             border: 1px solid var(--medium-gray);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 16px var(--shadow-light);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            padding: 1.75rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 2px 8px var(--shadow-light), 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .station-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue-accent), #0056CC, var(--blue-accent));
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .station-card:hover::before {
+            transform: translateX(0);
         }
 
         .station-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--shadow-medium);
-            border-color: var(--blue-accent);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 40px var(--shadow-medium), 0 4px 16px rgba(0, 122, 255, 0.1);
+            border-color: rgba(0, 122, 255, 0.3);
+            background: var(--primary-white);
+        }
+        
+        .station-card:active {
+            transform: translateY(-2px) scale(1.005);
         }
 
         .station-header {
@@ -378,20 +482,27 @@
         }
 
         .station-name {
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.15rem;
+            font-weight: 700;
             color: var(--deep-black);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
         }
 
         .station-type {
-            display: inline-block;
-            background: var(--blue-light);
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--blue-light), rgba(0, 122, 255, 0.1));
             color: var(--blue-accent);
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
+            padding: 0.4rem 0.9rem;
+            border-radius: 16px;
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 700;
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .station-distance {
@@ -444,21 +555,41 @@
 
         .action-btn {
             background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 0.6rem 1.2rem;
             color: var(--deep-black);
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(15px);
+            letter-spacing: 0.025em;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 122, 255, 0.1), transparent);
+            transition: left 0.3s;
+        }
+        
+        .action-btn:hover::before {
+            left: 100%;
         }
 
         .action-btn:hover {
             background: var(--blue-accent);
             color: white;
             border-color: var(--blue-accent);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
         }
 
         .action-btn.primary {
@@ -482,13 +613,27 @@
         }
 
         .spinner {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border: 3px solid var(--medium-gray);
             border-top: 3px solid var(--blue-accent);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
             margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .spinner::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top: 2px solid rgba(0, 122, 255, 0.3);
+            animation: spin 2s linear infinite reverse;
         }
 
         @keyframes spin {
@@ -503,16 +648,19 @@
             left: 50%;
             transform: translateX(-50%);
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(25px);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1rem 1.75rem;
             color: var(--deep-black);
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
             z-index: 999;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px var(--shadow-light);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 12px 48px var(--shadow-light), 0 4px 16px rgba(0, 0, 0, 0.05);
+            letter-spacing: 0.025em;
+            max-width: 90vw;
+            text-align: center;
         }
 
         .api-status.hidden {
@@ -553,18 +701,37 @@
         }
 
         .affiliate-card {
-            background: linear-gradient(135deg, var(--blue-accent), #0056CC);
+            background: linear-gradient(135deg, var(--blue-accent) 0%, #0056CC 50%, #003d99 100%);
             color: white;
-            padding: 2rem;
-            border-radius: 20px;
+            padding: 2.5rem;
+            border-radius: 24px;
             text-align: center;
-            margin-bottom: 1rem;
-            box-shadow: 0 8px 32px rgba(0, 122, 255, 0.3);
-            transition: transform 0.3s ease;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 12px 48px rgba(0, 122, 255, 0.25), 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .affiliate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .affiliate-card:hover::before {
+            left: 100%;
         }
 
         .affiliate-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 64px rgba(0, 122, 255, 0.35), 0 8px 24px rgba(0, 0, 0, 0.15);
         }
 
         .affiliate-card h3 {
@@ -580,20 +747,29 @@
         }
 
         .affiliate-btn {
-            background: white;
+            background: linear-gradient(135deg, white 0%, rgba(255, 255, 255, 0.95) 100%);
             color: var(--blue-accent);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 25px;
+            border: 2px solid transparent;
+            padding: 1.1rem 2.5rem;
+            border-radius: 16px;
             font-weight: 700;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.025em;
+            position: relative;
+            overflow: hidden;
         }
 
         .affiliate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .affiliate-btn:active {
+            transform: translateY(-1px) scale(1.02);
         }
 
         /* Footer */
@@ -777,16 +953,26 @@
                 <div class="logo">ZANIROUTE</div>
             </div>
             <div class="header-controls">
-                <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
-                    </svg>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                    🌓
                 </button>
+                <div class="social-links">
+                    <a href="https://x.com/zaniroute" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="https://instagram.com/zaniroute" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </nav>
     </header>
 
-    <!-- Main Container -->
+    <!-- Main Content -->
     <main class="main-container">
         <!-- Search Section -->
         <section class="search-section">
@@ -795,7 +981,7 @@
                     type="text" 
                     id="location-input" 
                     class="search-input" 
-                    placeholder="Enter location (city, address, or landmark)" 
+                    placeholder="Enter city, address, or postal code..."
                     autocomplete="address-line1"
                 >
                 <div class="search-controls">
@@ -846,7 +1032,7 @@
             <div class="ad-banner">
                 <div id="frame" style="width: 100%;margin: auto;background: rgba(0, 0, 0, 0.50);position: relative; z-index: 99998;">
                     <iframe data-aa='2409445' src='//acceptable.a-ads.com/2409445/?size=Adaptive'
-                                      style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+                                          style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
                 </div>
             </div>
             
@@ -895,14 +1081,18 @@
         </div>
     </div>
 
-    <!-- Mapbox GL JS SDK -->
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+    <!-- HERE Maps API -->
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
     <script>
         // API Keys - configured for production
         const TOMTOM_API_KEY = 'WZs47YSTQtzJjBIXKkbdV0U0pbOHg3cd';
         const OPEN_CHARGE_API_KEY = '87e356c0-2256-49b4-adf8-509e040551ea';
-        const MAPBOX_ACCESS_TOKEN = 'MAPBOX_PUBLIC_KEY';
+        const HERE_API_KEY = '9Q2dtCWw_XD4iu20-cuS4QomLfLKyj2Xsrjdd_-vCIM';
+        const HERE_APP_ID = 'ojV8EG5YZ7cwn2ycosK1';
         
         // Global variables
         let map;
@@ -973,71 +1163,151 @@
             );
         }
 
-        // Initialize Mapbox map with excellent road visibility
+        // Initialize HERE map
         function initMap() {
-            // Check if Mapbox SDK is loaded
-            if (typeof mapboxgl === 'undefined') {
-                console.error('Mapbox GL JS not loaded');
+            // Check if HERE SDK is loaded
+            if (typeof H === 'undefined') {
+                console.error('HERE Maps API not loaded');
                 showApiStatus('Map service not available. Please refresh the page.', 'error');
                 return;
             }
 
-            // Set public access token
-            mapboxgl.accessToken = 'pk.eyJ1IjoiemFuaXJvdXRlIiwiYSI6ImNsazRuZmY2ajAwaDIzZnBoMWh5OGkxbDgifQ.lJmhV2bGj_w8z82R8OT3rw';
-            console.log('Initializing Mapbox map with token:', mapboxgl.accessToken.substring(0, 20) + '...');
+            console.log('Initializing HERE map with API key:', HERE_API_KEY.substring(0, 20) + '...');
 
             try {
-                map = new mapboxgl.Map({
-                    container: 'map',
-                    style: 'mapbox://styles/mapbox/streets-v12',
-                    center: [0, 20], // Default to world view
-                    zoom: 2,
-                    maxZoom: 20,
-                    minZoom: 2,
-                    antialias: true,
-                    refreshExpiredTiles: false
-                });
-                
-                // Force immediate resize for mobile
-                setTimeout(() => {
-                    map.resize();
-                }, 0);
-                
-                // Wait for map to load
-                map.on('load', function() {
-                    console.log('Mapbox map loaded successfully');
-                    showApiStatus('Map loaded successfully!', 'success');
-                    
-                    // Force multiple resizes for mobile compatibility
-                    setTimeout(() => map.resize(), 50);
-                    setTimeout(() => map.resize(), 200);
-                    setTimeout(() => map.resize(), 500);
-                    setTimeout(() => map.resize(), 1000);
-                    
-                    console.log('Map resized for mobile compatibility');
-                });
-                
-                // Handle map errors
-                map.on('error', function(e) {
-                    console.error('Mapbox map error:', e);
-                    showApiStatus('Map loading failed. Using default view.', 'error');
+                // Initialize the platform object
+                const platform = new H.service.Platform({
+                    'apikey': HERE_API_KEY
                 });
 
-                // Handle mobile orientation changes and window resizing
-                window.addEventListener('resize', () => {
-                    if (map) {
-                        setTimeout(() => map.resize(), 100);
+                // Get default map layers
+                const defaultLayers = platform.createDefaultLayers();
+
+                // WebGL support detection - fallback to raster for Replit compatibility
+                const supportsWebGL = (() => {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        return !!(window.WebGLRenderingContext && 
+                                (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+                    } catch (e) {
+                        return false;
+                    }
+                })();
+
+                console.log('WebGL support detected:', supportsWebGL);
+                
+                // Use raster layers for better Replit compatibility
+                const mapLayer = supportsWebGL ? defaultLayers.vector.normal.map : defaultLayers.raster.normal.map;
+
+                // Initialize the map with engine type based on WebGL support and mobile optimizations
+                map = new H.Map(
+                    document.getElementById('map'),
+                    mapLayer,
+                    {
+                        zoom: 2,
+                        center: { lat: 20, lng: 0 }, // Default to world view
+                        pixelRatio: Math.min(window.devicePixelRatio || 1, 2), // Limit pixel ratio for performance
+                        engineType: supportsWebGL ? H.Map.EngineType.WEBGL : H.Map.EngineType.P2D,
+                        // Performance optimizations
+                        renderBaseBackground: true,
+                        margin: 0,
+                        padding: { top: 0, left: 0, right: 0, bottom: 0 }
+                    }
+                );
+                
+                // Set map options for better mobile performance
+                map.getMapViewPort().setScrollRounding(true);
+                map.getMapViewPort().setWheelRounding(true);
+
+                // Store platform and layers for later use
+                window.herePlatform = platform;
+                window.hereDefaultLayers = defaultLayers;
+
+                // Enable the event system for map interaction with mobile optimizations
+                const mapEvents = new H.mapevents.MapEvents(map);
+                
+                // Add behavior control with mobile-friendly settings
+                const behavior = new H.mapevents.Behavior(mapEvents, {
+                    // Mobile optimization settings
+                    kinetic: H.mapevents.Behavior.KINETIC_PAN,
+                    wheel: H.mapevents.Behavior.WHEEL_ZOOM,
+                    dbltap: H.mapevents.Behavior.DBLTAP_ZOOM,
+                    // Improve touch responsiveness on mobile
+                    longpress: false // Disable long press to avoid conflicts
+                });
+                
+                // Additional mobile optimizations
+                const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (isMobile) {
+                    // Optimize for mobile devices
+                    behavior.disable(H.mapevents.Behavior.DOUBLE_TAP_ZOOM);
+                    behavior.enable(H.mapevents.Behavior.PINCH_ZOOM);
+                }
+                
+                console.log('HERE map behavior initialized', isMobile ? '(mobile optimized)' : '(desktop)');
+                
+                // Create the default UI with mobile-optimized controls
+                const ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US', {
+                    zoom: {
+                        alignment: 'right-bottom',
+                        margins: { right: 20, bottom: 20 }
+                    },
+                    scalebar: {
+                        alignment: 'right-bottom',
+                        margins: { right: 20, bottom: 60 }
+                    },
+                    mapsettings: {
+                        alignment: 'left-top',
+                        margins: { left: 20, top: 20 }
                     }
                 });
+                
+                // Additional UI optimizations for mobile
+                if (isMobile) {
+                    // Increase touch target sizes on mobile
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        .H_ib_body { font-size: 14px !important; }
+                        .H_ui_control { width: 44px !important; height: 44px !important; }
+                        .H_ui_control_ic { font-size: 18px !important; }
+                    `;
+                    document.head.appendChild(style);
+                }
+                
+                // Store UI for later use
+                window.hereMapUI = ui;
 
+                console.log('HERE map loaded successfully');
+                showApiStatus('Map loaded successfully!', 'success');
+                
+                // Enhanced mobile orientation and resize handling
+                const handleResize = () => {
+                    if (map) {
+                        // Use requestAnimationFrame for smoother updates
+                        requestAnimationFrame(() => {
+                            map.getViewPort().resize();
+                            // Force a redraw on mobile to prevent rendering issues
+                            if (isMobile) {
+                                map.getViewPort().update();
+                            }
+                        });
+                    }
+                };
+                
+                let resizeTimeout;
+                const debouncedResize = () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(handleResize, 150);
+                };
+                
+                window.addEventListener('resize', debouncedResize);
                 window.addEventListener('orientationchange', () => {
-                    if (map) {
-                        setTimeout(() => map.resize(), 300);
-                    }
+                    // Give time for orientation change to complete
+                    setTimeout(handleResize, 300);
                 });
 
             } catch (error) {
-                console.error('Failed to initialize Mapbox map:', error);
+                console.error('Failed to initialize HERE map:', error.message || error);
                 showApiStatus('Map initialization failed. Please check your connection.', 'error');
             }
         }
@@ -1047,26 +1317,44 @@
             if (!map || !location) return;
 
             try {
-                // Fly to user location
-                map.flyTo({
-                    center: [location.lng, location.lat],
-                    zoom: 13,
-                    duration: 2000
+                // Animate to user location
+                map.getViewModel().setLookAtData({
+                    position: { lat: location.lat, lng: location.lng },
+                    zoom: 13
                 });
 
                 // Remove existing user marker
                 if (userMarker) {
-                    userMarker.remove();
+                    map.removeObject(userMarker);
                 }
 
-                // Add user marker
-                userMarker = new mapboxgl.Marker({
-                    color: '#007AFF',
-                    scale: 1.2
-                })
-                .setLngLat([location.lng, location.lat])
-                .setPopup(new mapboxgl.Popup().setHTML('<h3>Your Location</h3><p>You are here</p>'))
-                .addTo(map);
+                // Create custom marker icon for user location
+                const userIcon = new H.map.Icon('data:image/svg+xml;base64,' + btoa(`
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="8" fill="#007AFF" stroke="white" stroke-width="2"/>
+                        <circle cx="12" cy="12" r="3" fill="white"/>
+                    </svg>
+                `), { size: { w: 24, h: 24 } });
+
+                // Add user marker with info bubble
+                userMarker = new H.map.Marker({ lat: location.lat, lng: location.lng }, { icon: userIcon });
+                
+                // Add tap event to show info bubble
+                userMarker.addEventListener('tap', function(evt) {
+                    // Remove existing bubbles
+                    window.hereMapUI.getBubbles().forEach(bubble => {
+                        window.hereMapUI.removeBubble(bubble);
+                    });
+                    
+                    const bubble = new H.ui.InfoBubble({ lat: location.lat, lng: location.lng }, {
+                        content: '<div style="padding: 8px;"><h3 style="margin:0; font-size: 14px;">Your Location</h3><p style="margin:4px 0 0 0; font-size: 12px;">You are here</p></div>'
+                    });
+                    window.hereMapUI.addBubble(bubble);
+                    
+                    evt.stopPropagation();
+                });
+                
+                map.addObject(userMarker);
 
                 console.log('Map updated to user location:', location);
             } catch (error) {
@@ -1447,30 +1735,23 @@
             }
 
             container.innerHTML = stations.map(station => {
-                const statusClass = station.status === 'open' ? 'open' : station.status === 'closed' ? 'closed' : 'unknown';
-                const typeDisplay = station.type === 'fuel' ? 'Fuel Station' : 'EV Charging';
+                const servicesText = station.type === 'ev' 
+                    ? `Services: ${station.charging_types.slice(0, 2).join(', ')}` 
+                    : `Fuel: ${station.fuel_types.slice(0, 2).join(', ')}`;
                 
-                let servicesText = '';
-                if (station.type === 'fuel' && station.fuel_types.length > 0) {
-                    servicesText = station.fuel_types.slice(0, 3).join(', ');
-                } else if (station.type === 'ev' && station.charging_types.length > 0) {
-                    servicesText = station.charging_types.slice(0, 2).join(', ');
-                }
-
                 return `
                     <div class="station-card" onclick="showStationDetails('${station.id}')">
                         <div class="station-header">
                             <div>
                                 <div class="station-name">${station.name}</div>
-                                <div class="station-type">${typeDisplay}</div>
-                                ${station.brand ? `<div style="font-size: 0.8rem; color: var(--dark-gray); margin-top: 0.25rem;">${station.brand}</div>` : ''}
+                                <div class="station-distance">${station.distance.toFixed(1)} km away</div>
                             </div>
-                            <div class="station-distance">${station.distance.toFixed(1)} km</div>
+                            <div class="station-type">${station.type === 'fuel' ? 'Fuel' : 'EV'}</div>
                         </div>
                         
                         <div class="station-info">
                             <div class="station-status">
-                                <div class="status-indicator ${statusClass}"></div>
+                                <div class="status-indicator ${station.status}"></div>
                                 ${station.status === 'open' ? 'Open' : station.status === 'closed' ? 'Closed' : 'Status Unknown'}
                             </div>
                             ${servicesText ? `<div style="font-size: 0.85rem; color: var(--dark-gray);">${servicesText}</div>` : ''}
@@ -1489,40 +1770,6 @@
             }).join('');
         }
 
-        // Apply filters to current stations
-        function applyFilters() {
-            if (!currentStations || currentStations.length === 0) return;
-
-            let filteredStations = currentStations;
-
-            switch (activeFilter) {
-                case 'fuel':
-                    filteredStations = currentStations.filter(station => station.type === 'fuel');
-                    break;
-                case 'diesel':
-                    filteredStations = currentStations.filter(station => 
-                        station.type === 'fuel' && station.fuel_types.some(type => type.toLowerCase().includes('diesel'))
-                    );
-                    break;
-                case 'ev':
-                    filteredStations = currentStations.filter(station => station.type === 'ev');
-                    break;
-                case 'open':
-                    filteredStations = currentStations.filter(station => station.status === 'open');
-                    break;
-                case 'all':
-                default:
-                    filteredStations = currentStations;
-                    break;
-            }
-
-            updateStationList(filteredStations);
-            updateStationCount(filteredStations.length);
-            
-            // Update map markers
-            addStationMarkers(filteredStations);
-        }
-
         // Add station markers to the map
         function addStationMarkers(stations) {
             if (!map) return;
@@ -1534,44 +1781,119 @@
                 // Create marker with different colors for different types
                 const markerColor = station.type === 'fuel' ? '#FF6B35' : '#10B981';
                 
-                const marker = new mapboxgl.Marker({
-                    color: markerColor,
-                    scale: 0.8
-                })
-                .setLngLat([station.lng, station.lat])
-                .setPopup(new mapboxgl.Popup().setHTML(`
-                    <div style="padding: 0.5rem;">
-                        <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">${station.name}</h3>
-                        <p style="margin: 0 0 0.25rem 0; font-size: 0.85rem; color: #666;">${station.type === 'fuel' ? 'Fuel Station' : 'EV Charging'}</p>
-                        <p style="margin: 0 0 0.5rem 0; font-size: 0.8rem;">${station.distance.toFixed(1)} km away</p>
-                        <button onclick="getDirections(${station.lat}, ${station.lng})" style="background: #007AFF; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">Get Directions</button>
-                    </div>
-                `))
-                .addTo(map);
+                // Create custom icon for station markers
+                const stationIcon = new H.map.Icon('data:image/svg+xml;base64,' + btoa(`
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" fill="${markerColor}" stroke="white" stroke-width="2"/>
+                        <text x="12" y="16" text-anchor="middle" fill="white" font-size="8" font-weight="bold">
+                            ${station.type === 'fuel' ? 'F' : 'E'}
+                        </text>
+                    </svg>
+                `), { size: { w: 24, h: 24 } });
 
+                const marker = new H.map.Marker(
+                    { lat: station.lat, lng: station.lng },
+                    { icon: stationIcon }
+                );
+
+                // Add tap event to show info bubble
+                marker.addEventListener('tap', (evt) => {
+                    // Remove existing bubbles
+                    window.hereMapUI.getBubbles().forEach(bubble => {
+                        window.hereMapUI.removeBubble(bubble);
+                    });
+                    
+                    const bubbleContent = `
+                        <div style="padding: 8px; max-width: 200px;">
+                            <h3 style="margin: 0 0 8px 0; font-size: 14px; color: #333;">${station.name}</h3>
+                            <p style="margin: 0 0 4px 0; font-size: 12px; color: #666;">${station.type === 'fuel' ? 'Fuel Station' : 'EV Charging'}</p>
+                            <p style="margin: 0 0 8px 0; font-size: 12px; color: #666;">${station.distance.toFixed(1)} km away</p>
+                            <button onclick="getDirections(${station.lat}, ${station.lng})" style="background: #007AFF; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Directions</button>
+                            <button onclick="showStationDetails('${station.id}')" style="background: #f0f0f0; color: #333; border: 1px solid #ccc; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-left: 4px;">Details</button>
+                        </div>
+                    `;
+                    
+                    const bubble = new H.ui.InfoBubble({ lat: station.lat, lng: station.lng }, {
+                        content: bubbleContent
+                    });
+                    
+                    window.hereMapUI.addBubble(bubble);
+                    
+                    evt.stopPropagation();
+                });
+
+                map.addObject(marker);
                 stationMarkers.push(marker);
             });
         }
 
-        // Clear all station markers from the map
+        // Clear all station markers from the map with performance optimization
         function clearMapMarkers() {
-            stationMarkers.forEach(marker => marker.remove());
-            stationMarkers = [];
-        }
-
-        // Update station count display
-        function updateStationCount(count) {
-            const countElement = document.querySelector('.station-count');
-            if (countElement) {
-                if (count === 0) {
-                    countElement.textContent = 'No stations found';
-                } else {
-                    countElement.textContent = `${count} station${count !== 1 ? 's' : ''} found`;
+            if (stationMarkers && stationMarkers.length > 0) {
+                // Use a group for better performance when removing multiple markers
+                const group = new H.map.Group();
+                stationMarkers.forEach(marker => {
+                    if (marker) {
+                        group.addObject(marker);
+                    }
+                });
+                if (map && group.getObjects().length > 0) {
+                    map.removeObject(group);
                 }
+                stationMarkers = [];
+            }
+            
+            // Also clear any existing info bubbles
+            if (window.hereMapUI) {
+                window.hereMapUI.getBubbles().forEach(bubble => {
+                    window.hereMapUI.removeBubble(bubble);
+                });
             }
         }
 
-        // Show detailed station information in popup
+        // Update station count
+        function updateStationCount(count) {
+            const stationCountElement = document.querySelector('.station-count');
+            if (stationCountElement) {
+                stationCountElement.textContent = count > 0 ? 
+                    `Found ${count} stations` : 
+                    'Search for stations to see results';
+            }
+        }
+
+        // Apply filters to current station list
+        function applyFilters() {
+            if (!currentStations || currentStations.length === 0) return;
+
+            let filteredStations = [...currentStations];
+
+            switch(activeFilter) {
+                case 'fuel':
+                    filteredStations = filteredStations.filter(s => s.type === 'fuel');
+                    break;
+                case 'diesel':
+                    filteredStations = filteredStations.filter(s => 
+                        s.type === 'fuel' && s.fuel_types.some(f => f.toLowerCase().includes('diesel'))
+                    );
+                    break;
+                case 'ev':
+                    filteredStations = filteredStations.filter(s => s.type === 'ev');
+                    break;
+                case 'open':
+                    filteredStations = filteredStations.filter(s => s.status === 'open');
+                    break;
+                case 'all':
+                default:
+                    // No filtering needed
+                    break;
+            }
+
+            updateStationList(filteredStations);
+            addStationMarkers(filteredStations);
+            updateStationCount(filteredStations.length);
+        }
+
+        // Show station details in popup
         function showStationDetails(stationId) {
             const station = currentStations.find(s => s.id === stationId);
             if (!station) return;
@@ -1581,42 +1903,25 @@
             const description = document.getElementById('popup-description');
 
             title.textContent = station.name;
-            
-            let detailsHTML = `
-                <div style="margin-bottom: 1rem;">
-                    <strong>Type:</strong> ${station.type === 'fuel' ? 'Fuel Station' : 'EV Charging Station'}<br>
-                    <strong>Distance:</strong> ${station.distance.toFixed(1)} km away<br>
-                    <strong>Address:</strong> ${station.address}
-                </div>
-            `;
 
-            if (station.brand) {
-                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Brand:</strong> ${station.brand}</div>`;
-            }
+            const fuelInfo = station.type === 'fuel' 
+                ? `<strong>Fuel Types:</strong> ${station.fuel_types.join(', ')}<br>` 
+                : `<strong>Charging Types:</strong> ${station.charging_types.join(', ')}<br>`;
 
-            if (station.fuel_types && station.fuel_types.length > 0) {
-                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Fuel Types:</strong> ${station.fuel_types.join(', ')}</div>`;
-            }
-
-            if (station.charging_types && station.charging_types.length > 0) {
-                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Charging Types:</strong> ${station.charging_types.join(', ')}</div>`;
-            }
-
-            if (station.opening_hours) {
-                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Hours:</strong> ${station.opening_hours}</div>`;
-            }
-
-            if (station.phone) {
-                detailsHTML += `<div style="margin-bottom: 1rem;"><strong>Phone:</strong> <a href="tel:${station.phone}">${station.phone}</a></div>`;
-            }
-
-            detailsHTML += `
-                <div style="margin-top: 1.5rem;">
-                    <button onclick="getDirections(${station.lat}, ${station.lng})" style="background: #007AFF; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; margin-right: 0.5rem;">
+            const detailsHTML = `
+                <div>
+                    <p><strong>Type:</strong> ${station.type === 'fuel' ? 'Fuel Station' : 'EV Charging Station'}</p>
+                    <p><strong>Distance:</strong> ${station.distance.toFixed(1)} km away</p>
+                    <p><strong>Address:</strong> ${station.address}</p>
+                    ${station.brand ? `<p><strong>Brand:</strong> ${station.brand}</p>` : ''}
+                    ${station.opening_hours ? `<p><strong>Hours:</strong> ${station.opening_hours}</p>` : ''}
+                    ${fuelInfo}
+                    <p><strong>Status:</strong> ${station.status === 'open' ? 'Open' : station.status === 'closed' ? 'Closed' : 'Status Unknown'}</p>
+                    ${station.phone ? `<p><strong>Phone:</strong> ${station.phone}</p>` : ''}
+                    ${station.website ? `<p><strong>Website:</strong> <a href="${station.website}" target="_blank">${station.website}</a></p>` : ''}
+                    <br>
+                    <button class="btn" onclick="getDirections(${station.lat}, ${station.lng}); closePopup();">
                         Get Directions
-                    </button>
-                    <button onclick="closePopup()" style="background: #f0f0f0; color: #333; border: 1px solid #ddd; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
-                        Close
                     </button>
                 </div>
             `;
