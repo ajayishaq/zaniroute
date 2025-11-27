@@ -1,13 +1,26 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import requests
 from math import radians, cos, sin, asin, sqrt
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 
 # API Keys
 TOMTOM_API_KEY = 'WZs47YSTQtzJjBIXKkbdV0U0pbOHg3cd'
 OPEN_CHARGE_API_KEY = '87e356c0-2256-49b4-adf8-509e040551ea'
+
+# Cache headers for static content
+@app.after_request
+def add_cache_control(response):
+    if request.path.endswith('.css') or request.path.endswith('.js'):
+        response.headers['Cache-Control'] = 'public, max-age=31536000'
+    else:
+        response.headers['Cache-Control'] = 'public, max-age=3600'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    return response
 
 def haversine(lon1, lat1, lon2, lat2):
     """Calculate distance between two coordinates"""
@@ -21,7 +34,21 @@ def haversine(lon1, lat1, lon2, lat2):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    response = render_template('index.html')
+    return response
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('.', 'robots.txt', mimetype='text/plain')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('.', 'sitemap.xml', mimetype='application/xml')
+
+@app.route('/sitemap-mobile.xml')
+def sitemap_mobile():
+    """Mobile-specific sitemap for better mobile indexing"""
+    return send_from_directory('.', 'sitemap.xml', mimetype='application/xml')
 
 @app.route('/api/search', methods=['POST'])
 def search_stations():
