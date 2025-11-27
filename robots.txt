@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+Allow: /api/search
+Allow: /api/geocode
+Disallow: /admin
+Disallow: /private
+
+# Crawl delay (in seconds)
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://zaniroute.com/sitemap.xml
+
+# Google Search Console
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Prevent indexing of unwanted paths
+User-agent: *
+Disallow: /*.json$
+Disallow: /temp/
+Disallow: /cache/
